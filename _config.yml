@@ -9,7 +9,7 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "default"
-title                    : "Wong KimFong's Personal Homepage"
+title                    : "KimFong Wong's Personal Homepage"
 title_separator          : "-"
 name                     : &name "Kim Fong, Wong"
 description              : &description "First year postgraduate student from Beijing Institute of Technology"
@@ -25,7 +25,7 @@ author:
   avatar           : "profile.png"
   name             : "Kim Fong, Wong（黃儉豐）"
   pronouns         : # example: "she/her"  
-  bio              : "I am Wong KimFong."
+  bio              : "I am KimFong Wong."
   location         : "Beijing"
   employer         : "Beijing Institute of Technology"
   uri              : # URL
