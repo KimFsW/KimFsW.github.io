@@ -46,8 +46,8 @@ Example: editing a markdown file for a talk
 
 Selected Awards
 -----
-## Champion, Communications Museum Electronic Device Construction Competition (Junior Secondary Group, Macau), 2017
-## Champion, RoboMaster Macau Young Robots Competition, 2019
-## Champion, International Robotic Olympiad (Robot Soccer Competition), 2019
+#### Champion, Communications Museum Electronic Device Construction Competition (Junior Secondary Group, Macau), 2017
+#### Champion, RoboMaster Macau Young Robots Competition, 2019
+#### Champion, International Robotic Olympiad (Robot Soccer Competition), 2019
 
 
