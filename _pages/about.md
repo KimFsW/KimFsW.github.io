@@ -14,7 +14,7 @@ Education :school:
 
 * Beijing Institute of Technology  
 BS in Cyberspace Science and Technology, School of Cyberspace and Technology  
-September 2019 to June 2023
+September 2020 to June 2024
 
 Selected Awards :trophy:
 -----
