@@ -10,7 +10,7 @@ redirect_from:
 I am a postgraduate student at Beijing Institute of Technology, supervised by Prof. Licheng Wang.
 
 Education :school:
-======
+-----
 
 * Beijing Institute of Technology  
 BS in Cyberspace Science and Technology, School of Cyberspace and Technology  
