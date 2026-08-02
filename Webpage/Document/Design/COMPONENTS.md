@@ -33,7 +33,7 @@
 - **我们是谁**（`#who`，编号 01）：`.who-grid` 双列卡片（≤768px 单列）。
   - 左卡「研究阶段」：`.stages` 纵向步骤条——`.stage-dot` 红色圆形编号（32px）＋红→浅渐变连接线（末项隐藏），依次为研发／实验／落地。
   - 右卡「团队组成」：`.pie` SVG 圆饼图（`pathLength="100"`；硕士 75% 信号红 `dasharray="75 25"`、本科 25% 墨色 `dasharray="25 75" dashoffset="25"`），中心 mono 总人数「4 人 · 100%」；`.pie-legend` 图例（色块＋百分比＋人数）。
-- **价值主张**（`#value`，编号 02）：`.value-loop` 四步闭环（实时感知 → 智能识别 → 秒级预警 → 隐私守护），`.value-card` 白底卡片 ＋ `.value-arrow` 红色箭头（≤768px 旋转 90° 转纵向）；底部 `.loop-note` mono 闭环说明。
+- **让照护不缺位、让牵挂有回应**（`#value`，编号 02，價值主張章節）：`.value-loop` 四步闭环（实时感知 → 智能识别 → 秒级预警 → 隐私守护），`.value-card` 白底卡片 ＋ `.value-arrow` 红色箭头（≤768px 旋转 90° 转纵向）；底部 `.loop-note` mono 闭环说明。
 
 ## 3. 成员卡片 MemberCard（team.html，`renderMembers` 渲染）
 
