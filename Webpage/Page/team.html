@@ -149,11 +149,14 @@ ul{list-style:none}
   border:1px solid rgba(224,62,38,.28);border-radius:999px;padding:4px 11px;letter-spacing:.3px;
 }
 .badge-member svg{width:12px;height:12px}
-.badge-male{
+/* 学历徽章：呼应主页团队组成圆饼图（硕士＝信号红／本科＝墨色），描边样式与队长／队员徽章区分 */
+.badge-degree{
   display:inline-flex;align-items:center;
-  background:#E8F1FB;color:#1E56A0;font-size:11px;font-weight:800;
-  border:1px solid #C9DEF4;border-radius:999px;padding:4px 11px;letter-spacing:.3px;
+  background:transparent;font-size:11px;font-weight:800;
+  border-radius:999px;padding:4px 11px;letter-spacing:.3px;
 }
+.badge-master{border:1px solid rgba(224,62,38,.55);color:var(--accent-deep)}
+.badge-bachelor{border:1px solid rgba(26,21,18,.35);color:var(--ink-2)}
 .role{
   font-family:var(--mono);font-size:12.5px;color:var(--accent-deep);
   letter-spacing:.3px;font-weight:600;
@@ -355,7 +358,7 @@ const MEMBERS = [
     id: "yuyinghao",
     name: "余英豪",
     lead: true,
-    gender: "男",
+    degree: "硕士",
     role: "队长 / 产品 / 项目管理",
     edu: [
       { school: "北京理工大学", degree: "本科毕业", major: "工业工程" },
@@ -367,7 +370,7 @@ const MEMBERS = [
     id: "huangjianfeng",
     name: "黃儉豐",
     lead: false,
-    gender: "男",
+    degree: "硕士",
     role: "后端 / 安全",
     edu: [
       { school: "北京理工大学", degree: "本科毕业", major: "网络空间安全" },
@@ -379,7 +382,7 @@ const MEMBERS = [
     id: "chenhongtao",
     name: "陳宏韜",
     lead: false,
-    gender: "男",
+    degree: "硕士",
     role: "算法 / 硬件",
     edu: [
       { school: "北京理工大学", degree: "本科毕业", major: "光电信息科学与技术" },
@@ -391,7 +394,7 @@ const MEMBERS = [
     id: "lizisheng",
     name: "李自勝",
     lead: false,
-    gender: "男",
+    degree: "本科",
     role: "设计 / 体验",
     edu: [
       { school: "北京理工大学", degree: "本科毕业", major: "工业设计" }
@@ -416,7 +419,7 @@ function renderMembers() {
         <div class="name-row">
           <h3>${m.name}</h3>
           ${m.lead ? `<span class="badge-lead">${flagSVG}队长</span>` : `<span class="badge-member">${userSVG}队员</span>`}
-          ${m.gender ? `<span class="badge-male">${m.gender}</span>` : ""}
+          ${m.degree ? `<span class="badge-degree ${m.degree === "硕士" ? "badge-master" : "badge-bachelor"}">${m.degree}</span>` : ""}
         </div>
         <p class="role">${m.role}</p>
         <ul class="edu">${m.edu.map(e => `<li><span class="edu-head"><b>${e.school}</b> · <b>${e.degree}</b></span>${e.major ? `<span class="edu-major">${e.major}</span>` : ""}</li>`).join("")}</ul>

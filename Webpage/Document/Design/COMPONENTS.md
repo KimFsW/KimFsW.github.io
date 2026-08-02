@@ -40,7 +40,7 @@
 
 - 数据源：`MEMBERS` 数组，改人改字只动这里，卡片自动重渲染。
 - `.photo`：4:5 照片窗口，直接从 `Resource/Photos/<id>.jpg` 加载队员照片（`object-fit:cover`）。
-- `.badge-lead` / `.badge-member` / `.badge-male`：队长徽章（红底白字，仅 `lead: true`）／队员徽章（浅粉红，其余成员）／性别徽章（浅蓝，`gender` 字段驱动）。
+- `.badge-lead` / `.badge-member` / `.badge-degree`：队长徽章（红底白字，仅 `lead: true`）／队员徽章（浅粉红，其余成员）／学历徽章（描边样式，硕士＝信号红 `.badge-master`、本科＝墨色 `.badge-bachelor`，`degree` 字段驱动，呼应主页圆饼图配色）。
 - `.role`：分工标签（等宽红字）。
 - `.edu`：教育经历列表，每条两行——红点引导「**学校** · **学历**」，换行显示专业（红点仅在学校行）；数据为 `{school, degree, major}` 对象，改学历只动 `MEMBERS`。`min-height:63px` 保证各卡学历区等高。
 - `.tags`：技能 chips，紧接学历列表；依赖 `.edu` 等高实现各卡标签顶部对齐。

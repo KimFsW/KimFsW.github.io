@@ -97,7 +97,7 @@
 | 團隊組成圓餅圖 | `.pie` | SVG `pathLength="100"`：碩士 75% 信號紅／本科 25% 墨色，中心 mono 總人數；`.pie-legend` 色塊圖例 |
 | 價值閉環卡片 | `.value-card` / `.value-arrow` | 4 張白底卡片＋紅色箭頭串聯（≤768px 旋轉 90° 轉縱向）；hover 升起 -4px + 邊框變紅 |
 | 成員卡片 | `.card` | 白底、1px 邊框、sm 陰影；hover 升起 -6px + lg 陰影 |
-| 隊長／隊員／性別徽章 | `.badge-lead` / `.badge-member` / `.badge-male` | 999px 膠囊；隊長紅底白字、隊員淺粉紅、性別淺藍 |
+| 隊長／隊員／學歷徽章 | `.badge-lead` / `.badge-member` / `.badge-degree` | 999px 膠囊；隊長紅底白字、隊員淺粉紅、學歷描邊式（碩士＝信號紅 `.badge-master`／本科＝墨色 `.badge-bachelor`，呼應主頁圓餅圖） |
 | 照片窗口 | `.photo` | 4:5、直接從 `Resource/Photos/` 加載隊員照片（`object-fit:cover`） |
 | 項目窗口 | `.ph-window` | 2px 虛線邊框、居中佈局；hover 邊框變紅 + md 陰影 |
 | 功能卡片 | `.feat-slot` | 白底實邊框；hover 升起 -4px + 邊框變紅 |
