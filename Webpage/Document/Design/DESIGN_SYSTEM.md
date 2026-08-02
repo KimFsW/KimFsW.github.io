@@ -8,7 +8,7 @@
 ## 一、設計風格總述
 
 - **風格定位**：紙墨（Paper & Ink）× 信號紅（Signal Red）。以暖白紙色為底、深墨色為文字，用高飽和的信號紅作為唯一強調色，營造「工程文檔 + 生命體徵」的克制質感。
-- **品牌隱喻**：pulsepilot = 脈搏（pulse）+ 領航（pilot）。心電波形（ECG）是貫穿全站的核心視覺符號，出現在 Logo、Hero 動畫與狀態指示中。
+- **品牌隱喻**：pulsepilot = 脈搏（pulse）+ 領航（pilot）。心電波形（ECG）是貫穿全站的核心視覺符號，出現在 Logo 與狀態指示中。
 - **氣質關鍵詞**：克制、留白、等寬字細節、紙張紋理、醫療級可信感。
 - **技術特徵**：無外部字體 / 圖片 / 框架依賴；CSS 變量驅動；響應式；尊重 `prefers-reduced-motion`；WCAG AA 對比。
 
@@ -76,10 +76,9 @@
 
 1. **雙色 wordmark**：`pulse`（墨色）+ `pilot`（信號紅），字重 900、負字距，導航、Hero、頁腳三處一致；Hero 後接 `.w-name`「守望 AI」同级大字（墨色、無括號）。
 2. **心電 Logo 框**：28×28 方框（1.5px 墨線、8px 圓角），內嵌紅色心電 SVG 路徑 `M1 7h4l2-5 3 9 2.5-6 1.5 2h9`；hover 時邊框與圖形變紅。
-3. **ECG 動畫帶**（僅主頁）：Canvas 2D 繪製 PQRST 高斯疊加波形，雙層描邊（7px 淺紅光暈 + 2.5px 實紅），末端紅點，虛線基線；右上角 `TEAM PULSE · LIVE` 膠囊。
-4. **脈衝圓點**：8px 紅色圓點，`pulse` 動畫（2s，透明度 1→.6、縮放 1→1.2），用於狀態膠囊與 BPM 標籤。
-5. **狀態膠囊**：mono 12px、999px 全圓角、半透明白底 + 8px 背景模糊；文案「守望 AI · 團隊就緒」。
-6. **口號**：「脈搏所指，航向所至。」（Hero 與頁腳）。
+3. **脈衝圓點**：8px 紅色圓點，`pulse` 動畫（2s，透明度 1→.6、縮放 1→1.2），用於狀態膠囊。
+4. **狀態膠囊**：mono 12px、999px 全圓角、半透明白底 + 8px 背景模糊；文案「守望 AI · 團隊就緒」。
+5. **口號**：「脈搏所指，航向所至。」（Hero 與頁腳）。
 
 ---
 
@@ -113,10 +112,9 @@
 
 - **入場動效**：`.rev`（opacity 0 + translateY 20px）→ IntersectionObserver（threshold .12）觸發 `.vis`，過渡 .7s ease。
 - **條形圖填充**：`.hbar .fill` 寬度由 0 過渡至 `--w`（1s cubic-bezier），隨所在 `.rev` 入場觸發。
-- **脈衝**：`@keyframes pulse`（狀態點 / BPM 點）。
+- **脈衝**：`@keyframes pulse`（狀態點）。
 - **卡片 hover**：translateY(-4 ~ -6px) + 陰影增強 + 邊框變紅。
-- **ECG 波形**：requestAnimationFrame 驅動，波速 1.15s/拍，屏顯 2.4 拍。
-- **無障礙**：`prefers-reduced-motion: reduce` 時關閉平滑滾動、入場動效與脈衝，ECG 靜態繪製一幀。
+- **無障礙**：`prefers-reduced-motion: reduce` 時關閉平滑滾動、入場動效與脈衝。
 
 ---
 
@@ -126,7 +124,7 @@
 |------|------|---------|
 | `≤1024px` | 平板豎屏 | wordmark 72px、團隊/功能網格 2 列、項目窗口單列、區塊留白 80px |
 | `≤768px` | 平板 | wordmark 52px、導航 56px、網格單列、隱藏導航鏈接並切換為漢堡菜單（`.nav-toggle` + `#nav-mobile`）、不足清單單欄 |
-| `≤640px` | 手機 | wordmark 40px、wrap 16px、卡片內距收窄、ECG 帶 160px |
+| `≤640px` | 手機 | wordmark 40px、wrap 16px、卡片內距收窄 |
 
 ---
 
@@ -143,7 +141,7 @@
 
 | 頁面 | 文件 | 編號 | 內容 |
 |------|------|------|------|
-| 主頁 | `index.html` | — | Hero（kicker/wordmark/口號/定位句/統計/ECG 動畫） |
+| 主頁 | `index.html` | — | Hero（kicker/wordmark/口號/定位句） |
 | 團隊成員 | `team.html` | 01 | 4 張成員卡片（照片上傳、角色、學歷、標籤） |
 | 項目介紹 | `project.html` | 02 / 02·B–D | 項目窗口 ×2、核心功能 ×3；現狀問題／影響範圍／現有方案的不足三章節（SVG 圖表 ×2 + 條形圖 ×1 + 統計卡 ×12 + 不足清單 ×4）+ 資料來源 ×3 |
 | 參賽目標 | `goals.html` | 03 | 短期目標 / 長期願景兩欄清單 |

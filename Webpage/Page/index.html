@@ -114,46 +114,6 @@ ul{list-style:none}
   font-size:16.5px;color:var(--ink-2);max-width:680px;line-height:1.7;
   margin-bottom:48px;
 }
-.position .blank{
-  display:inline-block;min-width:8ch;text-align:center;
-  font-family:var(--mono);font-size:14px;color:var(--accent-deep);
-  border-bottom:2.5px dashed var(--accent);padding:2px 8px;
-}
-.hero-stats{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  border:1px solid var(--line);border-radius:var(--radius);
-  overflow:hidden;background:#fff;box-shadow:var(--shadow-sm);
-}
-.hero-stats .stat{
-  padding:24px;border-right:1px solid var(--line);
-  transition:background var(--transition);
-}
-.hero-stats .stat:last-child{border-right:none}
-.hero-stats .stat:hover{background:var(--paper-2)}
-.hero-stats .num{
-  font-size:32px;font-weight:900;font-family:var(--mono);
-  color:var(--accent);margin-bottom:8px;
-}
-.hero-stats .num small{
-  font-size:14px;font-weight:600;color:var(--ink-2);
-  display:block;font-family:var(--sans);
-}
-.hero-stats .lab{font-size:13px;color:var(--ink-2);letter-spacing:.3px}
-.ecg-band{
-  position:relative;height:200px;margin-top:48px;
-  background:linear-gradient(135deg, rgba(224,62,38,.04) 0%, transparent 100%);
-  border:1px solid var(--line);border-radius:var(--radius);
-  padding:16px;
-}
-#ecg{display:block;width:100%;height:100%}
-.bpm{
-  position:absolute;right:24px;top:16px;
-  font-family:var(--mono);font-size:12px;color:var(--accent-deep);
-  display:flex;align-items:center;gap:8px;
-  background:rgba(255,255,255,.8);backdrop-filter:blur(8px);
-  padding:6px 12px;border-radius:999px;border:1px solid var(--line);
-}
-.bpm .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
 
 /* ========== 页脚 ========== */
 footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px}
@@ -185,7 +145,7 @@ footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .rev{opacity:1;transform:none;transition:none}
-  .status-pill .dot,.bpm .dot{animation:none}
+  .status-pill .dot{animation:none}
 }
 
 /* ========== 响应式 ========== */
@@ -198,10 +158,6 @@ footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px}
   .slogan{font-size:20px}
   .position{font-size:16px}
   .hero-inner{padding:72px 0 40px}
-  .hero-stats{grid-template-columns:repeat(2,1fr)}
-  .hero-stats .stat{border-bottom:1px solid var(--line)}
-  .hero-stats .stat:nth-child(2){border-right:none}
-  .hero-stats .stat:nth-child(3){border-bottom:none}
   .nav-inner{height:56px}
   .nav-links{display:none}
   .nav-toggle{display:flex}
@@ -226,10 +182,6 @@ footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px}
   .wordmark{font-size:40px}
   .slogan{font-size:18px}
   .hero-inner{padding:56px 0 32px}
-  .hero-stats{grid-template-columns:1fr}
-  .hero-stats .stat{border-right:none;border-bottom:1px solid var(--line)}
-  .hero-stats .stat:last-child{border-bottom:none}
-  .ecg-band{height:160px}
   .wrap{padding:0 16px}
 }
 </style>
@@ -273,29 +225,7 @@ footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px}
       <p class="kicker rev">创造营参赛团队 · 澳门 × 粤港澳大湾区</p>
       <h1 class="wordmark rev">pulse<span class="w-pilot">pilot</span><span class="w-name">守望 AI</span></h1>
       <p class="slogan rev">脉搏所指，航向所至。</p>
-      <p class="position rev">守望 AI（WatchCare AI）接入家庭摄像头，针对澳门 <span class="blank"> 长者居家照护 </span> 场景，在本地实时识别疑似跌倒等风险，并向监护人分级报警，压缩从危险发生到监护人知情的时间差。</p>
-      <div class="hero-stats rev" aria-label="团队统计数据">
-        <div class="stat">
-          <div class="num" aria-label="团队成员">4<small>人</small></div>
-          <div class="lab">团队成员</div>
-        </div>
-        <div class="stat">
-          <div class="num" aria-label="本科学历">4<small>人</small></div>
-          <div class="lab">本科学历</div>
-        </div>
-        <div class="stat">
-          <div class="num" aria-label="硕士在读">6<small>人</small></div>
-          <div class="lab">硕士在读</div>
-        </div>
-        <div class="stat">
-          <div class="num" aria-label="在读高校">2<small>所</small></div>
-          <div class="lab">在读高校（北理工 / 北大）</div>
-        </div>
-      </div>
-      <div class="ecg-band rev">
-        <canvas id="ecg" aria-hidden="true" role="img" aria-label="团队脉搏动画"></canvas>
-        <span class="bpm"><span class="dot"></span>TEAM PULSE · LIVE</span>
-      </div>
+      <p class="position rev">守望 AI（WatchCare AI）接入家庭摄像头，针对老人、儿童等需要远程照护的群体，<br>在本地实时识别风险，守护每一份牵挂。</p>
     </div>
   </section>
 
@@ -339,86 +269,6 @@ footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px}
     toggle.setAttribute("aria-label", open ? "关闭导航" : "打开导航");
   });
 })();
-/* ================= 心电动画 ================= */
-function initECG() {
-  const cv = document.getElementById("ecg");
-  const ctx = cv.getContext("2d");
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  let w = 0, h = 0, phase = 0, last = performance.now();
-  const BEATS_ON_SCREEN = 2.4;
-  const BEAT_SECONDS = 1.15;
-
-  function wave(t) {
-    t = t - Math.floor(t);
-    const g = (c, wd, a) => a * Math.exp(-((t - c) * (t - c)) / (2 * wd * wd));
-    return g(0.16, 0.028, 0.10)
-         + g(0.30, 0.010, -0.07)
-         + g(0.325, 0.012, 1.00)
-         + g(0.35, 0.010, -0.16)
-         + g(0.52, 0.045, 0.20);
-  }
-
-  function resize() {
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    const r = cv.getBoundingClientRect();
-    w = r.width; h = r.height;
-    cv.width = Math.round(w * dpr);
-    cv.height = Math.round(h * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    if (reduced && w > 0 && h > 0) drawFrame();
-  }
-
-  function yAt(x) {
-    const mid = h * 0.60, amp = h * 0.46;
-    return mid - wave((x / w) * BEATS_ON_SCREEN + phase) * amp;
-  }
-
-  function drawFrame() {
-    ctx.clearRect(0, 0, w, h);
-    ctx.strokeStyle = "rgba(26,21,18,.14)";
-    ctx.lineWidth = 1;
-    ctx.setLineDash([2, 7]);
-    ctx.beginPath();
-    ctx.moveTo(0, h * 0.60);
-    ctx.lineTo(w, h * 0.60);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    const passes = [
-      [7, "rgba(224,62,38,.15)"],
-      [2.5, "#E03E26"]
-    ];
-    passes.forEach(([lw, color]) => {
-      ctx.lineWidth = lw;
-      ctx.strokeStyle = color;
-      ctx.lineJoin = "round";
-      ctx.beginPath();
-      for (let x = 0; x <= w; x += 2) {
-        const y = yAt(x);
-        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-      }
-      ctx.stroke();
-    });
-    const ly = yAt(w - 2);
-    ctx.fillStyle = "#E03E26";
-    ctx.beginPath();
-    ctx.arc(w - 2, ly, 3.5, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  function loop(now) {
-    const dt = Math.min(0.1, (now - last) / 1000);
-    last = now;
-    phase += dt / BEAT_SECONDS;
-    drawFrame();
-    requestAnimationFrame(loop);
-  }
-
-  resize();
-  window.addEventListener("resize", resize);
-  if (reduced) drawFrame();
-  else requestAnimationFrame(loop);
-}
-
 /* ================= 入场动效 ================= */
 function initReveal() {
   const els = document.querySelectorAll(".rev");
@@ -437,7 +287,6 @@ function initReveal() {
   els.forEach(el => io.observe(el));
 }
 
-initECG();
 initReveal();
 </script>
 </body>

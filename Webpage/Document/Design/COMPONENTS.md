@@ -24,9 +24,7 @@
 | 眉题 | `.kicker` | 赛事 / 地域定位，左侧红短线 |
 | 主标题 | `.wordmark` | pulse + pilot 双色 + `.w-name`「守望 AI」同级大字（无括号、同字级字重、`.3em` 间距），96 / 72 / 52 / 40 四档 |
 | 口号 | `.slogan` | 脉搏所指，航向所至。 |
-| 定位句 | `.position .blank` | 以产品名开头的一句话简介，`.blank` 虚线强调场景（长者居家照护） |
-| 数据条 | `.hero-stats .stat` | 4 项团队数据，4 → 2 列 |
-| 心电带 | `.ecg-band` + `canvas#ecg` + `.bpm` | 实时波形（`initECG`），支持静态降级 |
+| 定位句 | `.position` | 以产品名开头的一句话简介（目标群体后换行，「守护每一份牵挂」收尾） |
 
 ## 3. 成员卡片 MemberCard（team.html，`renderMembers` 渲染）
 
