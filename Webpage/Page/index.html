@@ -92,7 +92,12 @@ ul{list-style:none}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
 
 /* ========== Hero ========== */
-.hero{border-bottom:1px solid var(--line)}
+.hero{
+  border-bottom:1px solid var(--line);
+  background:
+    radial-gradient(900px 420px at 88% -12%, rgba(224,62,38,.09), transparent 62%),
+    linear-gradient(180deg, var(--paper-2) 0%, var(--paper) 100%);
+}
 .hero-inner{padding:120px 0 56px}
 .kicker{
   font-family:var(--mono);font-size:13px;color:var(--accent-deep);
@@ -116,16 +121,24 @@ ul{list-style:none}
 }
 .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
 .btn{
-  display:inline-flex;align-items:center;
-  padding:12px 30px;border-radius:999px;
-  border:1.5px solid var(--ink);color:var(--ink);
+  display:inline-flex;align-items:center;gap:8px;
+  padding:12px 26px;border-radius:999px;
+  border:1.5px solid transparent;
   font-size:15px;font-weight:600;letter-spacing:.2px;
   transition:var(--transition);
 }
-.btn:hover{
-  background:var(--accent);border-color:var(--accent);color:#fff;
-  transform:translateY(-2px);box-shadow:var(--shadow-md);
-}
+.btn:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.btn-ico{width:11px;height:11px;flex:none;transition:var(--transition)}
+.btn:hover .btn-ico{transform:translate(2px,-2px)}
+/* 团队成员：墨色描边 */
+.btn-ink{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn-ink:hover{background:var(--ink);color:#fff}
+/* 项目介绍：信号红实填 */
+.btn-solid{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn-solid:hover{background:var(--accent-deep);border-color:var(--accent-deep)}
+/* 参赛目标：浅红底 */
+.btn-tint{background:rgba(224,62,38,.08);border-color:rgba(224,62,38,.45);color:var(--accent-deep)}
+.btn-tint:hover{background:var(--accent);border-color:var(--accent);color:#fff}
 
 /* ========== 章节骨架 ========== */
 .section{padding:96px 0;border-bottom:1px solid var(--line)}
@@ -315,9 +328,9 @@ footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px}
       <p class="slogan rev">脉搏所指，航向所至。</p>
       <p class="position rev">守望 AI（WatchCare AI）接入家庭摄像头，针对老人、儿童等需要远程照护的群体，<br>在本地实时识别风险，守护每一份牵挂。</p>
       <div class="hero-cta rev">
-        <a class="btn" href="team.html">团队成员</a>
-        <a class="btn" href="project.html">项目介绍</a>
-        <a class="btn" href="goals.html">参赛目标</a>
+        <a class="btn btn-ink" href="team.html">团队成员<svg class="btn-ico" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 9.5L9.5 2.5M2.5 2.5h7v7"/></svg></a>
+        <a class="btn btn-solid" href="project.html">项目介绍<svg class="btn-ico" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 9.5L9.5 2.5M2.5 2.5h7v7"/></svg></a>
+        <a class="btn btn-tint" href="goals.html">参赛目标<svg class="btn-ico" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 9.5L9.5 2.5M2.5 2.5h7v7"/></svg></a>
       </div>
     </div>
   </section>

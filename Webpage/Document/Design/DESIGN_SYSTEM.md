@@ -91,7 +91,8 @@
 | 粘性導航 | `.nav` | 64px 高（移動端 56px）、半透明紙底 + 10px 模糊、底部 1px 線 + sm 陰影 |
 | 導航鏈接 | `.nav-links a` | hover/active 時文字變墨 + 紅色 2px 下劃線；active 加 `aria-current="page"` |
 | 區塊頭 | `.sec-head` | mono 編號（`.sec-index`，深紅）+ 40px 標題 |
-| 跳轉按鈕 | `.btn` | 999px 膠囊、1.5px 墨色邊框；hover 填信號紅白字並上浮 2px + md 陰影 |
+| 跳轉按鈕 | `.btn` | 999px 膠囊、三種差異化樣式：`.btn-ink` 墨色描邊／`.btn-solid` 信號紅實填／`.btn-tint` 淺紅底；均攜 ↗ 圖標（`.btn-ico`），hover 上浮 2px + md 陰影、圖標右上位移 |
+| Hero 背景 | `.hero` | `paper-2 → paper` 縱向漸變＋右上角信號紅光暈，與正文純紙色底區分 |
 | 研究階段步驟條 | `.stages` / `.stage` | 32px 紅底白字圓形編號＋紅→淺漸變縱向連接線（末項隱藏） |
 | 團隊組成圓餅圖 | `.pie` | SVG `pathLength="100"`：碩士 75% 信號紅／本科 25% 墨色，中心 mono 總人數；`.pie-legend` 色塊圖例 |
 | 價值閉環卡片 | `.value-card` / `.value-arrow` | 4 張白底卡片＋紅色箭頭串聯（≤768px 旋轉 90° 轉縱向）；hover 升起 -4px + 邊框變紅 |
