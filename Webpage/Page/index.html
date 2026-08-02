@@ -94,6 +94,10 @@ ul{list-style:none}
   margin-bottom:28px;color:var(--ink);
 }
 .wordmark .w-pilot{color:var(--accent);display:inline-block}
+.wordmark .w-sub{
+  font-size:26px;font-weight:700;letter-spacing:0;color:var(--ink-2);
+  display:inline-block;margin-left:16px;
+}
 .slogan{
   font-size:24px;font-weight:700;margin-bottom:20px;color:var(--ink);
   line-height:1.3;
@@ -175,10 +179,12 @@ footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px}
 /* ========== 响应式 ========== */
 @media (max-width:1024px){
   .wordmark{font-size:72px}
+  .wordmark .w-sub{font-size:22px}
   .hero-inner{padding:96px 0 48px}
 }
 @media (max-width:768px){
   .wordmark{font-size:52px;letter-spacing:-1px}
+  .wordmark .w-sub{font-size:18px;margin-left:12px}
   .slogan{font-size:20px}
   .position{font-size:16px}
   .hero-inner{padding:72px 0 40px}
@@ -191,6 +197,7 @@ footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px}
 }
 @media (max-width:640px){
   .wordmark{font-size:40px}
+  .wordmark .w-sub{font-size:15px;margin-left:10px}
   .slogan{font-size:18px}
   .hero-inner{padding:56px 0 32px}
   .nav-links a{display:none}
@@ -230,9 +237,9 @@ footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px}
   <section class="hero" role="region" aria-label="主视觉区">
     <div class="wrap hero-inner">
       <p class="kicker rev">创造营参赛团队 · 澳门 × 粤港澳大湾区</p>
-      <h1 class="wordmark rev">pulse<span class="w-pilot">pilot</span></h1>
+      <h1 class="wordmark rev">pulse<span class="w-pilot">pilot</span><span class="w-sub">（守望 AI）</span></h1>
       <p class="slogan rev">脉搏所指，航向所至。</p>
-      <p class="position rev">本项目改善的是澳门 <span class="blank"> 长者居家照护 </span> 场景：守望 AI（WatchCare AI）接入家庭摄像头，在本地实时识别疑似跌倒等风险，并向监护人分级报警，压缩从危险发生到监护人知情的时间差。</p>
+      <p class="position rev">守望 AI（WatchCare AI）接入家庭摄像头，针对澳门 <span class="blank"> 长者居家照护 </span> 场景，在本地实时识别疑似跌倒等风险，并向监护人分级报警，压缩从危险发生到监护人知情的时间差。</p>
       <div class="hero-stats rev" aria-label="团队统计数据">
         <div class="stat">
           <div class="num" aria-label="团队成员">4<small>人</small></div>
