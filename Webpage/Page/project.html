@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="pulsepilot 参赛项目介绍 — 守望 AI（WatchCare AI）远程照护安全检测系统。">
+<title>参赛项目 · pulsepilot</title>
+<style>
+:root{
+  --paper:#F9F8F6;
+  --paper-2:#F0EBE6;
+  --ink:#1A1512;
+  --ink-2:#5E5A54;
+  --line:rgba(26,21,18,.12);
+  --accent:#E03E26;
+  --accent-light:#FF6B52;
+  --accent-deep:#B02D1A;
+  --success:#22C55E;
+  --radius:8px;
+  --shadow-sm:0 2px 6px rgba(26,21,18,.06);
+  --shadow-md:0 8px 16px rgba(26,21,18,.10);
+  --shadow-lg:0 16px 32px rgba(26,21,18,.12);
+  --transition:all .3s cubic-bezier(.4,0,.2,1);
+  --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  --mono:"SF Mono","Cascadia Mono",Consolas,"JetBrains Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+}
+::selection{background:var(--accent);color:#fff}
+a{color:inherit;text-decoration:none;transition:color var(--transition)}
+ul{list-style:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* ========== 导航 ========== */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(249,248,246,.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  box-shadow:var(--shadow-sm);
+}
+.nav-inner{
+  max-width:1120px;margin:0 auto;padding:0 24px;
+  height:64px;display:flex;align-items:center;gap:16px;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px}
+.brand .mark{
+  width:28px;height:28px;border:1.5px solid var(--ink);border-radius:var(--radius);
+  display:grid;place-items:center;flex:none;transition:var(--transition);
+}
+.brand .mark:hover{border-color:var(--accent);color:var(--accent)}
+.brand .mark svg{width:16px;height:10px}
+.brand em{font-style:normal;color:var(--accent)}
+.nav-links{margin-left:auto;display:flex;align-items:center;gap:24px;font-size:14px}
+.nav-links a{
+  color:var(--ink-2);padding:6px 0;border-bottom:2px solid transparent;
+  transition:var(--transition);
+}
+.nav-links a:hover{color:var(--ink);border-bottom-color:var(--accent)}
+.nav-links a.active{color:var(--ink);font-weight:600;border-bottom-color:var(--accent)}
+.status-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:12px;
+  border:1px solid var(--line);border-radius:999px;
+  padding:6px 14px;color:var(--ink-2);background:rgba(255,255,255,.7);
+  backdrop-filter:blur(8px);
+}
+.status-pill .dot{
+  width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+
+/* ========== 区块通用 ========== */
+.section{padding:96px 0;border-bottom:1px solid var(--line)}
+.sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.sec-index{
+  font-family:var(--mono);font-size:13px;color:var(--accent-deep);
+  letter-spacing:.5px;font-weight:700;
+}
+.sec-title{
+  font-size:40px;font-weight:900;letter-spacing:-1px;color:var(--ink);
+}
+.sec-sub{
+  color:var(--ink-2);font-size:16px;margin-bottom:48px;
+  max-width:700px;line-height:1.7;
+}
+.tag-tbd{
+  font-family:var(--mono);font-size:12px;color:var(--accent-deep);
+  border:1.5px dashed var(--accent);border-radius:999px;
+  padding:4px 14px;letter-spacing:.3px;font-weight:600;
+}
+
+/* ========== 项目窗口 ========== */
+.ph-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:24px}
+.ph-window{
+  border:2px dashed var(--line);border-radius:var(--radius);
+  background:#fff;min-height:260px;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:14px;text-align:center;padding:36px;
+  transition:var(--transition);
+}
+.ph-window:hover{
+  border-color:var(--accent);
+  box-shadow:var(--shadow-md);
+}
+.ph-window .icon{
+  width:48px;height:48px;border:1.5px solid var(--line);
+  border-radius:var(--radius);display:grid;place-items:center;
+  color:var(--accent);background:var(--paper-2);
+  transition:var(--transition);
+}
+.ph-window:hover .icon{
+  border-color:var(--accent);
+  background:rgba(224,62,38,.08);
+}
+.ph-window .icon svg{width:24px;height:24px}
+.ph-window h4{
+  font-size:20px;font-weight:900;letter-spacing:-.5px;
+  color:var(--ink);
+}
+.ph-window p{
+  font-size:14px;color:var(--ink-2);max-width:400px;
+  line-height:1.7;
+}
+.ph-window .fill-hint{
+  font-family:var(--mono);font-size:12px;color:var(--accent-deep);
+  border-bottom:1.5px dashed var(--accent);padding:2px 6px;
+  letter-spacing:.2px;
+}
+
+/* ========== 功能卡片 ========== */
+.feat-slots{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:32px}
+.feat-slot{
+  border:1px solid var(--line);border-radius:var(--radius);
+  background:#fff;padding:24px;min-height:160px;
+  display:flex;flex-direction:column;gap:10px;
+  transition:var(--transition);
+  box-shadow:var(--shadow-sm);
+}
+.feat-slot:hover{
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-md);
+  border-color:var(--accent);
+}
+.feat-slot .no{
+  font-family:var(--mono);font-size:12px;color:var(--accent-deep);
+  letter-spacing:.3px;font-weight:700;
+}
+.feat-slot h5{
+  font-size:16px;font-weight:800;letter-spacing:-.3px;
+  color:var(--ink);
+}
+.feat-slot p{
+  font-size:14px;color:var(--ink-2);line-height:1.7;
+  margin-top:4px;
+}
+
+/* ========== 现状问题章节 ========== */
+.tag-data{
+  font-family:var(--mono);font-size:12px;color:var(--accent-deep);
+  border:1.5px solid var(--accent);border-radius:999px;
+  padding:4px 14px;letter-spacing:.3px;font-weight:600;
+  background:rgba(224,62,38,.06);
+}
+.chapter{margin-top:72px}
+.chapter-head{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.chapter-no{
+  font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.5px;
+  color:#fff;background:var(--accent);border-radius:999px;padding:5px 14px;flex:none;
+}
+.chapter-title{font-size:24px;font-weight:900;letter-spacing:-.5px;color:var(--ink)}
+.chapter-lead{
+  color:var(--ink-2);font-size:15.5px;line-height:1.8;
+  max-width:820px;margin-bottom:32px;
+}
+.chapter-body{margin-top:26px;display:flex;flex-direction:column;gap:14px;max-width:900px}
+.chapter-body p{font-size:15px;color:var(--ink-2);line-height:1.9}
+.chapter-body p strong{color:var(--ink);font-weight:800}
+.chapter-body p.bg{
+  border-left:3px solid var(--accent);background:#fff;
+  padding:14px 18px;border-radius:0 var(--radius) var(--radius) 0;
+  box-shadow:var(--shadow-sm);
+}
+
+/* ========== 图表卡片 ========== */
+.chart-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.chart-card{
+  border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+  padding:24px;box-shadow:var(--shadow-sm);transition:var(--transition);
+}
+.chart-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.chart-head{
+  display:flex;justify-content:space-between;align-items:baseline;
+  gap:12px;flex-wrap:wrap;margin-bottom:8px;
+}
+.chart-title{font-size:16px;font-weight:800;letter-spacing:-.3px;color:var(--ink)}
+.chart-unit{font-family:var(--mono);font-size:11.5px;color:var(--ink-2)}
+.chart-legend{
+  display:flex;flex-wrap:wrap;gap:8px 16px;margin-bottom:14px;
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-2);
+}
+.chart-legend i{
+  display:inline-block;width:10px;height:10px;border-radius:2px;
+  margin-right:6px;vertical-align:-1px;
+}
+.chart-legend i.lg-line{
+  width:14px;height:0;border-radius:0;
+  border-top:2.5px solid var(--accent);vertical-align:2px;
+}
+.chart-fig svg{width:100%;height:auto;display:block}
+.chart-note{
+  font-family:var(--mono);font-size:11.5px;color:var(--ink-2);line-height:1.7;
+  border-top:1px dashed var(--line);margin-top:14px;padding-top:10px;
+}
+/* SVG 图表元素 */
+.grid-l{stroke:var(--line);stroke-width:1}
+.ax-t{font-family:var(--mono);font-size:11px;fill:var(--ink-2)}
+.cal-t{font-family:var(--mono);font-size:11.5px;font-weight:700;fill:var(--accent-deep)}
+.cal-k{font-family:var(--mono);font-size:11.5px;font-weight:700;fill:var(--ink)}
+.bar-n{fill:rgba(26,21,18,.14)}
+.bar-hot{fill:var(--accent)}
+.seg-old{fill:var(--accent)}
+.seg-rest{fill:rgba(26,21,18,.14)}
+.line-r{fill:none;stroke:var(--accent);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dot-r{fill:#fff;stroke:var(--accent);stroke-width:2}
+
+/* ========== 横向条形图 ========== */
+.hbars{display:flex;flex-direction:column;gap:13px;padding:4px 0 2px}
+.hbar{display:grid;grid-template-columns:190px 1fr 64px;align-items:center;gap:14px}
+.hbar .lbl{font-size:13px;color:var(--ink-2);line-height:1.5}
+.hbar .lbl b{font-family:var(--mono);font-size:12.5px;font-weight:700;color:var(--ink)}
+.hbar .track{height:20px;background:var(--paper-2);border-radius:4px;overflow:hidden}
+.hbar .fill{
+  display:block;height:100%;width:0;border-radius:4px;
+  background:linear-gradient(90deg,var(--accent-deep),var(--accent) 55%,var(--accent-light));
+  transition:width 1s cubic-bezier(.4,0,.2,1);
+}
+.vis .hbar .fill{width:var(--w)}
+.hbar .val{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent-deep);text-align:right}
+
+/* ========== 资料来源 ========== */
+.sources{
+  margin-top:72px;border:1px solid var(--line);border-radius:var(--radius);
+  background:var(--paper-2);padding:28px 32px;
+}
+.sources h3{
+  font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.5px;
+  color:var(--accent-deep);margin-bottom:14px;
+}
+.sources ol{list-style:none;counter-reset:src;display:grid;grid-template-columns:1fr 1fr;gap:6px 32px}
+.sources li{counter-increment:src;font-size:12.5px;color:var(--ink-2);line-height:1.8}
+.sources li::before{content:"[" counter(src) "]  ";font-family:var(--mono);color:var(--accent-deep)}
+.sources a{color:var(--accent-deep);border-bottom:1px dashed var(--accent);word-break:break-all}
+.sources a:hover{color:var(--accent)}
+.sources-note{
+  margin-top:14px;padding-top:12px;border-top:1px dashed var(--line);
+  font-size:12px;color:var(--ink-2);line-height:1.7;
+}
+
+/* ========== 影响统计 ========== */
+.impact-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.impact-stat{
+  border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+  padding:18px 20px;box-shadow:var(--shadow-sm);transition:var(--transition);
+}
+.impact-stat:hover{transform:translateY(-2px);box-shadow:var(--shadow-md);border-color:var(--accent)}
+.impact-stat .num{
+  font-family:var(--mono);font-size:28px;font-weight:800;
+  color:var(--accent-deep);letter-spacing:-.5px;line-height:1.2;
+}
+.impact-stat .num small{font-size:14px;font-weight:700;margin-left:2px}
+.impact-stat .cap{font-size:12.5px;color:var(--ink-2);margin-top:8px;line-height:1.6}
+
+/* ========== 不足清单 ========== */
+.gap-list{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;list-style:none}
+.gap-list li{
+  position:relative;padding-left:24px;
+  font-size:14px;color:var(--ink-2);line-height:1.7;
+}
+.gap-list li::before{
+  content:"✕";position:absolute;left:0;top:1px;
+  font-family:var(--mono);font-size:12px;font-weight:700;color:var(--accent);
+}
+.section-concl{margin-top:48px}
+
+/* ========== 页脚 ========== */
+footer{
+  background:var(--ink);color:#F9F8F6;padding:72px 0 48px;
+}
+.foot-grid{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:32px;flex-wrap:wrap;
+}
+.foot-brand{
+  font-size:32px;font-weight:900;letter-spacing:-1px;
+}
+.foot-brand em{font-style:normal;color:var(--accent)}
+.foot-slogan{
+  color:rgba(249,248,246,.7);font-size:14px;margin-top:8px;
+  line-height:1.6;
+}
+.foot-meta{
+  font-family:var(--mono);font-size:12px;color:rgba(249,248,246,.6);
+  text-align:right;line-height:2;letter-spacing:.3px;
+}
+.foot-line{
+  border-top:1px solid rgba(249,248,246,.15);margin-top:48px;
+  padding-top:24px;display:flex;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;font-size:12.5px;color:rgba(249,248,246,.5);
+}
+
+/* ========== 入场动效 ========== */
+.rev{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.rev.vis{opacity:1;transform:none}
+
+/* ========== 无障碍 ========== */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rev{opacity:1;transform:none;transition:none}
+  .status-pill .dot{animation:none}
+  .hbar .fill{transition:none}
+}
+
+/* ========== 响应式 ========== */
+@media (max-width:1024px){
+  .ph-grid{grid-template-columns:1fr}
+  .feat-slots{grid-template-columns:1fr 1fr}
+  .chart-grid{grid-template-columns:1fr}
+  .impact-stats{grid-template-columns:1fr 1fr}
+  .section{padding:80px 0}
+  .sec-title{font-size:32px}
+}
+@media (max-width:768px){
+  .nav-inner{height:56px}
+  .sec-title{font-size:28px}
+  .section{padding:64px 0}
+  .feat-slots{grid-template-columns:1fr}
+  .nav-links a{display:none}
+  footer{padding:56px 0 40px}
+  .sources ol{grid-template-columns:1fr}
+  .gap-list{grid-template-columns:1fr}
+  .chapter-title{font-size:20px}
+}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  .sec-sub{font-size:15px}
+  .ph-window{padding:28px 20px}
+  .chapter{margin-top:56px}
+  .sources{margin-top:56px;padding:22px 18px}
+  .hbar{grid-template-columns:1fr;gap:6px}
+  .hbar .val{text-align:left}
+  .impact-stat .num{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html" aria-label="回到主页">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 12" fill="none" stroke="#E03E26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 7h4l2-5 3 9 2.5-6 1.5 2h9"/>
+        </svg>
+      </span>
+      <span>pulse<em>pilot</em></span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="index.html">主页</a>
+      <a href="team.html">团队成员</a>
+      <a href="project.html" class="active" aria-current="page">项目介绍</a>
+      <a href="goals.html">参赛目标</a>
+      <span class="status-pill" aria-live="polite"><span class="dot"></span>守望 AI · 团队就绪</span>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= 项目介绍 ================= -->
+  <section class="section" id="project" role="region" aria-label="参赛项目介绍">
+    <div class="wrap">
+      <div class="sec-head rev">
+        <span class="sec-index">02</span>
+        <h1 class="sec-title">参赛项目</h1>
+        <span class="tag-tbd">题目已定 · 分析完成</span>
+      </div>
+      <p class="sec-sub rev">项目题目已确定为「守望 AI（WatchCare AI）」，以下窗口已填入产品定位、服务群体与核心功能；现状问题、影响范围与现有方案的不足见下方各章节。</p>
+
+      <div class="ph-grid rev">
+        <div class="ph-window">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M2 12h4M18 12h4M5 5l3 3M16 16l3 3M19 5l-3 3M8 16l-3 3"/><circle cx="12" cy="12" r="3.2"/></svg>
+          </span>
+          <h3>守望 AI（WatchCare AI）</h3>
+          <p>一款接入家庭或机构摄像头、在本地实时识别疑似跌倒与危险行为并向监护人分级报警的视觉照护辅助软件。</p>
+          <span class="fill-hint">MVP 聚焦老人跌倒与长时间倒地</span>
+        </div>
+        <div class="ph-window">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>
+          </span>
+          <h3>服务群体</h3>
+          <p>异地工作的成年子女、双职工父母、居家养老服务人员与养老机构值班人员——无法持续盯屏的照护者，以及独居老人、儿童与康复期患者。</p>
+          <span class="fill-hint">受益人：老人 · 儿童 · 康复患者</span>
+        </div>
+      </div>
+
+      <div class="feat-slots rev">
+        <div class="feat-slot">
+          <span class="no">核心功能 · 01</span>
+          <h4>摄像头接入与本地实时分析</h4>
+          <p>经授权接入既有摄像头（RTSP / ONVIF / USB），人体检测、姿态估计与时序动作分析全部在本地边缘完成，原始视频默认不上云。</p>
+        </div>
+        <div class="feat-slot">
+          <span class="no">核心功能 · 02</span>
+          <h4>多类型风险识别</h4>
+          <p>覆盖疑似跌倒、长时间倒地、进入危险区域等事件，以姿态、时序与区域多阶段融合判断，并经二次复核降低误报。</p>
+        </div>
+        <div class="feat-slot">
+          <span class="no">核心功能 · 03</span>
+          <h4>分级报警与处置闭环</h4>
+          <p>L1–L3 三级报警，从 App 推送到短信、电话逐级升级，记录查看、确认与处置结果，形成完整事件闭环。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 现状问题 ================= -->
+  <section class="section" id="problems" role="region" aria-label="现状问题">
+    <div class="wrap">
+      <div class="sec-head rev">
+        <span class="sec-index">02·B</span>
+        <h2 class="sec-title">现状问题</h2>
+        <span class="tag-data">数据已核实 · 2006–2025</span>
+      </div>
+      <p class="sec-sub rev">我们要解决的风险真实存在吗？有多大？我们整理了国家统计局人口数据（2006–2025）、WHO 全球健康估计（2000–2021）与全国伤害监测系统（2006–2018）三组长序列数据，得到两个支撑本项目的事实。</p>
+
+      <!-- 章节一：老龄化与跌倒负担 -->
+      <div class="chapter rev">
+        <div class="chapter-head">
+          <span class="chapter-no">章节 01</span>
+          <h3 class="chapter-title">老龄化加速，跌倒负担向老年人集中</h3>
+        </div>
+        <p class="chapter-lead">先看人口侧：中国老年人口在二十年间翻了一倍有余，2022 年以后年均净增超过 1300 万；再看死亡侧：全球跌倒死亡中老年人的占比已从约六成升至七成以上。两条曲线指向同一个事实——暴露于跌倒风险的基础人群仍在结构性扩张。</p>
+
+        <div class="chart-grid">
+          <figure class="chart-card">
+            <figcaption>
+              <div class="chart-head">
+                <span class="chart-title">中国老龄人口规模（2006–2025）</span>
+                <span class="chart-unit">人口：万人 / 占比：%</span>
+              </div>
+              <div class="chart-legend">
+                <span><i style="background:rgba(26,21,18,.14)"></i>60 岁及以上人口</span>
+                <span><i style="background:var(--accent)"></i>2025 年</span>
+                <span><i class="lg-line"></i>占总人口比重</span>
+              </div>
+            </figcaption>
+            <div class="chart-fig" id="chart-aging" role="img" aria-label="柱状图与趋势线：中国 60 岁及以上人口由 2006 年 1.49 亿增至 2025 年 3.23 亿，占总人口比重由 11.3% 升至 23.0%"></div>
+            <p class="chart-note">数据来源：国家统计局历年《国民经济和社会发展统计公报》；2010 年采用第六次全国人口普查数据。</p>
+          </figure>
+
+          <figure class="chart-card">
+            <figcaption>
+              <div class="chart-head">
+                <span class="chart-title">全球跌倒死亡及 60 岁以上占比（2000–2021）</span>
+                <span class="chart-unit">单位：万人</span>
+              </div>
+              <div class="chart-legend">
+                <span><i style="background:var(--accent)"></i>60 岁以上死亡</span>
+                <span><i style="background:rgba(26,21,18,.14)"></i>60 岁以下死亡</span>
+                <span>柱顶数字 = 60 岁以上占比</span>
+              </div>
+            </figcaption>
+            <div class="chart-fig" id="chart-falls" role="img" aria-label="堆叠柱状图：全球跌倒死亡由 2000 年 42.7 万增至 2021 年 74.0 万，其中 60 岁以上占比由 59.2% 升至 72.4%"></div>
+            <p class="chart-note">数据来源：WHO《Global Health Estimates 2021》同一可比序列；60 岁以上为 60–69 与 70+ 组加总。</p>
+          </figure>
+        </div>
+
+        <div class="chapter-body">
+          <p><strong>图一 · 人口规模：</strong>2006–2025 年，中国 60 岁及以上人口由 1.49 亿增至 3.23 亿，累计增长 117.0%，净增约 1.74 亿；占总人口比重由 11.3% 升至 23.0%。2022 年以后增长明显加速（年均净增超 1300 万），即使全国总人口已进入负增长，老年人口仍在快速扩张。</p>
+          <p><strong>图二 · 死亡负担：</strong>按 WHO 同一可比口径，2000–2021 年全球跌倒死亡由 42.7 万增至 74.0 万（+73.1%），远超同期全球人口约 28.9% 的增幅；其中 60 岁以上人群由 25.3 万增至 53.5 万（+111.5%），占比由 59.2% 升至 72.4%——老年人正成为跌倒死亡的绝对主体。</p>
+          <p class="bg"><strong>问题背景：</strong>老龄化不是短期波动，而是持续数十年的结构性变化；跌倒死亡的增长也无法用人口总量解释，年龄结构老化与高龄人口扩张是主要驱动。对「守望 AI」而言，这意味着需要被处理的风险事件总量将长期增长，而家庭照护人力不可能同步扩张——自动化事件筛查与及时报警的价值正在于此。</p>
+        </div>
+      </div>
+
+      <!-- 章节二：儿童跌倒 -->
+      <div class="chapter rev">
+        <div class="chapter-head">
+          <span class="chapter-no">章节 02</span>
+          <h3 class="chapter-title">跌倒长期占据儿童非致死伤害的首位</h3>
+        </div>
+        <p class="chapter-lead">儿童侧的故事不同：伤害死亡率明显下降，但在跨越二十年的全国伤害监测中，跌倒／坠落始终是儿童伤害就诊的第一位原因，且风险集中在低龄儿童的家庭与玩耍场景。</p>
+
+        <figure class="chart-card">
+          <figcaption>
+            <div class="chart-head">
+              <span class="chart-title">儿童伤害就诊病例中跌倒／坠落占比</span>
+              <span class="chart-unit">全国伤害监测 · %</span>
+            </div>
+            <div class="chart-legend">
+              <span><i style="background:var(--accent)"></i>跌倒／坠落占儿童伤害病例比例</span>
+            </div>
+          </figcaption>
+          <div class="hbars">
+            <div class="hbar"><span class="lbl"><b>2006</b> · 全部儿童</span><span class="track"><span class="fill" style="--w:73.6%"></span></span><span class="val">44.14%</span></div>
+            <div class="hbar"><span class="lbl"><b>2007</b> · 全部儿童</span><span class="track"><span class="fill" style="--w:76.1%"></span></span><span class="val">45.68%</span></div>
+            <div class="hbar"><span class="lbl"><b>2008</b> · 全部儿童</span><span class="track"><span class="fill" style="--w:78.6%"></span></span><span class="val">47.15%</span></div>
+            <div class="hbar"><span class="lbl"><b>2008–2013</b> · 0–4 岁</span><span class="track"><span class="fill" style="--w:89.9%"></span></span><span class="val">53.95%</span></div>
+            <div class="hbar"><span class="lbl"><b>2008–2013</b> · 5–14 岁</span><span class="track"><span class="fill" style="--w:84.7%"></span></span><span class="val">50.82%</span></div>
+            <div class="hbar"><span class="lbl"><b>2015–2018</b> · 6–17 岁</span><span class="track"><span class="fill" style="--w:85.6%"></span></span><span class="val">51.38%</span></div>
+            <div class="hbar"><span class="lbl"><b>2018</b> · 0–5 岁</span><span class="track"><span class="fill" style="--w:94.6%"></span></span><span class="val">56.76%</span></div>
+          </div>
+          <p class="chart-note">各行数据的年龄范围与统计期不同（口径不可直接拼接为一条增长曲线），但所有研究中跌倒／坠落均居儿童伤害原因首位；2018 年 0–5 岁病例中 65.70% 发生在家中。</p>
+        </figure>
+
+        <div class="chapter-body">
+          <p><strong>图三 · 病例构成：</strong>2006–2018 年的全国伤害监测显示，儿童伤害就诊病例中跌倒／坠落占比介于 44.14%–56.76% 之间，长期稳居第一位；0–4 岁跌倒病例中头部受伤占 62.39%，低龄儿童的家庭场景风险尤为集中。</p>
+          <p class="bg"><strong>问题背景：</strong>2010–2021 年 0–19 岁年龄标化伤害死亡率下降约 57%——死亡风险在降低，但非致死伤害、康复负担与照护焦虑并未消失。低龄儿童的风险集中在居家与玩耍时段，正是监护人「无法持续盯屏」的时间窗口，这也是家庭视觉监测真正该解决的痛点，而不是夸大「儿童越来越危险」。</p>
+        </div>
+      </div>
+
+      <!-- 资料来源 -->
+      <aside class="sources rev" aria-label="数据资料来源">
+        <h3>数据资料来源</h3>
+        <ol>
+          <li>国家统计局，历年《中华人民共和国国民经济和社会发展统计公报》（2006–2025）。<a href="https://www.stats.gov.cn/sj/tjgb/ndtjgb/qgndtjgb/">stats.gov.cn</a></li>
+          <li>国家统计局，《第六次全国人口普查主要数据公报》（2011）。</li>
+          <li>World Health Organization. Global Health Estimates 2021: Deaths by Cause, Age, Sex, by Country and by Region, 2000–2021. <a href="https://www.who.int/data/gho/data/themes/mortality-and-global-health-estimates/ghe-leading-causes-of-death">who.int</a></li>
+          <li>吴春眉 等，《2006—2008 年全国伤害监测儿童病例分布特征分析》，《中华流行病学杂志》，2010。</li>
+          <li>耳玉亮 等，《2008—2013 年全国伤害监测系统中跌倒／坠落病例特征分析》，《中华流行病学杂志》，2015。</li>
+          <li>纪翠蓉 等，《中国 2015—2018 年 6—17 岁儿童伤害病例流行病学特征分析》。</li>
+          <li>《中国 2018 年伤害监测系统 0—5 岁儿童伤害病例特征分析》。</li>
+        </ol>
+        <p class="sources-note">图表依据项目内部调研文档《远程照护危机检测项目数据调研与趋势分析报告》（2026-08）整理绘制；数值为统计或模型估计值，口径以原始出处为准。</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= 影响范围 ================= -->
+  <section class="section" id="impact" role="region" aria-label="影响范围">
+    <div class="wrap">
+      <div class="sec-head rev">
+        <span class="sec-index">02·C</span>
+        <h2 class="sec-title">影响范围</h2>
+        <span class="tag-data">影响已量化 · 多源数据</span>
+      </div>
+      <p class="sec-sub rev">这个问题影响了谁、影响有多大？它同时压在三种人身上：暴露于跌倒风险的老人与儿童、无法持续盯屏的照护者，以及承担事后成本的家庭与社会。</p>
+
+      <!-- 章节一：老年人 -->
+      <div class="chapter rev">
+        <div class="chapter-head">
+          <span class="chapter-no">章节 01</span>
+          <h3 class="chapter-title">老年人：3.2 亿基础人群，风险向高龄集中</h3>
+        </div>
+        <p class="chapter-lead">2025 年中国 60 岁及以上人口已达 3.23 亿，其中 65 岁以上 2.24 亿。跌倒风险并非均匀分布——75 岁后快速上升，80 岁以上人群的增长最为明显。</p>
+        <div class="impact-stats">
+          <div class="impact-stat"><div class="num">3.23<small>亿</small></div><div class="cap">60 岁及以上人口（2025），占总人口 23.0%</div></div>
+          <div class="impact-stat"><div class="num">3,799.4<small>/10万</small></div><div class="cap">60 岁以上人群跌倒发生率（2019，GBD）</div></div>
+          <div class="impact-stat"><div class="num">56.41<small>%</small></div><div class="cap">老年跌倒就诊病例发生在家中（2015–2018）</div></div>
+          <div class="impact-stat"><div class="num">22.49<small>%</small></div><div class="cap">老年跌倒就诊病例需要住院（2015–2018）</div></div>
+        </div>
+        <div class="chapter-body">
+          <p><strong>谁在受影响：</strong>独居老人、行动不便老人与康复期患者首当其冲；高龄化比单纯老龄化更关键——1990–2019 年 80 岁及以上人群跌倒发生率增长约 123.8%，远超其他年龄组。</p>
+          <p><strong>影响有多大：</strong>2015–2018 年全国伤害监测系统共记录 60 岁以上跌倒就诊病例 205,670 例，其中 37.21% 为中重度损伤、22.49% 需要住院。一次跌倒的背后，往往是骨折、失能与长期照护的连锁成本。</p>
+        </div>
+      </div>
+
+      <!-- 章节二：儿童 -->
+      <div class="chapter rev">
+        <div class="chapter-head">
+          <span class="chapter-no">章节 02</span>
+          <h3 class="chapter-title">儿童：风险集中在低龄、家庭与玩耍时段</h3>
+        </div>
+        <p class="chapter-lead">儿童伤害的死亡风险在下降，但非致死伤害并未消失。对 0–5 岁儿童而言，家不是最安全的地方——超过六成的伤害发生在家中，且大多发生在监护人转身的那几分钟。</p>
+        <div class="impact-stats">
+          <div class="impact-stat"><div class="num">56.76<small>%</small></div><div class="cap">0–5 岁儿童伤害病例中跌倒／坠落占比（2018）</div></div>
+          <div class="impact-stat"><div class="num">65.70<small>%</small></div><div class="cap">0–5 岁儿童伤害发生在家中（2018）</div></div>
+          <div class="impact-stat"><div class="num">62.39<small>%</small></div><div class="cap">0–4 岁跌倒病例伤及头部（2008–2013）</div></div>
+          <div class="impact-stat"><div class="num">9.12<small>%</small></div><div class="cap">0–5 岁一年非故意伤害发生率（长沙样本，7,087 名）</div></div>
+        </div>
+        <div class="chapter-body">
+          <p><strong>谁在受影响：</strong>处于探索与攀爬阶段的 0–5 岁儿童风险最高——长沙一项纳入 7,087 名儿童的调查显示，78.5% 的伤害发生在玩耍过程，跌落占全部伤害的 69.2%。</p>
+          <p><strong>影响有多大：</strong>低龄儿童跌倒以头部受伤为主，后果往往比成人更隐蔽；1990–2021 年中国 0–14 岁儿童跌倒累计造成约 2,509 万人年的健康寿命损失（DALY），死亡风险下降并不等于伤害与康复负担消失。</p>
+        </div>
+      </div>
+
+      <!-- 章节三：照护者与家庭 -->
+      <div class="chapter rev">
+        <div class="chapter-head">
+          <span class="chapter-no">章节 03</span>
+          <h3 class="chapter-title">照护者与家庭：被「盯屏空窗」与事后成本拖住的人</h3>
+        </div>
+        <p class="chapter-lead">风险事件发生时，监护人通常不在现场。异地工作的成年子女、双职工父母、同时服务多个家庭的养老服务人员，都不可能全天候盯住画面——而跌倒后的每一分钟空窗，都在放大后果。</p>
+        <div class="impact-stats">
+          <div class="impact-stat"><div class="num">3,730<small>万次/年</small></div><div class="cap">全球每年严重到需要医疗处理的跌倒（WHO）</div></div>
+          <div class="impact-stat"><div class="num">141,657<small>人</small></div><div class="cap">中国跌倒死亡人数（2021，GBD 估计）</div></div>
+          <div class="impact-stat"><div class="num">1.12<small>亿</small></div><div class="cap">中国跌倒患病人数（2021，GBD 估计）</div></div>
+          <div class="impact-stat"><div class="num">1,695<small>万</small></div><div class="cap">全球老年人跌倒 DALY（2021，较 1990 年 +144.9%）</div></div>
+        </div>
+        <div class="chapter-body">
+          <p><strong>谁在受影响：</strong>间接影响面同样庞大——无法全天陪护的家庭成员、家政与居家养老服务人员、养老院与康复机构，以及意外发生后承担医疗、误工和长期照护成本的家庭。对机构而言，一人同时盯多个画面，漏看、延迟处置与责任界定困难几乎不可避免。</p>
+          <p><strong>影响有多大：</strong>「连续人工看护」不可扩展，而跌倒负担仍在扩大：全球老年人跌倒 DALY 三十年间增长 144.9%。真正的损失不只是事件本身，更是从危险发生到监护人知情之间那段无人知晓的空窗期——这正是自动化事件筛查能够压缩的部分。</p>
+        </div>
+      </div>
+
+      <!-- 资料来源 -->
+      <aside class="sources rev" aria-label="影响范围资料来源">
+        <h3>数据资料来源</h3>
+        <ol>
+          <li>国家统计局，《中华人民共和国 2025 年国民经济和社会发展统计公报》，2026。<a href="https://www.stats.gov.cn/sj/zxfb/202602/t20260228_1962662.html">stats.gov.cn</a></li>
+          <li>Ye P, et al. Burden of falls among people aged 60 years and older in mainland China, 1990–2019 (GBD 2019). <i>The Lancet Public Health</i>, 2021. <a href="https://pubmed.ncbi.nlm.nih.gov/34838197/">pubmed.ncbi.nlm.nih.gov</a></li>
+          <li>陆治名 等，《2015—2018 年全国伤害监测系统中老年人跌倒／坠落病例分布特征》，《中华流行病学杂志》，2021。<a href="https://html.rhhz.net/zhlxbx/20210122.htm">html.rhhz.net</a></li>
+          <li>《中国 2018 年伤害监测系统 0—5 岁儿童伤害病例特征分析》。</li>
+          <li>耳玉亮 等，《2008—2013 年全国伤害监测系统中跌倒／坠落病例特征分析》，《中华流行病学杂志》，2015。<a href="https://html.rhhz.net/zhlxbx/20150104.htm">html.rhhz.net</a></li>
+          <li>Jing Y, et al. Unintentional Injury Incidence Among Children Aged 0–5 Years — Changsha, 2024–2025. <i>China CDC Weekly</i>, 2026. <a href="https://weekly.chinacdc.cn/en/article/doi/10.46234/ccdcw2026.071?viewType=HTML">weekly.chinacdc.cn</a></li>
+          <li>World Health Organization, “Falls,” Fact Sheet, 2021. <a href="https://www.who.int/news-room/fact-sheets/detail/falls">who.int</a></li>
+          <li>Sui L, et al. Burden of falls in China, 1992–2021 and projections to 2030 (GBD 2021). <i>Frontiers in Public Health</i>, 2025. <a href="https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2025.1538406/full">frontiersin.org</a></li>
+          <li>Chen Y, et al. Global burden of falls among older adults (GBD 2021). <i>npj Aging</i>, 2025. <a href="https://www.nature.com/articles/s41514-025-00275-4">nature.com</a></li>
+          <li>Xiong H, et al. Trends in burden of falls among children aged 0–14 years in China, 1990–2021. <i>Frontiers in Public Health</i>, 2025. <a href="https://www.frontiersin.org/journals/public-health/articles/10.3389/fpubh.2025.1697972/full">frontiersin.org</a></li>
+        </ol>
+        <p class="sources-note">数据整理自项目内部调研文档《远程照护危机检测项目数据调研与趋势分析报告》（2026-08）；数值为统计或模型估计值，口径以原始出处为准。</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ================= 现有方案的不足 ================= -->
+  <section class="section" id="gaps" role="region" aria-label="现有方案的不足">
+    <div class="wrap">
+      <div class="sec-head rev">
+        <span class="sec-index">02·D</span>
+        <h2 class="sec-title">现有方案的不足</h2>
+        <span class="tag-data">方案已对比 · 四类路线</span>
+      </div>
+      <p class="sec-sub rev">市场上并不缺「能看见」的设备，缺的是「能看懂风险、并及时通知到人」的系统。我们梳理了四类主流路线——它们各自解决了问题的一部分，却都卡在最后一公里。</p>
+
+      <!-- 章节一：普通摄像头 -->
+      <div class="chapter rev">
+        <div class="chapter-head">
+          <span class="chapter-no">章节 01</span>
+          <h3 class="chapter-title">普通家庭摄像头：能够录像，但缺少风险语义</h3>
+        </div>
+        <p class="chapter-lead">普通摄像头提供实时观看、录像、移动侦测与声音提醒——它解决了「看见」，却没有解决「看懂」：画面中有人移动，与老人跌倒后无法起身，并不是同一个问题。</p>
+        <ul class="gap-list">
+          <li>移动侦测容易被宠物、光影和正常活动触发，告警噪音大</li>
+          <li>只能判断「有人」或「有人移动」，无法理解动作的危险程度</li>
+          <li>需要监护人主动打开直播查看，事件发现依赖人的注意力</li>
+          <li>告警缺少风险等级、事件原因与处置流程，无法形成闭环</li>
+          <li>不同品牌摄像头协议封闭，跨设备接入存在壁垒</li>
+        </ul>
+      </div>
+
+      <!-- 章节二：穿戴设备 -->
+      <div class="chapter rev">
+        <div class="chapter-head">
+          <span class="chapter-no">章节 02</span>
+          <h3 class="chapter-title">穿戴设备：依赖佩戴、充电与主动配合</h3>
+        </div>
+        <p class="chapter-lead">手环、手表与紧急按钮能覆盖摄像头视野之外的场景，但前提是「持续佩戴、设备有电、网络正常、佩戴位置正确」——四个条件缺一不可。</p>
+        <ul class="gap-list">
+          <li>综述研究指出穿戴式方案面临用户依从性与潜在误报问题</li>
+          <li>忘记佩戴、设备没电或传感器遮挡，都会造成漏报或误报</li>
+          <li>对认知功能下降、抗拒佩戴设备的老人，持续佩戴无法默认成立</li>
+          <li>年幼儿童同样难以保证全天正确佩戴</li>
+        </ul>
+      </div>
+
+      <!-- 章节三：单帧 AI -->
+      <div class="chapter rev">
+        <div class="chapter-head">
+          <span class="chapter-no">章节 03</span>
+          <h3 class="chapter-title">单帧／单阈值 AI：实验精度高，不代表真实家庭可用</h3>
+        </div>
+        <p class="chapter-lead">许多研究在公开数据集或模拟跌倒视频上取得高准确率，但真实家庭不是实验室——「单帧分类结果大于阈值就报警」的简单方案，恰恰在这里失效。</p>
+        <ul class="gap-list">
+          <li>遮挡、低照度、逆光、摄像头角度差异都会显著降低识别稳定性</li>
+          <li>快速坐下、躺床、弯腰与跌倒动作高度相似，单帧难以区分</li>
+          <li>老人步态、体型差异大，儿童活动变化快且动作非标准</li>
+          <li>真实跌倒样本稀缺，公开数据集高分难以迁移到家庭场景</li>
+        </ul>
+      </div>
+
+      <!-- 章节四：纯云端分析 -->
+      <div class="chapter rev">
+        <div class="chapter-head">
+          <span class="chapter-no">章节 04</span>
+          <h3 class="chapter-title">纯云端视频分析：隐私、带宽与断网风险</h3>
+        </div>
+        <p class="chapter-lead">家庭摄像头可能拍摄卧室、客厅与儿童活动，属于高度敏感的生活数据。把全部视频持续上传云端，技术上行得通，信任与合规上却走不远。</p>
+        <ul class="gap-list">
+          <li>持续上传完整视频，隐私泄露风险与用户抵触同步上升</li>
+          <li>云端存储与带宽成本随摄像头数量线性增长</li>
+          <li>网络断开时检测即失效，而跌倒恰恰常发生在夜间与独处时段</li>
+          <li>《个人信息保护法》《未成年人保护法》对未成年人视频数据提出专门合规要求</li>
+        </ul>
+      </div>
+
+      <!-- 小结 -->
+      <div class="chapter-body section-concl rev">
+        <p class="bg"><strong>共同短板 → 守望 AI 的回应：</strong>四类方案的缺口拼出了本产品的差异化空间——兼容既有摄像头而非绑定硬件；本地边缘优先处理、默认不上传连续原始视频；以姿态、时序、区域与静止时间多阶段融合判断替代单帧阈值；提供从发现、复核、通知、确认到升级的完整报警闭环；并明确展示「为什么报警」，而不是只输出黑箱分数。</p>
+      </div>
+
+      <!-- 资料来源 -->
+      <aside class="sources rev" aria-label="现有方案资料来源">
+        <h3>资料与分析来源</h3>
+        <ol>
+          <li>Band, S. S., et al. A Review on AI Approaches in Elderly Fall Monitoring Systems: Taxonomies, Challenges, and Open Issues. <i>Cognitive Computation</i>, 2025. <a href="https://link.springer.com/article/10.1007/s12559-025-10532-z">link.springer.com</a></li>
+          <li>Badade, V., et al. A Review on Fall Detection Techniques for Elderly People with Video Surveillance. <i>Lecture Notes in Electrical Engineering</i>, Vol. 1469, Springer, 2026. <a href="https://doi.org/10.1007/978-981-95-0705-4_8">doi.org</a></li>
+          <li>《中华人民共和国个人信息保护法》。<a href="https://www.spp.gov.cn/zdgz/202108/t20210820_527240.shtml">spp.gov.cn</a></li>
+          <li>《中华人民共和国未成年人保护法》。<a href="https://www.spp.gov.cn/spp/fl/202010/t20201018_482257.shtml">spp.gov.cn</a></li>
+          <li>World Health Organization, “Falls,” Fact Sheet, 2021. <a href="https://www.who.int/news-room/fact-sheets/detail/falls">who.int</a></li>
+        </ol>
+        <p class="sources-note">方案对比整理自项目内部文档《项目软件企划书：守望 AI》（2026-08）第 2.3 节；差异化表述属于产品假设，仍需用户访谈与竞品测试验证。</p>
+      </aside>
+    </div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">pulse<em>pilot</em></div>
+        <div class="foot-slogan">脉搏所指，航向所至。</div>
+      </div>
+      <div class="foot-meta">
+        北京理工大学 · 北京大学<br>
+        创造营 · 澳门 × 粤港澳大湾区
+      </div>
+    </div>
+    <div class="foot-line">
+      <span>© 2026 pulsepilot 团队</span>
+      <span>守望 AI · 团队就绪。</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+function initReveal() {
+  const els = document.querySelectorAll(".rev");
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+    els.forEach(el => el.classList.add("vis"));
+    return;
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        en.target.classList.add("vis");
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+}
+
+/* ========== 现状问题图表（内联 SVG 生成，零依赖） ========== */
+function renderAgingChart() {
+  // [年份, 60岁及以上人口(万人), 占总人口比重(%)]
+  const D = [
+    [2006,14901,11.3],[2007,15340,11.6],[2008,15989,12.0],[2009,16714,12.5],
+    [2010,17765,13.3],[2011,18499,13.7],[2012,19390,14.3],[2013,20243,14.9],
+    [2014,21242,15.5],[2015,22200,16.1],[2016,23086,16.7],[2017,24090,17.3],
+    [2018,24949,17.9],[2019,25388,18.1],[2020,26402,18.7],[2021,26736,18.9],
+    [2022,28004,19.8],[2023,29697,21.1],[2024,31031,22.0],[2025,32338,23.0]
+  ];
+  const W=640,H=340,L=54,R=16,T=34,B=38;
+  const iw=W-L-R, ih=H-T-B, n=D.length;
+  const slot=iw/n, bw=slot*0.55;
+  const yP=v=>T+ih*(1-v/35000);      // 人口轴（0–3.5 亿）
+  const yR=v=>T+ih*(1-(v-10)/14);    // 占比轴（10–24%，仅趋势线）
+  let s="";
+  [0,10000,20000,30000].forEach(v=>{
+    const y=yP(v).toFixed(1);
+    s+=`<line class="grid-l" x1="${L}" x2="${W-R}" y1="${y}" y2="${y}"></line>`;
+    s+=`<text class="ax-t" x="${L-8}" y="${(+y+4).toFixed(1)}" text-anchor="end">${v===0?"0":v/10000+"亿"}</text>`;
+  });
+  const show={0:1,3:1,6:1,9:1,12:1,15:1,19:1};
+  let bars="",path="",dots="",xl="";
+  D.forEach((d,i)=>{
+    const cx=L+slot*(i+0.5), by=yP(d[1]);
+    bars+=`<rect class="${i===n-1?"bar-hot":"bar-n"}" x="${(cx-bw/2).toFixed(1)}" y="${by.toFixed(1)}" width="${bw.toFixed(1)}" height="${(T+ih-by).toFixed(1)}" rx="2"></rect>`;
+    const ly=yR(d[2]);
+    path+=(i===0?"M":"L")+cx.toFixed(1)+" "+ly.toFixed(1)+" ";
+    dots+=`<circle class="dot-r" cx="${cx.toFixed(1)}" cy="${ly.toFixed(1)}" r="2.5"></circle>`;
+    if(show[i]) xl+=`<text class="ax-t" x="${cx.toFixed(1)}" y="${H-12}" text-anchor="middle">${d[0]}</text>`;
+  });
+  const f=D[0], l=D[n-1];
+  const fx=L+slot*0.5, lx=L+slot*(n-0.5);
+  const c1=`<text class="cal-k" x="${fx.toFixed(1)}" y="${(yP(f[1])-10).toFixed(1)}" text-anchor="start">${(f[1]/10000).toFixed(2)}亿</text>`;
+  const c2=`<text class="cal-t" x="${(lx+8).toFixed(1)}" y="${(Math.min(yP(l[1]),yR(l[2]))-12).toFixed(1)}" text-anchor="end">${(l[1]/10000).toFixed(2)}亿 · ${l[2].toFixed(1)}%</text>`;
+  document.getElementById("chart-aging").innerHTML =
+    `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${s}${bars}<path class="line-r" d="${path.trim()}"></path>${dots}${c1}${c2}${xl}</svg>`;
+}
+
+function renderFallsChart() {
+  // [年份, 全球跌倒死亡(万人), 60岁以上(万人), 60岁以上占比(%)]
+  const D = [
+    [2000,42.72,25.29,59.2],[2010,55.17,35.49,64.3],[2015,64.68,44.22,68.4],
+    [2019,72.08,51.17,71.0],[2020,73.19,52.78,72.1],[2021,73.95,53.50,72.4]
+  ];
+  const W=640,H=340,L=54,R=16,T=34,B=38;
+  const iw=W-L-R, ih=H-T-B, n=D.length;
+  const slot=iw/n, bw=slot*0.5;
+  const y=v=>T+ih*(1-v/80);          // 死亡轴（0–80 万）
+  let s="";
+  [0,20,40,60,80].forEach(v=>{
+    const yy=y(v).toFixed(1);
+    s+=`<line class="grid-l" x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}"></line>`;
+    s+=`<text class="ax-t" x="${L-8}" y="${(+yy+4).toFixed(1)}" text-anchor="end">${v===0?"0":v+"万"}</text>`;
+  });
+  let bars="",pct="",tot="",xl="";
+  D.forEach((d,i)=>{
+    const cx=L+slot*(i+0.5);
+    const hOld=ih*d[2]/80, hAll=ih*d[1]/80;
+    bars+=`<rect class="seg-old" x="${(cx-bw/2).toFixed(1)}" y="${(T+ih-hOld).toFixed(1)}" width="${bw.toFixed(1)}" height="${hOld.toFixed(1)}"></rect>`;
+    bars+=`<rect class="seg-rest" x="${(cx-bw/2).toFixed(1)}" y="${(T+ih-hAll).toFixed(1)}" width="${bw.toFixed(1)}" height="${(hAll-hOld).toFixed(1)}"></rect>`;
+    pct+=`<text class="cal-t" x="${cx.toFixed(1)}" y="${(T+ih-hAll-10).toFixed(1)}" text-anchor="middle">${d[3].toFixed(1)}%</text>`;
+    if(i===0||i===n-1) tot+=`<text class="cal-k" x="${cx.toFixed(1)}" y="${(T+ih-hAll-26).toFixed(1)}" text-anchor="middle">${d[1].toFixed(1)}万</text>`;
+    xl+=`<text class="ax-t" x="${cx.toFixed(1)}" y="${H-12}" text-anchor="middle">${d[0]}</text>`;
+  });
+  document.getElementById("chart-falls").innerHTML =
+    `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">${s}${bars}${pct}${tot}${xl}</svg>`;
+}
+
+renderAgingChart();
+renderFallsChart();
+initReveal();
+</script>
+</body>
+</html>

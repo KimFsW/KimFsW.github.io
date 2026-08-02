@@ -1,0 +1,6 @@
+# IDE / 工具設定
+.qoder/
+
+# 系統垃圾檔
+Thumbs.db
+.DS_Store
