@@ -31,10 +31,10 @@
 
 - 数据源：`MEMBERS` 数组，改人改字只动这里，卡片自动重渲染。
 - `.photo`：4:5 照片窗口，直接从 `Resource/Photos/<id>.jpg` 加载队员照片（`object-fit:cover`）。
-- `.badge-lead`：队长徽章（仅 `lead: true`）。
+- `.badge-lead` / `.badge-member` / `.badge-male`：队长徽章（红底白字，仅 `lead: true`）／队员徽章（浅粉红，其余成员）／性别徽章（浅蓝，`gender` 字段驱动）。
 - `.role`：分工标签（等宽红字）。
-- `.edu`：教育经历列表，红方块引导。
-- `.tags`：技能 chips。
+- `.edu`：教育经历列表，每条两行——红点引导「**学校** · **学历**」，换行显示专业（红点仅在学校行）；数据为 `{school, degree, major}` 对象，改学历只动 `MEMBERS`。`min-height:63px` 保证各卡学历区等高。
+- `.tags`：技能 chips，紧接学历列表；依赖 `.edu` 等高实现各卡标签顶部对齐。
 - 照片来源：`Resource/Photos/` 目录按约定文件名（`<id>.jpg`）直接加载，无上传交互。
 
 ## 4. 项目介绍组件（project.html，题目内容已回填）

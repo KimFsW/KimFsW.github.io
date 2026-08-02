@@ -132,25 +132,38 @@ ul{list-style:none}
   border-radius:999px;padding:4px 11px;letter-spacing:.3px;
 }
 .badge-lead svg{width:12px;height:12px}
+.badge-member{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(224,62,38,.10);color:var(--accent-deep);font-size:11px;font-weight:800;
+  border:1px solid rgba(224,62,38,.28);border-radius:999px;padding:4px 11px;letter-spacing:.3px;
+}
+.badge-member svg{width:12px;height:12px}
+.badge-male{
+  display:inline-flex;align-items:center;
+  background:#E8F1FB;color:#1E56A0;font-size:11px;font-weight:800;
+  border:1px solid #C9DEF4;border-radius:999px;padding:4px 11px;letter-spacing:.3px;
+}
 .role{
   font-family:var(--mono);font-size:12.5px;color:var(--accent-deep);
   letter-spacing:.3px;font-weight:600;
 }
 .edu{
-  margin:4px 0;
+  margin:4px 0;min-height:63px;
 }
 .edu li{
   font-size:13.5px;color:var(--ink-2);padding-left:16px;position:relative;
   line-height:1.6;
 }
 .edu li::before{
-  content:"";position:absolute;left:0;top:50%;
+  content:"";position:absolute;left:0;top:8px;
   width:6px;height:6px;background:var(--accent);
-  border-radius:50%;transform:translateY(-50%);
+  border-radius:50%;
 }
 .edu li b{color:var(--ink);font-weight:700}
+.edu-head{display:block}
+.edu-major{display:block;font-size:12.5px;color:var(--ink-2)}
 .tags{
-  display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:8px;
+  display:flex;flex-wrap:wrap;gap:8px;
 }
 .tags span{
   font-size:12px;color:var(--ink-2);
@@ -252,7 +265,7 @@ footer{
         <span class="sec-index">01</span>
         <h1 class="sec-title">团队成员</h1>
       </div>
-      <p class="sec-sub rev">四位成员本科均就读于北京理工大学，2024 年 6 月毕业，专业横跨工业工程、网络空间安全、光电信息科学与技术与工业设计。</p>
+      <p class="sec-sub rev">四位成员本科均毕业于北京理工大学。<br>其中 1 名成员继续在北京大学攻读硕士学位，2 名成员在北京理工大学攻读硕士学位。<br>专业背景涵盖工业工程、网络空间安全、光电信息科学与技术以及工业设计。</p>
       <div class="team-grid" id="teamGrid" role="list"></div>
     </div>
   </section>
@@ -284,10 +297,11 @@ const MEMBERS = [
     id: "yuyinghao",
     name: "余英豪",
     lead: true,
+    gender: "男",
     role: "队长 / 产品 / 项目管理",
     edu: [
-      "<b>北京理工大学</b> · 工业工程（本科）",
-      "<b>北京大学</b> · 硕士在读"
+      { school: "北京理工大学", degree: "本科毕业", major: "工业工程" },
+      { school: "北京大学", degree: "硕士在读" }
     ],
     tags: ["工业工程", "数据分析", "项目管理"]
   },
@@ -295,10 +309,11 @@ const MEMBERS = [
     id: "huangjianfeng",
     name: "黃儉豐",
     lead: false,
+    gender: "男",
     role: "后端 / 安全",
     edu: [
-      "<b>北京理工大学</b> · 网络空间安全（本科）",
-      "<b>北京理工大学</b> · 硕士在读"
+      { school: "北京理工大学", degree: "本科毕业", major: "网络空间安全" },
+      { school: "北京理工大学", degree: "硕士在读" }
     ],
     tags: ["网络空间安全", "后端开发"]
   },
@@ -306,10 +321,11 @@ const MEMBERS = [
     id: "chenhongtao",
     name: "陳宏韜",
     lead: false,
+    gender: "男",
     role: "算法 / 硬件",
     edu: [
-      "<b>北京理工大学</b> · 光电信息科学与技术（本科）",
-      "<b>北京理工大学</b> · 硕士在读"
+      { school: "北京理工大学", degree: "本科毕业", major: "光电信息科学与技术" },
+      { school: "北京理工大学", degree: "硕士在读" }
     ],
     tags: ["光电信息", "信号处理", "嵌入式"]
   },
@@ -317,9 +333,10 @@ const MEMBERS = [
     id: "lizisheng",
     name: "李自勝",
     lead: false,
+    gender: "男",
     role: "设计 / 体验",
     edu: [
-      "<b>北京理工大学</b> · 工业设计（本科）"
+      { school: "北京理工大学", degree: "本科毕业", major: "工业设计" }
     ],
     tags: ["工业设计", "原型设计", "Figma"]
   }
@@ -328,6 +345,8 @@ const MEMBERS = [
 const grid = document.getElementById("teamGrid");
 
 const flagSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 5c4-2.4 7 2 12 0v9c-5 2-8-2.4-12 0"/></svg>';
+
+const userSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/></svg>';
 
 function renderMembers() {
   grid.innerHTML = MEMBERS.map(m => `
@@ -338,10 +357,11 @@ function renderMembers() {
       <div class="card-body">
         <div class="name-row">
           <h3>${m.name}</h3>
-          ${m.lead ? `<span class="badge-lead">${flagSVG}队长</span>` : ""}
+          ${m.lead ? `<span class="badge-lead">${flagSVG}队长</span>` : `<span class="badge-member">${userSVG}队员</span>`}
+          ${m.gender ? `<span class="badge-male">${m.gender}</span>` : ""}
         </div>
         <p class="role">${m.role}</p>
-        <ul class="edu">${m.edu.map(e => `<li>${e}</li>`).join("")}</ul>
+        <ul class="edu">${m.edu.map(e => `<li><span class="edu-head"><b>${e.school}</b> · <b>${e.degree}</b></span>${e.major ? `<span class="edu-major">${e.major}</span>` : ""}</li>`).join("")}</ul>
         <div class="tags">${m.tags.map(t => `<span>${t}</span>`).join("")}</div>
       </div>
     </article>

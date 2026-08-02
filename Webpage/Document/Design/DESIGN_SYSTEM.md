@@ -93,6 +93,7 @@
 | 導航鏈接 | `.nav-links a` | hover/active 時文字變墨 + 紅色 2px 下劃線；active 加 `aria-current="page"` |
 | 區塊頭 | `.sec-head` | mono 編號（`.sec-index`，深紅）+ 40px 標題 |
 | 成員卡片 | `.card` | 白底、1px 邊框、sm 陰影；hover 升起 -6px + lg 陰影 |
+| 隊長／隊員／性別徽章 | `.badge-lead` / `.badge-member` / `.badge-male` | 999px 膠囊；隊長紅底白字、隊員淺粉紅、性別淺藍 |
 | 照片窗口 | `.photo` | 4:5、直接從 `Resource/Photos/` 加載隊員照片（`object-fit:cover`） |
 | 項目窗口 | `.ph-window` | 2px 虛線邊框、居中佈局；hover 邊框變紅 + md 陰影 |
 | 功能卡片 | `.feat-slot` | 白底實邊框；hover 升起 -4px + 邊框變紅 |
