@@ -6,6 +6,7 @@ on:
       - master
     paths:
       - "Webpage/Page/**"
+      - "Webpage/Resource/Photos/**"
       - ".github/workflows/deploy-page.yml"
   workflow_dispatch:
 
@@ -33,10 +34,17 @@ jobs:
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload Webpage/Page
+      - name: Assemble website
+        run: |
+          mkdir -p _site/Resource/Photos
+          cp -R Webpage/Page/. _site/
+          cp -R Webpage/Resource/Photos/. _site/Resource/Photos/
+          touch _site/.nojekyll
+
+      - name: Upload website
         uses: actions/upload-pages-artifact@v4
         with:
-          path: "./Webpage/Page"
+          path: "./_site"
 
       - name: Deploy to GitHub Pages
         id: deployment
