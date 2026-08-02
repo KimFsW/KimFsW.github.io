@@ -91,6 +91,10 @@
 | 粘性導航 | `.nav` | 64px 高（移動端 56px）、半透明紙底 + 10px 模糊、底部 1px 線 + sm 陰影 |
 | 導航鏈接 | `.nav-links a` | hover/active 時文字變墨 + 紅色 2px 下劃線；active 加 `aria-current="page"` |
 | 區塊頭 | `.sec-head` | mono 編號（`.sec-index`，深紅）+ 40px 標題 |
+| 跳轉按鈕 | `.btn` | 999px 膠囊、1.5px 墨色邊框；hover 填信號紅白字並上浮 2px + md 陰影 |
+| 研究階段步驟條 | `.stages` / `.stage` | 32px 紅底白字圓形編號＋紅→淺漸變縱向連接線（末項隱藏） |
+| 團隊組成圓餅圖 | `.pie` | SVG `pathLength="100"`：碩士 75% 信號紅／本科 25% 墨色，中心 mono 總人數；`.pie-legend` 色塊圖例 |
+| 價值閉環卡片 | `.value-card` / `.value-arrow` | 4 張白底卡片＋紅色箭頭串聯（≤768px 旋轉 90° 轉縱向）；hover 升起 -4px + 邊框變紅 |
 | 成員卡片 | `.card` | 白底、1px 邊框、sm 陰影；hover 升起 -6px + lg 陰影 |
 | 隊長／隊員／性別徽章 | `.badge-lead` / `.badge-member` / `.badge-male` | 999px 膠囊；隊長紅底白字、隊員淺粉紅、性別淺藍 |
 | 照片窗口 | `.photo` | 4:5、直接從 `Resource/Photos/` 加載隊員照片（`object-fit:cover`） |
@@ -123,8 +127,8 @@
 | 斷點 | 適用 | 主要變化 |
 |------|------|---------|
 | `≤1024px` | 平板豎屏 | wordmark 72px、團隊/功能網格 2 列、項目窗口單列、區塊留白 80px |
-| `≤768px` | 平板 | wordmark 52px、導航 56px、網格單列、隱藏導航鏈接並切換為漢堡菜單（`.nav-toggle` + `#nav-mobile`）、不足清單單欄 |
-| `≤640px` | 手機 | wordmark 40px、wrap 16px、卡片內距收窄 |
+| `≤768px` | 平板 | wordmark 52px、導航 56px、網格單列、隱藏導航鏈接並切換為漢堡菜單（`.nav-toggle` + `#nav-mobile`）、不足清單單欄、主頁 who-grid 單列、value-loop 縱向 |
+| `≤640px` | 手機 | wordmark 40px、wrap 16px、卡片內距收窄、圓餅圖與圖例縱向排列 |
 
 ---
 
@@ -141,7 +145,7 @@
 
 | 頁面 | 文件 | 編號 | 內容 |
 |------|------|------|------|
-| 主頁 | `index.html` | — | Hero（kicker/wordmark/口號/定位句） |
+| 主頁 | `index.html` | — | Hero（kicker/wordmark/口號/定位句/跳轉按鈕 ×3）＋我們是誰 01（研究階段步驟條 + 團隊組成圓餅圖）＋價值主張 02（四步閉環卡片 ×4） |
 | 團隊成員 | `team.html` | 01 | 4 張成員卡片（照片上傳、角色、學歷、標籤） |
 | 項目介紹 | `project.html` | 02 / 02·B–D | 項目窗口 ×2、核心功能 ×3；現狀問題／影響範圍／現有方案的不足三章節（SVG 圖表 ×2 + 條形圖 ×1 + 統計卡 ×12 + 不足清單 ×4）+ 資料來源 ×3 |
 | 參賽目標 | `goals.html` | 03 | 短期目標 / 長期願景兩欄清單 |

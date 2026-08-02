@@ -25,6 +25,15 @@
 | 主标题 | `.wordmark` | pulse + pilot 双色 + `.w-name`「守望 AI」同级大字（无括号、同字级字重、`.3em` 间距），96 / 72 / 52 / 40 四档 |
 | 口号 | `.slogan` | 脉搏所指，航向所至。 |
 | 定位句 | `.position` | 以产品名开头的一句话简介（目标群体后换行，「守护每一份牵挂」收尾） |
+| 跳转按钮 | `.hero-cta` + `.btn` | 团队成员／项目介绍／参赛目标三个胶囊链接（999px 圆角、1.5px 墨色边框，hover 填红上浮） |
+
+## 2B. 主页章节（index.html `#who` / `#value`）
+
+- 章节骨架：`.section` + `.sec-head`（`.sec-index` mono 编号 + `.sec-title`），与项目页共用同一套样式。
+- **我们是谁**（`#who`，编号 01）：`.who-grid` 双列卡片（≤768px 单列）。
+  - 左卡「研究阶段」：`.stages` 纵向步骤条——`.stage-dot` 红色圆形编号（32px）＋红→浅渐变连接线（末项隐藏），依次为研发／实验／落地。
+  - 右卡「团队组成」：`.pie` SVG 圆饼图（`pathLength="100"`；硕士 75% 信号红 `dasharray="75 25"`、本科 25% 墨色 `dasharray="25 75" dashoffset="25"`），中心 mono 总人数「4 人 · 100%」；`.pie-legend` 图例（色块＋百分比＋人数）。
+- **价值主张**（`#value`，编号 02）：`.value-loop` 四步闭环（实时感知 → 智能识别 → 秒级预警 → 隐私守护），`.value-card` 白底卡片 ＋ `.value-arrow` 红色箭头（≤768px 旋转 90° 转纵向）；底部 `.loop-note` mono 闭环说明。
 
 ## 3. 成员卡片 MemberCard（team.html，`renderMembers` 渲染）
 
@@ -82,7 +91,7 @@
 
 ## 7. 响应式与无障碍
 
-- 断点：1024px（卡片 2 列、统计 2×2、影响统计 2 列）、768px（导航 56px、隐藏桌面导航链接并切换为汉堡菜单、不足清单单栏）、640px（全单列）。
+- 断点：1024px（卡片 2 列、统计 2×2、影响统计 2 列）、768px（导航 56px、隐藏桌面导航链接并切换为汉堡菜单、不足清单单栏、主页 who-grid 单列、value-loop 纵向）、640px（全单列、圆饼图与图例纵向排列）。
 - `prefers-reduced-motion`：全局动效降级。
 - 照片窗口支持键盘 Enter / Space 触发上传，`aria-label` 完备。
 
