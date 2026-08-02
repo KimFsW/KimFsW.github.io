@@ -66,6 +66,17 @@ ul{list-style:none}
 }
 .nav-links a:hover{color:var(--ink);border-bottom-color:var(--accent)}
 .nav-links a.active{color:var(--ink);font-weight:600;border-bottom-color:var(--accent)}
+.nav-toggle{
+  display:none;flex-direction:column;justify-content:center;gap:5px;
+  width:40px;height:40px;padding:9px;margin-left:auto;
+  background:none;border:1px solid var(--line);border-radius:var(--radius);
+  cursor:pointer;
+}
+.nav-toggle span{display:block;height:2px;width:100%;background:var(--ink);border-radius:2px;transition:var(--transition)}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.nav-mobile{display:none}
 .status-pill{
   display:inline-flex;align-items:center;gap:8px;
   font-family:var(--mono);font-size:12px;
@@ -187,6 +198,10 @@ footer{
   font-size:32px;font-weight:900;letter-spacing:-1px;
 }
 .foot-brand em{font-style:normal;color:var(--accent)}
+.foot-nav{display:flex;align-items:center;gap:24px;font-size:14px}
+.foot-nav a{color:rgba(249,248,246,.7);transition:var(--transition)}
+.foot-nav a:hover{color:#fff}
+.foot-nav a.active{color:#fff;font-weight:600}
 .foot-slogan{
   color:rgba(249,248,246,.7);font-size:14px;margin-top:8px;
   line-height:1.6;
@@ -223,7 +238,23 @@ footer{
   .sec-title{font-size:28px}
   .section{padding:64px 0}
   .team-grid{grid-template-columns:1fr;gap:20px}
-  .nav-links a{display:none}
+  .nav-links{display:none}
+  .nav-toggle{display:flex}
+  .nav-mobile{
+    display:block;position:absolute;top:100%;left:0;right:0;z-index:49;
+    background:rgba(249,248,246,.98);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);box-shadow:var(--shadow-md);
+    padding:4px 24px 12px;
+    opacity:0;visibility:hidden;transform:translateY(-8px);
+    transition:var(--transition);
+  }
+  .nav-mobile.open{opacity:1;visibility:visible;transform:none}
+  .nav-mobile a{
+    display:block;padding:14px 0;font-size:16px;color:var(--ink-2);
+    border-bottom:1px solid var(--line);transition:var(--transition);
+  }
+  .nav-mobile a:last-child{border-bottom:none}
+  .nav-mobile a.active{color:var(--ink);font-weight:600}
   footer{padding:56px 0 40px}
 }
 @media (max-width:640px){
@@ -253,7 +284,16 @@ footer{
       <a href="goals.html">参赛目标</a>
       <span class="status-pill" aria-live="polite"><span class="dot"></span>守望 AI · 团队就绪</span>
     </nav>
+    <button class="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false" aria-controls="nav-mobile">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+  <nav class="nav-mobile" id="nav-mobile" aria-label="移动端导航">
+    <a href="index.html">主页</a>
+    <a href="team.html" class="active" aria-current="page">团队成员</a>
+    <a href="project.html">项目介绍</a>
+    <a href="goals.html">参赛目标</a>
+  </nav>
 </header>
 
 <main id="top">
@@ -279,6 +319,12 @@ footer{
         <div class="foot-brand">pulse<em>pilot</em></div>
         <div class="foot-slogan">脉搏所指，航向所至。</div>
       </div>
+      <nav class="foot-nav" aria-label="页脚导航">
+        <a href="index.html">主页</a>
+        <a href="team.html" class="active">团队成员</a>
+        <a href="project.html">项目介绍</a>
+        <a href="goals.html">参赛目标</a>
+      </nav>
       <div class="foot-meta">
         北京理工大学 · 北京大学<br>
         创造营 · 澳门 × 粤港澳大湾区
@@ -292,6 +338,18 @@ footer{
 </footer>
 
 <script>
+/* ================= 移动端导航 ================= */
+(function () {
+  const toggle = document.querySelector(".nav-toggle");
+  const menu = document.getElementById("nav-mobile");
+  if (!toggle || !menu) return;
+  toggle.addEventListener("click", function () {
+    const open = menu.classList.toggle("open");
+    toggle.classList.toggle("open", open);
+    toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    toggle.setAttribute("aria-label", open ? "关闭导航" : "打开导航");
+  });
+})();
 const MEMBERS = [
   {
     id: "yuyinghao",
