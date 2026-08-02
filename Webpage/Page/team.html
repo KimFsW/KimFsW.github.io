@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="pulsepilot 团队成员 — 四位成员本科均就读于北京理工大学，专业横跨工业工程、网络空间安全、光电信息科学与技术与工业设计。">
+<title>团队成员 · pulsepilot</title>
+<style>
+:root{
+  /* 优化的色彩系统 */
+  --paper:#F9F8F6;
+  --paper-2:#F0EBE6;
+  --ink:#1A1512;
+  --ink-2:#5E5A54;
+  --line:rgba(26,21,18,.12);
+  --accent:#E03E26;
+  --accent-light:#FF6B52;
+  --accent-deep:#B02D1A;
+  --success:#22C55E;
+  --radius:8px;
+  --shadow-sm:0 2px 6px rgba(26,21,18,.06);
+  --shadow-md:0 8px 16px rgba(26,21,18,.10);
+  --shadow-lg:0 16px 32px rgba(26,21,18,.12);
+  --transition:all .3s cubic-bezier(.4,0,.2,1);
+  --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  --mono:"SF Mono","Cascadia Mono",Consolas,"JetBrains Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+}
+::selection{background:var(--accent);color:#fff}
+a{color:inherit;text-decoration:none;transition:color var(--transition)}
+ul{list-style:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* ========== 导航 ========== */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(249,248,246,.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  box-shadow:var(--shadow-sm);
+}
+.nav-inner{
+  max-width:1120px;margin:0 auto;padding:0 24px;
+  height:64px;display:flex;align-items:center;gap:16px;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px}
+.brand .mark{
+  width:28px;height:28px;border:1.5px solid var(--ink);border-radius:var(--radius);
+  display:grid;place-items:center;flex:none;transition:var(--transition);
+}
+.brand .mark:hover{border-color:var(--accent);color:var(--accent)}
+.brand .mark svg{width:16px;height:10px}
+.brand em{font-style:normal;color:var(--accent)}
+.nav-links{margin-left:auto;display:flex;align-items:center;gap:24px;font-size:14px}
+.nav-links a{
+  color:var(--ink-2);padding:6px 0;border-bottom:2px solid transparent;
+  transition:var(--transition);
+}
+.nav-links a:hover{color:var(--ink);border-bottom-color:var(--accent)}
+.nav-links a.active{color:var(--ink);font-weight:600;border-bottom-color:var(--accent)}
+.status-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:12px;
+  border:1px solid var(--line);border-radius:999px;
+  padding:6px 14px;color:var(--ink-2);background:rgba(255,255,255,.7);
+  backdrop-filter:blur(8px);
+}
+.status-pill .dot{
+  width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+
+/* ========== 区块通用 ========== */
+.section{padding:96px 0;border-bottom:1px solid var(--line)}
+.sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:16px;flex-wrap:wrap}
+.sec-index{
+  font-family:var(--mono);font-size:13px;color:var(--accent-deep);
+  letter-spacing:.5px;font-weight:700;
+}
+.sec-title{
+  font-size:40px;font-weight:900;letter-spacing:-1px;color:var(--ink);
+}
+.sec-sub{
+  color:var(--ink-2);font-size:16px;margin-bottom:48px;
+  max-width:700px;line-height:1.7;
+}
+
+/* ========== 成员卡片 ========== */
+.team-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:24px;
+}
+.card{
+  background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;display:flex;flex-direction:column;
+  transition:transform .3s ease,box-shadow .3s ease;
+  box-shadow:var(--shadow-sm);
+}
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:var(--shadow-lg);
+}
+.photo{
+  position:relative;aspect-ratio:4/5;overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+.photo img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;
+}
+.card-body{
+  padding:20px;display:flex;flex-direction:column;gap:12px;flex:1;
+}
+.name-row{
+  display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+}
+.name-row h3{
+  font-size:20px;font-weight:900;letter-spacing:-.5px;
+  color:var(--ink);
+}
+.badge-lead{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--accent);color:#fff;font-size:11px;font-weight:800;
+  border-radius:999px;padding:4px 11px;letter-spacing:.3px;
+}
+.badge-lead svg{width:12px;height:12px}
+.role{
+  font-family:var(--mono);font-size:12.5px;color:var(--accent-deep);
+  letter-spacing:.3px;font-weight:600;
+}
+.edu{
+  margin:4px 0;
+}
+.edu li{
+  font-size:13.5px;color:var(--ink-2);padding-left:16px;position:relative;
+  line-height:1.6;
+}
+.edu li::before{
+  content:"";position:absolute;left:0;top:50%;
+  width:6px;height:6px;background:var(--accent);
+  border-radius:50%;transform:translateY(-50%);
+}
+.edu li b{color:var(--ink);font-weight:700}
+.tags{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:8px;
+}
+.tags span{
+  font-size:12px;color:var(--ink-2);
+  background:var(--paper-2);border-radius:var(--radius);
+  padding:5px 11px;border:1px solid transparent;
+  transition:var(--transition);
+}
+.tags span:hover{
+  background:transparent;border-color:var(--line);color:var(--accent);
+}
+
+/* ========== 页脚 ========== */
+footer{
+  background:var(--ink);color:#F9F8F6;padding:72px 0 48px;
+}
+.foot-grid{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:32px;flex-wrap:wrap;
+}
+.foot-brand{
+  font-size:32px;font-weight:900;letter-spacing:-1px;
+}
+.foot-brand em{font-style:normal;color:var(--accent)}
+.foot-slogan{
+  color:rgba(249,248,246,.7);font-size:14px;margin-top:8px;
+  line-height:1.6;
+}
+.foot-meta{
+  font-family:var(--mono);font-size:12px;color:rgba(249,248,246,.6);
+  text-align:right;line-height:2;letter-spacing:.3px;
+}
+.foot-line{
+  border-top:1px solid rgba(249,248,246,.15);margin-top:48px;
+  padding-top:24px;display:flex;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;font-size:12.5px;color:rgba(249,248,246,.5);
+}
+
+/* ========== 入场动效 ========== */
+.rev{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.rev.vis{opacity:1;transform:none}
+
+/* ========== 无障碍 ========== */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rev{opacity:1;transform:none;transition:none}
+  .status-pill .dot{animation:none}
+}
+
+/* ========== 响应式 ========== */
+@media (max-width:1024px){
+  .team-grid{grid-template-columns:repeat(2,1fr);gap:22px}
+  .section{padding:80px 0}
+  .sec-title{font-size:32px}
+}
+@media (max-width:768px){
+  .nav-inner{height:56px}
+  .sec-title{font-size:28px}
+  .section{padding:64px 0}
+  .team-grid{grid-template-columns:1fr;gap:20px}
+  .nav-links a{display:none}
+  footer{padding:56px 0 40px}
+}
+@media (max-width:640px){
+  .wrap{padding:0 16px}
+  .sec-sub{font-size:15px}
+  .card-body{padding:16px}
+  .name-row h3{font-size:18px}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html" aria-label="回到主页">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 12" fill="none" stroke="#E03E26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 7h4l2-5 3 9 2.5-6 1.5 2h9"/>
+        </svg>
+      </span>
+      pulse<em>pilot</em>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="index.html">主页</a>
+      <a href="team.html" class="active" aria-current="page">团队成员</a>
+      <a href="project.html">项目介绍</a>
+      <a href="goals.html">参赛目标</a>
+      <span class="status-pill" aria-live="polite"><span class="dot"></span>守望 AI · 团队就绪</span>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= 团队成员 ================= -->
+  <section class="section" id="team" role="region" aria-label="团队成员介绍">
+    <div class="wrap">
+      <div class="sec-head rev">
+        <span class="sec-index">01</span>
+        <h1 class="sec-title">团队成员</h1>
+      </div>
+      <p class="sec-sub rev">四位成员本科均就读于北京理工大学，2024 年 6 月毕业，专业横跨工业工程、网络空间安全、光电信息科学与技术与工业设计。</p>
+      <div class="team-grid" id="teamGrid" role="list"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">pulse<em>pilot</em></div>
+        <div class="foot-slogan">脉搏所指，航向所至。</div>
+      </div>
+      <div class="foot-meta">
+        北京理工大学 · 北京大学<br>
+        创造营 · 澳门 × 粤港澳大湾区
+      </div>
+    </div>
+    <div class="foot-line">
+      <span>© 2026 pulsepilot 团队</span>
+      <span>守望 AI · 团队就绪。</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const MEMBERS = [
+  {
+    id: "yuyinghao",
+    name: "余英豪",
+    lead: true,
+    role: "队长 / 产品 / 项目管理",
+    edu: [
+      "<b>北京理工大学</b> · 工业工程（本科）",
+      "<b>北京大学</b> · 硕士在读"
+    ],
+    tags: ["工业工程", "数据分析", "项目管理"]
+  },
+  {
+    id: "huangjianfeng",
+    name: "黃儉豐",
+    lead: false,
+    role: "后端 / 安全",
+    edu: [
+      "<b>北京理工大学</b> · 网络空间安全（本科）",
+      "<b>北京理工大学</b> · 硕士在读"
+    ],
+    tags: ["网络空间安全", "后端开发"]
+  },
+  {
+    id: "chenhongtao",
+    name: "陳宏韜",
+    lead: false,
+    role: "算法 / 硬件",
+    edu: [
+      "<b>北京理工大学</b> · 光电信息科学与技术（本科）",
+      "<b>北京理工大学</b> · 硕士在读"
+    ],
+    tags: ["光电信息", "信号处理", "嵌入式"]
+  },
+  {
+    id: "lizisheng",
+    name: "李自勝",
+    lead: false,
+    role: "设计 / 体验",
+    edu: [
+      "<b>北京理工大学</b> · 工业设计（本科）"
+    ],
+    tags: ["工业设计", "原型设计", "Figma"]
+  }
+];
+
+const grid = document.getElementById("teamGrid");
+
+const flagSVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 5c4-2.4 7 2 12 0v9c-5 2-8-2.4-12 0"/></svg>';
+
+function renderMembers() {
+  grid.innerHTML = MEMBERS.map(m => `
+    <article class="card rev" role="listitem">
+      <div class="photo">
+        <img src="../Resource/Photos/${m.id}.jpg" alt="${m.name}的照片">
+      </div>
+      <div class="card-body">
+        <div class="name-row">
+          <h3>${m.name}</h3>
+          ${m.lead ? `<span class="badge-lead">${flagSVG}队长</span>` : ""}
+        </div>
+        <p class="role">${m.role}</p>
+        <ul class="edu">${m.edu.map(e => `<li>${e}</li>`).join("")}</ul>
+        <div class="tags">${m.tags.map(t => `<span>${t}</span>`).join("")}</div>
+      </div>
+    </article>
+  `).join("");
+}
+
+function initReveal() {
+  const els = document.querySelectorAll(".rev");
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+    els.forEach(el => el.classList.add("vis"));
+    return;
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        en.target.classList.add("vis");
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+}
+
+renderMembers();
+initReveal();
+</script>
+</body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="pulsepilot 团队介绍页 — 创造营参赛团队，成员来自北京理工大学与北京大学。">
+<title>pulsepilot · 团队介绍</title>
+<style>
+:root{
+  /* 色彩系统优化 - 基于 UI/UX Pro Max 医疗/SaaS 配色 */
+  --paper:#F9F8F6;          /* 主背景 - 更亮更纯净 */
+  --paper-2:#F0EBE6;        /* 次背景 */
+  --ink:#1A1512;            /* 主文本 - 略微加深 */
+  --ink-2:#5E5A54;          /* 次文本 - 优化对比度 */
+  --line:rgba(26,21,18,.12); /* 线条 - 降低透明度提升对比 */
+  --accent:#E03E26;         /* 主品牌色 (保留) */
+  --accent-light:#FF6B52;   /* 新增 - 浅强调色 */
+  --accent-deep:#B02D1A;    /* 深强调色 */
+  --success:#22C55E;        /* 新增 - 成功色 */
+  --warning:#F59E0B;        /* 新增 - 警告色 */
+  --radius:8px;             /* 优化圆角 */
+  --shadow-sm:0 2px 6px rgba(26,21,18,.06);
+  --shadow-md:0 8px 16px rgba(26,21,18,.10);
+  --shadow-lg:0 16px 32px rgba(26,21,18,.12);
+  --transition:all .3s cubic-bezier(.4,0,.2,1);
+  --sans:"Avenir Next","Segoe UI",system-ui,-apple-system,"PingFang SC","Microsoft YaHei","Noto Sans SC",sans-serif;
+  --mono:"SF Mono","Cascadia Mono",Consolas,"JetBrains Mono",monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.6;
+}
+::selection{background:var(--accent);color:#fff}
+a{color:inherit;text-decoration:none;transition:color var(--transition)}
+ul{list-style:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* ========== 导航 ========== */
+.nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(249,248,246,.95);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  box-shadow:var(--shadow-sm);
+}
+.nav-inner{
+  max-width:1120px;margin:0 auto;padding:0 24px;
+  height:64px;display:flex;align-items:center;gap:16px;
+}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px}
+.brand .mark{
+  width:28px;height:28px;border:1.5px solid var(--ink);border-radius:var(--radius);
+  display:grid;place-items:center;flex:none;transition:var(--transition);
+}
+.brand .mark:hover{border-color:var(--accent);color:var(--accent)}
+.brand .mark svg{width:16px;height:10px}
+.brand em{font-style:normal;color:var(--accent)}
+.nav-links{margin-left:auto;display:flex;align-items:center;gap:24px;font-size:14px}
+.nav-links a{
+  color:var(--ink-2);padding:6px 0;border-bottom:2px solid transparent;
+  transition:var(--transition);position:relative;
+}
+.nav-links a:hover{color:var(--ink);border-bottom-color:var(--accent)}
+.nav-links a.active{color:var(--ink);font-weight:600;border-bottom-color:var(--accent)}
+.status-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:12px;
+  border:1px solid var(--line);border-radius:999px;
+  padding:6px 14px;color:var(--ink-2);background:#fff;
+  background:rgba(255,255,255,.7);backdrop-filter:blur(8px);
+}
+.status-pill .dot{
+  width:8px;height:8px;border-radius:50%;background:var(--accent);flex:none;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.2)}}
+
+/* ========== Hero ========== */
+.hero{border-bottom:1px solid var(--line)}
+.hero-inner{padding:120px 0 56px}
+.kicker{
+  font-family:var(--mono);font-size:13px;color:var(--accent-deep);
+  display:flex;align-items:center;gap:12px;margin-bottom:32px;
+  letter-spacing:.5px;
+}
+.kicker::before{content:"";width:40px;height:1.5px;background:var(--accent)}
+.wordmark{
+  font-size:96px;line-height:.95;font-weight:900;letter-spacing:-2px;
+  margin-bottom:28px;color:var(--ink);
+}
+.wordmark .w-pilot{color:var(--accent);display:inline-block}
+.slogan{
+  font-size:24px;font-weight:700;margin-bottom:20px;color:var(--ink);
+  line-height:1.3;
+}
+.position{
+  font-size:16.5px;color:var(--ink-2);max-width:680px;line-height:1.7;
+  margin-bottom:48px;
+}
+.position .blank{
+  display:inline-block;min-width:8ch;text-align:center;
+  font-family:var(--mono);font-size:14px;color:var(--accent-deep);
+  border-bottom:2.5px dashed var(--accent);padding:2px 8px;
+}
+.hero-stats{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;background:#fff;box-shadow:var(--shadow-sm);
+}
+.hero-stats .stat{
+  padding:24px;border-right:1px solid var(--line);
+  transition:background var(--transition);
+}
+.hero-stats .stat:last-child{border-right:none}
+.hero-stats .stat:hover{background:var(--paper-2)}
+.hero-stats .num{
+  font-size:32px;font-weight:900;font-family:var(--mono);
+  color:var(--accent);margin-bottom:8px;
+}
+.hero-stats .num small{
+  font-size:14px;font-weight:600;color:var(--ink-2);
+  display:block;font-family:var(--sans);
+}
+.hero-stats .lab{font-size:13px;color:var(--ink-2);letter-spacing:.3px}
+.ecg-band{
+  position:relative;height:200px;margin-top:48px;
+  background:linear-gradient(135deg, rgba(224,62,38,.04) 0%, transparent 100%);
+  border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px;
+}
+#ecg{display:block;width:100%;height:100%}
+.bpm{
+  position:absolute;right:24px;top:16px;
+  font-family:var(--mono);font-size:12px;color:var(--accent-deep);
+  display:flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.8);backdrop-filter:blur(8px);
+  padding:6px 12px;border-radius:999px;border:1px solid var(--line);
+}
+.bpm .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite}
+
+/* ========== 页脚 ========== */
+footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px}
+.foot-grid{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.foot-brand{
+  font-size:32px;font-weight:900;letter-spacing:-1px;
+}
+.foot-brand em{font-style:normal;color:var(--accent)}
+.foot-slogan{color:rgba(249,248,246,.7);font-size:14px;margin-top:8px;line-height:1.6}
+.foot-meta{
+  font-family:var(--mono);font-size:12px;color:rgba(249,248,246,.6);
+  text-align:right;line-height:2;letter-spacing:.3px;
+}
+.foot-line{
+  border-top:1px solid rgba(249,248,246,.15);margin-top:48px;padding-top:24px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  font-size:12.5px;color:rgba(249,248,246,.5);
+}
+
+/* ========== 入场动效 ========== */
+.rev{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.rev.vis{opacity:1;transform:none}
+
+/* ========== 无障碍 ========== */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rev{opacity:1;transform:none;transition:none}
+  .status-pill .dot,.bpm .dot{animation:none}
+}
+
+/* ========== 响应式 ========== */
+@media (max-width:1024px){
+  .wordmark{font-size:72px}
+  .hero-inner{padding:96px 0 48px}
+}
+@media (max-width:768px){
+  .wordmark{font-size:52px;letter-spacing:-1px}
+  .slogan{font-size:20px}
+  .position{font-size:16px}
+  .hero-inner{padding:72px 0 40px}
+  .hero-stats{grid-template-columns:repeat(2,1fr)}
+  .hero-stats .stat{border-bottom:1px solid var(--line)}
+  .hero-stats .stat:nth-child(2){border-right:none}
+  .hero-stats .stat:nth-child(3){border-bottom:none}
+  .nav-inner{height:56px}
+  footer{padding:56px 0 40px}
+}
+@media (max-width:640px){
+  .wordmark{font-size:40px}
+  .slogan{font-size:18px}
+  .hero-inner{padding:56px 0 32px}
+  .nav-links a{display:none}
+  .hero-stats{grid-template-columns:1fr}
+  .hero-stats .stat{border-right:none;border-bottom:1px solid var(--line)}
+  .hero-stats .stat:last-child{border-bottom:none}
+  .ecg-band{height:160px}
+  .wrap{padding:0 16px}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html" aria-label="回到主页">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 24 12" fill="none" stroke="#E03E26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 7h4l2-5 3 9 2.5-6 1.5 2h9"/>
+        </svg>
+      </span>
+      pulse<em>pilot</em>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="index.html" class="active" aria-current="page">主页</a>
+      <a href="team.html">团队成员</a>
+      <a href="project.html">项目介绍</a>
+      <a href="goals.html">参赛目标</a>
+      <span class="status-pill" aria-live="polite"><span class="dot"></span>守望 AI · 团队就绪</span>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ================= Hero ================= -->
+  <section class="hero" role="region" aria-label="主视觉区">
+    <div class="wrap hero-inner">
+      <p class="kicker rev">创造营参赛团队 · 澳门 × 粤港澳大湾区</p>
+      <h1 class="wordmark rev">pulse<span class="w-pilot">pilot</span></h1>
+      <p class="slogan rev">脉搏所指，航向所至。</p>
+      <p class="position rev">本项目改善的是澳门 <span class="blank"> 长者居家照护 </span> 场景：守望 AI（WatchCare AI）接入家庭摄像头，在本地实时识别疑似跌倒等风险，并向监护人分级报警，压缩从危险发生到监护人知情的时间差。</p>
+      <div class="hero-stats rev" aria-label="团队统计数据">
+        <div class="stat">
+          <div class="num" aria-label="团队成员">4<small>人</small></div>
+          <div class="lab">团队成员</div>
+        </div>
+        <div class="stat">
+          <div class="num" aria-label="本科学历">4<small>人</small></div>
+          <div class="lab">本科学历</div>
+        </div>
+        <div class="stat">
+          <div class="num" aria-label="硕士在读">6<small>人</small></div>
+          <div class="lab">硕士在读</div>
+        </div>
+        <div class="stat">
+          <div class="num" aria-label="在读高校">2<small>所</small></div>
+          <div class="lab">在读高校（北理工 / 北大）</div>
+        </div>
+      </div>
+      <div class="ecg-band rev">
+        <canvas id="ecg" aria-hidden="true" role="img" aria-label="团队脉搏动画"></canvas>
+        <span class="bpm"><span class="dot"></span>TEAM PULSE · LIVE</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">pulse<em>pilot</em></div>
+        <div class="foot-slogan">脉搏所指，航向所至。</div>
+      </div>
+      <div class="foot-meta">
+        北京理工大学 · 北京大学<br>
+        创造营 · 澳门 × 粤港澳大湾区
+      </div>
+    </div>
+    <div class="foot-line">
+      <span>© 2026 pulsepilot 团队</span>
+      <span>守望 AI · 团队就绪。</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ================= 心电动画 ================= */
+function initECG() {
+  const cv = document.getElementById("ecg");
+  const ctx = cv.getContext("2d");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let w = 0, h = 0, phase = 0, last = performance.now();
+  const BEATS_ON_SCREEN = 2.4;
+  const BEAT_SECONDS = 1.15;
+
+  function wave(t) {
+    t = t - Math.floor(t);
+    const g = (c, wd, a) => a * Math.exp(-((t - c) * (t - c)) / (2 * wd * wd));
+    return g(0.16, 0.028, 0.10)
+         + g(0.30, 0.010, -0.07)
+         + g(0.325, 0.012, 1.00)
+         + g(0.35, 0.010, -0.16)
+         + g(0.52, 0.045, 0.20);
+  }
+
+  function resize() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const r = cv.getBoundingClientRect();
+    w = r.width; h = r.height;
+    cv.width = Math.round(w * dpr);
+    cv.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (reduced && w > 0 && h > 0) drawFrame();
+  }
+
+  function yAt(x) {
+    const mid = h * 0.60, amp = h * 0.46;
+    return mid - wave((x / w) * BEATS_ON_SCREEN + phase) * amp;
+  }
+
+  function drawFrame() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = "rgba(26,21,18,.14)";
+    ctx.lineWidth = 1;
+    ctx.setLineDash([2, 7]);
+    ctx.beginPath();
+    ctx.moveTo(0, h * 0.60);
+    ctx.lineTo(w, h * 0.60);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    const passes = [
+      [7, "rgba(224,62,38,.15)"],
+      [2.5, "#E03E26"]
+    ];
+    passes.forEach(([lw, color]) => {
+      ctx.lineWidth = lw;
+      ctx.strokeStyle = color;
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      for (let x = 0; x <= w; x += 2) {
+        const y = yAt(x);
+        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    });
+    const ly = yAt(w - 2);
+    ctx.fillStyle = "#E03E26";
+    ctx.beginPath();
+    ctx.arc(w - 2, ly, 3.5, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function loop(now) {
+    const dt = Math.min(0.1, (now - last) / 1000);
+    last = now;
+    phase += dt / BEAT_SECONDS;
+    drawFrame();
+    requestAnimationFrame(loop);
+  }
+
+  resize();
+  window.addEventListener("resize", resize);
+  if (reduced) drawFrame();
+  else requestAnimationFrame(loop);
+}
+
+/* ================= 入场动效 ================= */
+function initReveal() {
+  const els = document.querySelectorAll(".rev");
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) {
+    els.forEach(el => el.classList.add("vis"));
+    return;
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) {
+        en.target.classList.add("vis");
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => io.observe(el));
+}
+
+initECG();
+initReveal();
+</script>
+</body>
+</html>
