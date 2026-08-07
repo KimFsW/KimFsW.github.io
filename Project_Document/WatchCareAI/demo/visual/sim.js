@@ -416,7 +416,7 @@
     S.t = 0; S.handled = false; S.pushOpen = false;
     S.activeEvent = null; S.evidenceImage = ""; S.lastLiveCapture = 0;
     S.enteredAt = null; S.stayFired = false; S.left = false;
-    ["door", "zone-poly", "p-lie", "p-child", "bbox-fall", "skel", "torso-t",
+    ["door", "zone-poly", "p-lie", "p-sit", "p-child", "bbox-fall", "skel", "torso-t",
      "callout", "shield", "verify", "off-cd", "fly", "ticks"].forEach(hide);
     $("zone-poly").classList.remove("breach");
     $("ovl-off").setAttribute("opacity", 0);
@@ -623,37 +623,57 @@
     pipeReset(["sample", "detect", "track", "pose", "temporal", "candidate", "handle"]);
     setCam("CAM-01 · 客厅");
     setClock("2026-08-05 15:20:15");
-    $("p-stand").setAttribute("transform", "translate(78,34)");
-    log("15:20:15", "画面正常：track_07 走向沙发");
+    $("p-stand").setAttribute("transform", "translate(82,34)");
+    setFallBox(75, 28, 14, 41);
+    show("bbox-fall");
+    log("15:20:15", "画面正常：track_07 从客厅中间走向沙发");
     sched(0.4, function () {
       stage("sample"); stage("detect");
-      hide("bbox-fall-tag");
-      $("bbox-fall").setAttribute("transform",
-        "translate(70,27) scale(0.276,2.1) translate(-24,-55)");
-      show("bbox-fall");
       log("15:20:15", "PersonDetector：conf 0.95 · track_07");
     });
-    sched(0.8, function () { stage("track"); });
-    sched(1.2, function () {
-      log("15:20:16", "老人在沙发前缓慢坐下（1.5s 受控动作）");
+    sched(0.8, function () {
+      stage("track");
+      log("15:20:16", "AnonymousTracker：红色追踪框持续跟随 track_07");
+    });
+    sched(1.1, function () {
+      log("15:20:16", "track_07 从画面中间移动到左侧沙发");
+      animate(2.2, function (p) {
+        var e = p * p * (3 - 2 * p);
+        var x = 82 + (36 - 82) * e;
+        $("p-stand").setAttribute("transform", "translate(" + x + ",34)");
+        setFallBox(x - 7, 28, 14, 41);
+      });
+    });
+    sched(3.5, function () {
+      log("15:20:18", "老人到达沙发后缓慢坐下（1.5s 受控动作）");
       animate(1.5, function (p) {
         var e = p * p * (3 - 2 * p);
         $("p-stand").setAttribute("transform",
-          "translate(" + (78 + 8 * e) + "," + (34 - 12.5 * e) + ") scale(1 " + (1 - 0.28 * e) + ")");
+          "translate(" + (36 - 2 * e) + "," + (34 - 6 * e) + ") scale(1 " + (1 - 0.18 * e) + ")");
+        setFallBox(
+          29 + (27 - 29) * e,
+          28,
+          14 + (22 - 14) * e,
+          41 + (39 - 41) * e
+        );
+      }, function () {
+        hide("p-stand");
+        show("p-sit");
+        setFallBox(27, 28, 22, 39);
       });
     });
-    sched(3.0, function () { stage("pose"); log("15:20:18", "PoseEstimator：躯干 15°（保持直立）"); });
-    sched(3.4, function () { stage("temporal"); log("15:20:18", "TemporalAnalyzer：下降 20% / 1500ms"); });
-    sched(3.9, function () {
+    sched(5.2, function () { stage("pose"); log("15:20:19", "PoseEstimator：躯干 15°（保持直立）"); });
+    sched(5.6, function () { stage("temporal"); log("15:20:19", "TemporalAnalyzer：下降 20% / 1500ms"); });
+    sched(6.1, function () {
       stage("candidate", "miss");
       showCallout(6, 12, 86, "#3E9B6B",
         ["RAPID_VERTICAL_DROP ✗  20%<35%，1500ms>800ms", "TORSO_HORIZONTAL ✗  15°<60°"]);
-      log("15:20:18", "FallCandidateEngine：两条规则均未命中，不生成候选");
+      log("15:20:19", "FallCandidateEngine：两条规则均未命中，不生成候选");
     });
-    sched(4.6, function () {
+    sched(6.8, function () {
       show("shield");
       stage("handle");
-      log("15:20:18", "不生成事件、不上报：原始视频与特征留在本地（数据最小化）", "ok");
+      log("15:20:19", "不生成事件、不上报：原始视频与特征留在本地（数据最小化）", "ok");
       endCard("无事件产生 · 误报控制的第一道防线", "ok",
         ["阈值规则在边缘侧拦截正常活动",
          "第二道防线：RiskVerifier 静止计时",
