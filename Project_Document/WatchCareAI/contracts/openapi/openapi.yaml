@@ -1,0 +1,181 @@
+openapi: 3.1.0
+info:
+  title: WatchCare AI API
+  version: 0.1.0
+  description: >-
+    守望 AI 云端 REST 接口（iOS App ↔ 云端），对应设计方案 5.2 节。
+    边缘节点事件上行通道走 MQTT，见 contracts/mqtt/topics.md；
+    /v1/events/ingest 仅为垂直切片阶段的开发旁路。
+servers:
+  - url: http://localhost:8000
+    description: local dev
+tags:
+  - name: auth
+  - name: care-subjects
+  - name: devices
+  - name: zones
+  - name: events
+  - name: privacy
+
+paths:
+  /v1/auth/sessions:
+    post:
+      tags: [auth]
+      summary: 登录，创建会话（返回 access + refresh token）
+      responses:
+        '200': { description: 登录成功 }
+        '401': { description: 凭据无效 }
+  /v1/auth/refresh:
+    post:
+      tags: [auth]
+      summary: 刷新访问令牌
+      responses:
+        '200': { description: 新令牌 }
+        '401': { description: refresh token 失效 }
+  /v1/care-subjects:
+    get:
+      tags: [care-subjects]
+      summary: 被照护对象列表
+      responses:
+        '200': { description: 对象列表 }
+  /v1/devices:
+    get:
+      tags: [devices]
+      summary: 边缘节点与摄像头状态
+      responses:
+        '200': { description: 设备列表与在线状态 }
+  /v1/devices/pairings:
+    post:
+      tags: [devices]
+      summary: 创建边缘节点一次性配对（扫码后调用）
+      responses:
+        '201': { description: 配对会话已创建 }
+  /v1/cameras/{cameraId}/zones:
+    put:
+      tags: [zones]
+      summary: 更新摄像头风险区域（归一化多边形，见设计方案 3.3 节）
+      parameters:
+        - name: cameraId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200': { description: 区域已更新，返回新版本号 }
+        '409': { description: 区域版本冲突 }
+  /v1/events:
+    get:
+      tags: [events]
+      summary: 查询风险事件（游标分页）
+      parameters:
+        - name: cursor
+          in: query
+          schema: { type: string }
+        - name: limit
+          in: query
+          schema: { type: integer, default: 50, maximum: 200 }
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [CREATED, NOTIFIED, ACKNOWLEDGED, RESOLVED, FALSE_POSITIVE, ESCALATED]
+      responses:
+        '200':
+          description: 事件页
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  items:
+                    type: array
+                    items:
+                      $ref: '../schemas/risk-event-envelope.schema.json'
+                  nextCursor: { type: [string, 'null'] }
+  /v1/events/{eventId}:
+    get:
+      tags: [events]
+      summary: 事件详情（含状态流转历史与处置记录）
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200': { description: 事件详情 }
+        '404': { description: 事件不存在 }
+  /v1/events/{eventId}/acknowledgements:
+    post:
+      tags: [events]
+      summary: 确认事件或标记误报（驱动状态机，见设计方案 4.3 节）
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AcknowledgementRequest'
+      responses:
+        '200': { description: 状态已更新 }
+        '409': { description: 非法状态迁移 }
+  /v1/events/ingest:
+    post:
+      tags: [events]
+      summary: 开发旁路 - 垂直切片阶段供边缘模拟器直接 POST 事件信封
+      deprecated: true
+      description: 生产环境事件上行必须走 MQTT（mTLS + QoS1），本接口仅用于本地联调。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../schemas/risk-event-envelope.schema.json'
+      responses:
+        '200': { description: 已存在（幂等命中） }
+        '201': { description: 已创建 }
+  /v1/push-tokens:
+    post:
+      tags: [devices]
+      summary: 注册 APNs 设备令牌
+      responses:
+        '201': { description: 令牌已登记 }
+  /v1/evidence/{evidenceId}:
+    delete:
+      tags: [privacy]
+      summary: 删除事件证据（关键帧 / 短片）
+      parameters:
+        - name: evidenceId
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '204': { description: 已删除 }
+  /v1/privacy/deletion-requests:
+    post:
+      tags: [privacy]
+      summary: 发起账号级数据删除请求
+      responses:
+        '202': { description: 删除任务已受理 }
+
+components:
+  schemas:
+    AcknowledgementRequest:
+      type: object
+      additionalProperties: false
+      required: [action, actorId]
+      properties:
+        action:
+          type: string
+          enum: [NO_DANGER, CONFIRM_RISK, HANDLING, FALSE_ALARM]
+        actorId: { type: string, minLength: 1 }
+        reason: { type: string, default: '' }
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []

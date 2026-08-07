@@ -1,0 +1,63 @@
+name: watchcare
+
+# Local development environment (design doc 2.5 / 9.1).
+# Usage: docker compose up -d
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: watchcare
+      POSTGRES_PASSWORD: watchcare_dev
+      POSTGRES_DB: watchcare
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    ports:
+      # Local dev only. Production exposes 8883 with mutual TLS and
+      # per-edge client certificates (contracts/mqtt/topics.md).
+      - "1883:1883"
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquittodata:/mosquitto/data
+
+  minio:
+    # S3-compatible encrypted object storage for event evidence (doc 2.5).
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: watchcare
+      MINIO_ROOT_PASSWORD: watchcare_dev
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - miniodata:/data
+
+  api:
+    build: ../../services/api
+    environment:
+      DATABASE_URL: postgresql://watchcare:watchcare_dev@postgres:5432/watchcare
+      REDIS_URL: redis://redis:6379/0
+      MQTT_BROKER: mosquitto
+      EVIDENCE_BUCKET_ENDPOINT: http://minio:9000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+      - mosquitto
+
+volumes:
+  pgdata:
+  mosquittodata:
+  miniodata:

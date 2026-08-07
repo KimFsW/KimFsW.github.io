@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "watchcare-edge"
+version = "0.1.0"
+description = "WatchCare AI home edge node runtime (design doc section 4)"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+# Production extras, installed on the edge image only:
+camera = ["opencv-python>=4.10", "av>=13"]
+inference = ["onnxruntime>=1.18"]
+mqtt = ["paho-mqtt>=2.1"]
+dev = ["pytest>=8", "ruff>=0.5", "mypy>=1.10"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["watchcare_edge"]
+
+# The domain and pipeline rule code is stdlib-only on purpose: it can be
+# unit-tested on any machine without cameras, GPUs or model files.

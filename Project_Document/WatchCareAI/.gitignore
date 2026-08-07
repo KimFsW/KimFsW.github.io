@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Edge local data
+*.db
+*.sqlite3
+
+# Xcode
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.xcarchive
+Pods/
+
+# Node (admin-web, future)
+node_modules/
+dist/
+
+# Secrets and local env
+.env
+.env.*
+*.pem
+*.p8
+secrets/
+
+# OS
+.DS_Store
+Thumbs.db

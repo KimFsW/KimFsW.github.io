@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>守望 AI · 可操控模拟器</title>
+<style>
+  :root{
+    --paper:#F9F8F6; --paper-2:#F0EBE6; --card:#FFFFFF;
+    --ink:#1A1512; --ink-2:#5E5A54;
+    --line:rgba(26,21,18,.12);
+    --l1:#3E7CB1; --l2:#D9930D; --l3:#D64545; --ok:#3E9B6B;
+    --mono:"JetBrains Mono","SFMono-Regular",Consolas,"Courier New",monospace;
+    --serif:"Noto Serif SC","Songti SC","SimSun",serif;
+    --sans:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(249,248,246,.92);
+         backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  header .wrap{display:flex;align-items:center;gap:28px;height:56px}
+  .brand{font-family:var(--serif);font-weight:700;font-size:17px}
+  .brand em{font-style:normal;color:var(--l3)}
+  nav{display:flex;gap:18px;margin-left:auto}
+  nav a{color:var(--ink-2);text-decoration:none;font-size:13.5px}
+  nav a:hover{color:var(--ink)}
+
+  .title-row{padding:26px 0 14px}
+  .title-row h1{font-family:var(--serif);font-size:27px}
+  .title-row p{color:var(--ink-2);max-width:860px;font-size:14px;margin-top:4px}
+
+  /* ---------- 控制条 ---------- */
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;
+            background:var(--card);border:1px solid var(--line);border-radius:8px;
+            padding:12px 14px;margin-bottom:18px}
+  .scn-btn{padding:7px 14px;border-radius:6px;border:1px solid var(--line);
+           background:var(--paper);font-size:13px;cursor:pointer;font-family:var(--sans)}
+  .scn-btn small{display:block;font-family:var(--mono);font-size:10px;color:var(--ink-2)}
+  .scn-btn.active{background:var(--ink);color:#F9F8F6;border-color:var(--ink)}
+  .scn-btn.active small{color:#C9C2B8}
+  .scn-btn.b-l3.active{background:var(--l3);border-color:var(--l3)}
+  .scn-btn.b-l2.active{background:var(--l2);border-color:var(--l2)}
+  .scn-btn.b-l1.active{background:var(--l1);border-color:var(--l1)}
+  .scn-btn.b-ok.active{background:var(--ok);border-color:var(--ok)}
+  .sep{width:1px;height:28px;background:var(--line)}
+  .ctl-btn{padding:7px 14px;border-radius:6px;border:1px solid var(--ink);
+           background:var(--ink);color:#F9F8F6;font-size:13px;cursor:pointer}
+  .ctl-btn.ghost{background:transparent;color:var(--ink)}
+  select{font-family:var(--mono);font-size:12px;padding:6px 8px;border-radius:6px;
+         border:1px solid var(--line);background:var(--paper)}
+  #zone-cfg{display:none;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-2)}
+  #thr-v{font-family:var(--mono);font-size:12px;min-width:36px;color:var(--l2);font-weight:700}
+
+  /* ---------- 主区域 ---------- */
+  .sim-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:20px;align-items:start}
+  .cam-wrap{position:relative}
+  .cam-frame{border-radius:8px;overflow:hidden;border:1px solid rgba(26,21,18,.28);
+             background:#0E0F12}
+  .cam-frame svg{display:block;width:100%;height:auto}
+  .cam-cap{font-size:12px;color:var(--ink-2);margin-top:8px}
+
+  .sim-grid h3{font-size:12px;font-family:var(--mono);letter-spacing:.08em;
+               color:var(--ink-2);margin:0 0 8px}
+  .under-cam{margin-top:16px;background:var(--card);border:1px solid var(--line);
+             border-radius:8px;padding:16px 18px}
+  .under-cam h3{margin-top:14px}
+  .under-cam h3:first-child{margin-top:0}
+  #pipe{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:14px}
+  .p-chip{font-family:var(--mono);font-size:11.5px;padding:4px 10px;border-radius:4px;
+          border:1px solid var(--line);background:var(--card);color:var(--ink-2);
+          transition:all .2s ease}
+  .hidden-chip{display:none}
+  .p-chip.on{border-color:var(--ok);color:var(--ok);background:rgba(62,155,107,.1)}
+  .p-chip.hit{border-color:var(--l3);color:var(--l3);background:rgba(214,69,69,.1);font-weight:700}
+  .p-chip.hit2{border-color:var(--l2);color:var(--l2);background:rgba(217,147,13,.12);font-weight:700}
+  .p-chip.miss{border-color:var(--ok);color:var(--ok);background:rgba(62,155,107,.1)}
+
+  #sm{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:14px}
+  #sm span{font-family:var(--mono);font-size:11px;padding:3px 9px;border-radius:4px;
+           border:1px solid var(--line);color:var(--ink-2);background:var(--card)}
+  #sm span.cur{border-color:var(--l3);color:var(--l3);font-weight:700;
+               box-shadow:0 0 0 3px rgba(214,69,69,.15)}
+  #sm i{color:var(--ink-2);font-style:normal;font-size:10px;align-self:center}
+
+  .log-box{background:var(--ink);border-radius:8px;height:230px;overflow:auto;
+           padding:10px 12px;font-family:var(--mono);font-size:11px;line-height:1.75}
+  .log-box ul{list-style:none}
+  .log-box li{color:#D7E3F0;border-bottom:1px dashed rgba(255,255,255,.06);padding:1px 0}
+  .log-box li time{color:#8D877E;margin-right:8px}
+  .log-box li.warn{color:#FFC9C9}
+  .log-box li.ok{color:#9CD6B4}
+
+  .phone-col{display:flex;flex-direction:column;gap:14px;align-items:center}
+  .phone-svg{width:344px}
+  .phone-svg svg{width:100%;height:auto;display:block;
+                 filter:drop-shadow(0 10px 22px rgba(26,21,18,.18))}
+  .rail-right{max-width:360px}
+  #push{cursor:pointer;transform:translate(0,-190px);
+        transition:transform .38s cubic-bezier(.2,.9,.3,1.2)}
+  #push.show{transform:translate(0,0)}
+  #push g.btn,#detail-back,#phone-detail g.btn{cursor:pointer}
+  #push g.btn:hover,#detail-back:hover,#phone-detail g.btn:hover{opacity:.85}
+  #phone-detail{display:none}
+  .phone-svg.is-detail #phone-home,
+  .phone-svg.is-detail #push,
+  .phone-svg.is-detail #push-state{display:none}
+  .phone-svg.is-detail #phone-detail{display:inline}
+  #push-open-hit:focus-visible,#detail-back:focus-visible,.phone-svg g.btn:focus-visible{
+    outline:2px solid var(--l1);outline-offset:2px
+  }
+
+  .endcard{display:block;width:100%;margin-top:14px;
+           background:rgba(26,21,18,.94);color:#F3EFE9;border-radius:8px;
+           padding:12px 16px;font-size:12.5px;line-height:1.6}
+  .endcard h3{font-size:14px;margin-bottom:3px}
+  .endcard:not(.show) h3{color:#C9C2B8}
+  .endcard.ok h3{color:#7FCB9C}
+  .endcard.warn h3{color:#FFD166}
+  .endcard.mute h3{color:#C9C2B8}
+  .endcard .mono{font-family:var(--mono);font-size:10.5px;color:#9FC3E8}
+  .end-progress{display:flex;flex-wrap:wrap;align-items:center;gap:4px;
+                margin:2px 0 4px;font-family:var(--mono);font-size:10.5px}
+  .end-progress span,.end-progress i{color:#77736D;transition:color .25s ease}
+  .end-progress i{font-style:normal}
+  .end-progress .done{color:#9FC3E8}
+  #end-replay{margin-top:8px;padding:5px 12px;border-radius:5px;border:1px solid #8D877E;
+              background:transparent;color:#F3EFE9;font-size:11.5px;cursor:pointer}
+  #end-replay:hover{border-color:#fff}
+
+  .blink{animation:blk 1.1s steps(2) infinite}
+  @keyframes blk{50%{opacity:.15}}
+  .tickpulse line{animation:tp 1s ease infinite}
+  @keyframes tp{50%{opacity:.2}}
+  .breach{animation:zp 1s ease infinite}
+  @keyframes zp{50%{fill-opacity:.38}}
+
+  footer{padding:22px 0 40px;color:var(--ink-2);font-size:12.5px}
+  footer .mono{font-family:var(--mono)}
+
+  @media (max-width:980px){
+    .sim-grid{grid-template-columns:1fr}
+    .phone-svg{width:min(344px,82vw)}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brand">守望<em>AI</em> · 模拟器</div>
+    <nav>
+      <a href="index.html">返回演示主页</a>
+      <a href="index.html#scenes">场景图鉴</a>
+      <a href="index.html#tests">测试地图</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="title-row">
+    <h1>可操控模拟器：亲手触发一次风险事件</h1>
+    <p>选择一个场景播放动画：人物动作 → AI 管线逐阶段点亮 → 事件上报 → 手机收到推送。
+       推送到达后<b>由你点击处置按钮</b>，不同的选择走向不同的状态机结局。</p>
+  </div>
+
+  <div class="controls">
+    <button class="scn-btn b-l3 active" data-scn="fall">老人跌倒<small>FALL · L3</small></button>
+    <button class="scn-btn b-l2" data-scn="zone">儿童进入危险区<small>ZONE · L2</small></button>
+    <button class="scn-btn b-ok" data-scn="sit">快速坐下<small>正常 · 不报警</small></button>
+    <button class="scn-btn b-l1" data-scn="off">摄像头离线<small>OFFLINE · L1</small></button>
+    <div class="sep"></div>
+    <button class="ctl-btn" id="btn-play">⏸ 暂停</button>
+    <button class="ctl-btn ghost" id="btn-restart">↻ 重播</button>
+    <select id="speed" title="播放速度">
+      <option value="0.5">0.5×</option>
+      <option value="1" selected>1×</option>
+      <option value="2">2×</option>
+      <option value="4">4×</option>
+    </select>
+    <div id="zone-cfg">
+      <label for="thr">停留阈值</label>
+      <input type="range" id="thr" min="0.5" max="3" step="0.1" value="1.0">
+      <span id="thr-v">1.0 s</span>
+    </div>
+  </div>
+
+  <div class="sim-grid">
+    <!-- ================= 左：监控画面 ================= -->
+    <div class="cam-wrap">
+      <div class="cam-frame">
+        <svg id="cam" viewBox="0 0 160 90" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="模拟监控画面">
+          <defs>
+            <radialGradient id="vig-sim" cx="50%" cy="42%" r="75%">
+              <stop offset="55%" stop-color="rgba(0,0,0,0)"/>
+              <stop offset="100%" stop-color="rgba(10,8,6,.32)"/>
+            </radialGradient>
+          </defs>
+          <!-- 房间 -->
+          <rect x="0" y="0" width="160" height="54" fill="#E9E3DA"/>
+          <polygon points="0,54 160,54 160,90 0,90" fill="#D9D0C3"/>
+          <g stroke="rgba(26,21,18,.07)" stroke-width=".4">
+            <line x1="80" y1="54" x2="8" y2="90"/><line x1="80" y1="54" x2="48" y2="90"/>
+            <line x1="80" y1="54" x2="80" y2="90"/><line x1="80" y1="54" x2="112" y2="90"/>
+            <line x1="80" y1="54" x2="152" y2="90"/>
+            <line x1="0" y1="66" x2="160" y2="66"/><line x1="0" y1="78" x2="160" y2="78"/>
+          </g>
+          <rect x="0" y="52.6" width="160" height="1.8" fill="#CFC6B8"/>
+          <!-- 窗户 -->
+          <g><rect x="122" y="10" width="26" height="30" fill="#BFD4DE" stroke="#9FB3BD" stroke-width="1"/>
+             <line x1="135" y1="10" x2="135" y2="40" stroke="#9FB3BD" stroke-width=".7"/>
+             <line x1="122" y1="25" x2="148" y2="25" stroke="#9FB3BD" stroke-width=".7"/></g>
+          <polygon points="122,40 148,40 156,80 110,80" fill="rgba(255,240,200,.16)"/>
+          <!-- 沙发 -->
+          <g><rect x="8" y="34" width="9" height="28" rx="3" fill="#7A5C46"/>
+             <rect x="8" y="46" width="42" height="16" rx="3" fill="#8C6F56"/>
+             <rect x="8" y="60" width="42" height="4" rx="2" fill="#6E5644"/></g>
+          <!-- 地毯 -->
+          <ellipse cx="72" cy="75" rx="40" ry="9" fill="#B9A58E"/>
+          <ellipse cx="72" cy="75" rx="32" ry="6.5" fill="none" stroke="rgba(255,255,255,.35)" stroke-width=".7"/>
+          <!-- 绿植 -->
+          <g><rect x="146" y="66" width="9" height="7" rx="1" fill="#8C6F56"/>
+             <circle cx="150" cy="61" r="5" fill="#5F8A5E"/><circle cx="147" cy="63" r="3.4" fill="#6E9A6C"/></g>
+          <!-- 阳台门（危险区场景） -->
+          <g id="door" style="display:none">
+            <rect x="96" y="8" width="56" height="66" fill="#7A8894"/>
+            <rect x="99" y="11" width="50" height="60" fill="#BFD4DE" opacity=".85"/>
+            <g stroke="#7A8894" stroke-width=".9">
+              <line x1="99" y1="26" x2="149" y2="26"/><line x1="99" y1="40" x2="149" y2="40"/>
+              <line x1="99" y1="54" x2="149" y2="54"/>
+            </g>
+            <line x1="124" y1="8" x2="124" y2="74" stroke="#5E6B76" stroke-width="1.2"/>
+          </g>
+          <!-- 危险区域多边形 -->
+          <polygon id="zone-poly" style="display:none"
+                   points="83.2,18 145.6,18 148.8,79.2 80,78.3"
+                   fill="rgba(217,147,13,.14)" stroke="#D9930D" stroke-width=".9"
+                   stroke-dasharray="3.2 2.2"/>
+          <!-- 站立的人 -->
+          <g id="p-stand" transform="translate(63,34)">
+            <circle cx="0" cy="0" r="4.5" fill="#D9B08C"/>
+            <rect x="-4.5" y="4" width="9" height="23" rx="4" fill="#5E7A8A"/>
+            <rect x="-3.5" y="26" width="3" height="8" fill="#4A6170"/>
+            <rect x="0.5" y="26" width="3" height="8" fill="#4A6170"/>
+          </g>
+          <!-- 倒地的人 -->
+          <g id="p-lie" style="display:none">
+            <circle cx="30" cy="64.5" r="5" fill="#D9B08C"/>
+            <rect x="33" y="60.5" width="36" height="9" rx="4.5" fill="#5E7A8A"/>
+            <rect x="58" y="63.5" width="16" height="4" rx="2" fill="#4A6170"/>
+            <rect x="38" y="68" width="16" height="3.2" rx="1.6" fill="#D9B08C"/>
+          </g>
+          <!-- 儿童（含检测框，随人物移动） -->
+          <g id="p-child" transform="translate(56,0)" style="display:none">
+            <circle cx="0" cy="53.5" r="4" fill="#E3B78F"/>
+            <rect x="-3.5" y="57.5" width="7" height="14" rx="3" fill="#C48B4A"/>
+            <rect x="-2.5" y="71" width="2" height="5.5" fill="#7A8894"/>
+            <rect x="1" y="71" width="2" height="5.5" fill="#7A8894"/>
+            <g id="child-bbox">
+              <rect x="-6" y="48.5" width="13" height="28.5" fill="none"
+                    stroke="#D9930D" stroke-width=".9" stroke-dasharray="3.2 2.2"/>
+              <rect x="-6" y="42.3" width="20" height="6" fill="#D9930D"/>
+              <text x="-3.5" y="46.7" font-family="JetBrains Mono,Consolas,monospace"
+                    font-size="3.8" fill="#fff">track_03</text>
+            </g>
+            <circle cx="0" cy="77" r="1.6" fill="#FFD166" stroke="#1A1512" stroke-width=".4"/>
+          </g>
+          <!-- 跌倒检测框 -->
+          <g id="bbox-fall" style="display:none">
+            <rect id="bbox-fall-outline" x="24" y="55" width="58" height="20" rx="1" fill="none"
+                  stroke="#E5484D" stroke-width=".9" stroke-dasharray="3.2 2.2"/>
+            <g id="bbox-fall-tag">
+              <rect id="bbox-fall-tag-bg" x="24" y="48.8" width="30" height="6" fill="#E5484D"/>
+              <text id="bbox-fall-tag-text" x="26.5" y="53.2" font-family="JetBrains Mono,Consolas,monospace"
+                    font-size="3.8" fill="#fff">track_07 · 0.96</text>
+            </g>
+          </g>
+          <!-- 骨架与躯干角 -->
+          <g id="skel" style="display:none">
+            <polyline points="30,64.5 42,63 56,62.5 68,63" fill="none" stroke="#FFD166" stroke-width="1"/>
+            <g fill="#FFD166">
+              <circle cx="30" cy="64.5" r="1.2"/><circle cx="42" cy="63" r="1.2"/>
+              <circle cx="56" cy="62.5" r="1.2"/><circle cx="68" cy="63" r="1.2"/>
+            </g>
+          </g>
+          <text id="torso-t" x="46" y="57" style="display:none"
+                font-family="JetBrains Mono,Consolas,monospace" font-size="3.8" fill="#FFD166">躯干角度 78°</text>
+          <!-- 信息浮层 -->
+          <g id="callout" style="display:none">
+            <rect id="co-bg" x="0" y="0" width="60" height="15" rx="1.5" fill="rgba(12,12,14,.74)"/>
+            <rect id="co-bar" x="0" y="0" width="1.3" height="15" fill="#E5484D"/>
+            <text id="co-l1" x="3" y="6.4" font-family="JetBrains Mono,Consolas,monospace" font-size="3.5" fill="#EDE9E2"></text>
+            <text id="co-l2" x="3" y="11.6" font-family="JetBrains Mono,Consolas,monospace" font-size="3.5" fill="#EDE9E2"></text>
+            <text id="co-l3" x="3" y="16.8" font-family="JetBrains Mono,Consolas,monospace" font-size="3.5" fill="#EDE9E2"></text>
+          </g>
+          <!-- 复核进度 -->
+          <g id="verify" style="display:none">
+            <text id="verify-t" x="8" y="77.5" font-family="JetBrains Mono,Consolas,monospace" font-size="3.6" fill="#FFD166">复核中…</text>
+            <rect x="8" y="80" width="66" height="5" rx="2.5" fill="rgba(12,12,14,.5)"/>
+            <rect id="verify-fill" x="8" y="80" width="0" height="5" rx="2.5" fill="#E5484D"/>
+          </g>
+          <!-- 不误报徽章 -->
+          <g id="shield" style="display:none">
+            <circle cx="140" cy="18" r="8.5" fill="#3E9B6B"/>
+            <path d="M135.8 18 l3 3 l6 -6" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/>
+            <text x="122" y="31" font-family="JetBrains Mono,Consolas,monospace" font-size="4" fill="#3E9B6B">未生成候选 · 不报警</text>
+          </g>
+          <!-- 心跳帧刻度（离线场景） -->
+          <g id="ticks" class="tickpulse" style="display:none" stroke="#5E8A5E" stroke-width="1.4">
+            <line x1="12" y1="79" x2="12" y2="85"/><line x1="18" y1="79" x2="18" y2="85"/>
+            <line x1="24" y1="79" x2="24" y2="85"/><line x1="30" y1="79" x2="30" y2="85"/>
+            <line x1="36" y1="79" x2="36" y2="85"/><line x1="42" y1="79" x2="42" y2="85"/>
+          </g>
+          <!-- 离线遮罩 -->
+          <g id="ovl-off" opacity="0">
+            <rect x="0" y="0" width="160" height="90" fill="#0B0D10"/>
+            <text id="siglost" x="80" y="42" text-anchor="middle"
+                  font-family="JetBrains Mono,Consolas,monospace" font-size="6"
+                  font-weight="700" fill="#D9930D">信号丢失 SIGNAL LOST</text>
+          </g>
+          <!-- 断流计时 -->
+          <g id="off-cd" style="display:none">
+            <text id="off-t" x="12" y="66" font-family="JetBrains Mono,Consolas,monospace" font-size="3.8" fill="#D9930D">无新帧 0s / 30s</text>
+            <rect x="12" y="70" width="70" height="5" rx="2.5" fill="rgba(255,255,255,.14)"/>
+            <rect id="off-fill" x="12" y="70" width="0" height="5" rx="2.5" fill="#D9930D"/>
+          </g>
+          <!-- 上报飞点 -->
+          <circle id="fly" cx="150" cy="80" r="1.8" fill="#7FCB9C" style="display:none"/>
+          <!-- 暗角与 HUD -->
+          <rect x="0" y="0" width="160" height="90" fill="url(#vig-sim)"/>
+          <rect x="0" y="0" width="160" height="9" fill="rgba(10,10,12,.55)"/>
+          <text id="hud-cam" x="4" y="6.4" font-family="JetBrains Mono,Consolas,monospace" font-size="4" fill="#E8E8E8">CAM-01 · 客厅</text>
+          <g id="hud-rec">
+            <circle cx="146" cy="4.5" r="1.7" fill="#E5484D"/>
+            <text x="150" y="6.4" font-family="JetBrains Mono,Consolas,monospace" font-size="4" fill="#E8E8E8">REC</text>
+          </g>
+          <text id="hud-clock" x="156" y="86.8" text-anchor="end"
+                font-family="JetBrains Mono,Consolas,monospace" font-size="3.8"
+                fill="rgba(255,255,255,.8)">2026-08-05 14:31:37</text>
+          <g stroke="rgba(255,255,255,.35)" stroke-width=".8" fill="none">
+            <path d="M2 6 V2 H6"/><path d="M154 2 H158 V6"/>
+            <path d="M2 84 V88 H6"/><path d="M154 88 H158 V84"/>
+          </g>
+        </svg>
+      </div>
+      <div class="cam-cap">监控画面（动画模拟）· 下方为 AI 管线 / 状态机 / 实时日志，右侧为监护人手机</div>
+
+      <div class="under-cam">
+        <h3>AI 管线阶段</h3>
+        <div id="pipe">
+          <span class="p-chip" data-k="sample">抽帧</span>
+          <span class="p-chip" data-k="detect">检测</span>
+          <span class="p-chip" data-k="track">跟踪</span>
+          <span class="p-chip" data-k="pose">姿态</span>
+          <span class="p-chip" data-k="temporal">时序</span>
+          <span class="p-chip" data-k="candidate">候选</span>
+          <span class="p-chip" data-k="verify">复核</span>
+          <span class="p-chip" data-k="zone">区域</span>
+          <span class="p-chip" data-k="supervisor">断流</span>
+          <span class="p-chip" data-k="publish">上报</span>
+          <span class="p-chip" data-k="notify">通知</span>
+          <span class="p-chip" data-k="handle">处置</span>
+        </div>
+
+        <h3>事件状态机</h3>
+        <div id="sm">
+          <span data-s="CREATED">CREATED</span><i>→</i>
+          <span data-s="NOTIFIED">NOTIFIED</span><i>→</i>
+          <span data-s="ACKNOWLEDGED">ACKNOWLEDGED</span><i>→</i>
+          <span data-s="RESOLVED">RESOLVED</span><i>·</i>
+          <span data-s="FALSE_POSITIVE">FALSE_POSITIVE</span><i>·</i>
+          <span data-s="ESCALATED">ESCALATED</span>
+        </div>
+
+        <h3>实时日志</h3>
+        <div class="log-box"><ul id="log"></ul></div>
+
+        <div class="endcard" id="endcard" aria-live="polite">
+          <h3 id="end-t">结局 · 还没有出现</h3>
+          <div class="end-progress" id="end-progress" aria-label="事件进度">
+            <span>CREATED</span><i>→</i>
+            <span>NOTIFIED</span><i>→</i>
+            <span>ACKNOWLEDGED</span><i>→</i>
+            <span>RESOLVED</span>
+          </div>
+          <div id="end-lines" class="mono"></div>
+          <button id="end-replay">↻ 重播本场景</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= 右：监护人手机 ================= -->
+    <div class="rail">
+      <div class="phone-col">
+        <div class="phone-svg" id="phone-visual">
+          <svg viewBox="0 0 150 310" xmlns="http://www.w3.org/2000/svg" role="group" aria-label="监护人手机互动示意">
+            <defs>
+              <clipPath id="push-thumb-clip"><rect x="17" y="52" width="45" height="27" rx="4"/></clipPath>
+              <clipPath id="detail-live-clip"><rect x="10" y="62" width="130" height="66" rx="6"/></clipPath>
+              <clipPath id="detail-evidence-clip"><rect x="10" y="151" width="58" height="35" rx="5"/></clipPath>
+            </defs>
+            <rect x="1" y="1" width="148" height="308" rx="26" fill="#141518" stroke="#43464C" stroke-width="1"/>
+            <rect x="6" y="6" width="138" height="298" rx="21" fill="#F9F8F6"/>
+            <rect x="58" y="11" width="34" height="9" rx="4.5" fill="#141518"/>
+            <!-- 主屏（应用图标墙） -->
+            <g id="phone-home">
+              <g opacity=".18" fill="#5E5A54">
+                <rect x="16" y="34" width="16" height="16" rx="4"/><rect x="40" y="34" width="16" height="16" rx="4"/>
+                <rect x="64" y="34" width="16" height="16" rx="4"/><rect x="88" y="34" width="16" height="16" rx="4"/>
+                <rect x="112" y="34" width="16" height="16" rx="4"/>
+                <rect x="16" y="58" width="16" height="16" rx="4"/><rect x="40" y="58" width="16" height="16" rx="4"/>
+                <rect x="64" y="58" width="16" height="16" rx="4"/><rect x="88" y="58" width="16" height="16" rx="4"/>
+                <rect x="112" y="58" width="16" height="16" rx="4"/>
+                <rect x="16" y="82" width="16" height="16" rx="4"/><rect x="40" y="82" width="16" height="16" rx="4"/>
+                <rect x="64" y="82" width="16" height="16" rx="4"/><rect x="88" y="82" width="16" height="16" rx="4"/>
+              </g>
+              <rect x="16" y="270" width="118" height="24" rx="12" fill="rgba(26,21,18,.08)"/>
+            </g>
+            <!-- 推送卡片（初始隐藏在屏幕上方） -->
+            <g id="push" transform="translate(0,-190)" aria-hidden="true">
+              <rect x="10" y="30" width="130" height="94" rx="9" fill="#FFFFFF"
+                    stroke="rgba(26,21,18,.15)" stroke-width=".8"/>
+              <rect id="push-bar" x="10" y="30" width="2.4" height="94" fill="#D64545"/>
+              <rect x="17" y="36" width="10" height="10" rx="2.6" fill="#D64545"/>
+              <text x="22" y="43.8" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="6" font-weight="700" fill="#fff">守</text>
+              <text id="push-title" x="31" y="42" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="5.6" font-weight="700" fill="#1A1512">[L3] 疑似跌倒</text>
+              <text x="135" y="42" text-anchor="end" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="3.9" fill="#8D877E">现在</text>
+              <image id="push-thumb" x="17" y="52" width="45" height="27"
+                     preserveAspectRatio="xMidYMid slice" clip-path="url(#push-thumb-clip)"
+                     role="img" aria-label="事发画面缩图"/>
+              <rect x="17" y="52" width="45" height="27" rx="4" fill="none"
+                    stroke="rgba(26,21,18,.18)" stroke-width=".6"/>
+              <text id="push-summary" x="67" y="58" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="4.5" font-weight="600" fill="#1A1512">25 秒未起身</text>
+              <text id="push-sub" x="67" y="66" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="4" fill="#5E5A54">家中长者 · 客厅 CAM-01</text>
+              <text id="push-meta" x="67" y="74" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="3.8" fill="#8D877E">14:31 · 点击查看直播与证据</text>
+              <g id="push-cd">
+                <rect x="17" y="83" width="118" height="2.4" rx="1.2" fill="rgba(26,21,18,.1)"/>
+                <rect id="push-cd-fill" x="17" y="83" width="118" height="2.4" rx="1.2" fill="#D64545"/>
+              </g>
+              <rect id="push-open-hit" x="10" y="30" width="130" height="59" rx="9"
+                    fill="transparent" role="button" tabindex="-1" aria-label="打开事件详情"/>
+              <g id="btn-ack" class="btn" role="button" tabindex="-1" aria-label="确认风险">
+                <rect id="btn-ack-r" x="17" y="91" width="38" height="13" rx="6.5" fill="#D64545"/>
+                <text id="btn-ack-t" x="36" y="99.6" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                      font-size="4.4" fill="#fff">确认风险</text>
+              </g>
+              <g id="btn-fp" class="btn" role="button" tabindex="-1" aria-label="标记误报">
+                <rect id="btn-fp-r" x="59" y="91" width="38" height="13" rx="6.5" fill="none"
+                      stroke="#C9C2B8" stroke-width=".7"/>
+                <text id="btn-fp-t" x="78" y="99.6" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                      font-size="4.4" fill="#5E5A54">误报</text>
+              </g>
+              <g id="btn-later" class="btn" role="button" tabindex="-1" aria-label="立即查看">
+                <rect id="btn-later-r" x="101" y="91" width="34" height="13" rx="6.5" fill="none"
+                      stroke="#C9C2B8" stroke-width=".7"/>
+                <text id="btn-later-t" x="118" y="99.6" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                      font-size="4.4" fill="#5E5A54">立即查看</text>
+              </g>
+              <text x="75" y="116" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="3.8" fill="#3E7CB1">点击整张通知打开事件详情 ›</text>
+            </g>
+            <text id="push-state" x="75" y="140" text-anchor="middle"
+                  font-family="JetBrains Mono,Consolas,monospace" font-size="4.3" fill="#8D877E"></text>
+
+            <!-- 事件详情：现在直播与事发证据清楚分开 -->
+            <g id="phone-detail" aria-label="事件详情" aria-hidden="true">
+              <rect x="6" y="21" width="138" height="283" rx="21" fill="#F9F8F6"/>
+              <g id="detail-back" role="button" tabindex="0" aria-label="返回通知">
+                <rect x="9" y="23" width="34" height="18" rx="5" fill="transparent"/>
+                <text x="13" y="35" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                      font-size="5.4" fill="#3E7CB1">‹ 返回</text>
+              </g>
+              <text x="75" y="35" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="6.2" font-weight="700" fill="#1A1512">事件详情</text>
+              <rect id="detail-banner" x="10" y="43" width="130" height="15" rx="5"
+                    fill="rgba(214,69,69,.1)" stroke="rgba(214,69,69,.42)" stroke-width=".7"/>
+              <text id="detail-title" x="15" y="52.7" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="5" font-weight="700" fill="#D64545">紧急 · 疑似跌倒</text>
+              <text id="detail-level" x="135" y="52.7" text-anchor="end" font-family="JetBrains Mono,Consolas,monospace"
+                    font-size="4" font-weight="700" fill="#D64545">L3</text>
+
+              <image id="detail-live-image" x="10" y="62" width="130" height="66"
+                     preserveAspectRatio="xMidYMid slice" clip-path="url(#detail-live-clip)"
+                     role="img" aria-label="摄像头现在直播画面"/>
+              <rect x="10" y="62" width="130" height="66" rx="6" fill="none"
+                    stroke="rgba(26,21,18,.28)" stroke-width=".7"/>
+              <rect x="14" y="66" width="48" height="8" rx="4" fill="rgba(12,12,14,.76)"/>
+              <text id="detail-live-label" x="38" y="71.7" text-anchor="middle"
+                    font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="3.8" fill="#fff">● 现在直播 · CAM-01</text>
+
+              <text id="detail-evidence-label" x="10" y="145" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="4.8" font-weight="700" fill="#1A1512">事发画面 · 14:31:42</text>
+              <image id="detail-evidence-image" x="10" y="151" width="58" height="35"
+                     preserveAspectRatio="xMidYMid slice" clip-path="url(#detail-evidence-clip)"
+                     role="img" aria-label="事发当刻证据画面"/>
+              <rect x="10" y="151" width="58" height="35" rx="5" fill="none"
+                    stroke="rgba(26,21,18,.2)" stroke-width=".6"/>
+              <text id="detail-subject" x="74" y="157" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="4.2" font-weight="700" fill="#1A1512">家中长者 · track_07</text>
+              <text id="detail-location" x="74" y="165" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="3.9" fill="#5E5A54">客厅 · CAM-01</text>
+              <text id="detail-time" x="74" y="173" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="3.9" fill="#8D877E">2026-08-05 14:31:42</text>
+              <text id="detail-reason-1" x="74" y="181" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="3.8" fill="#D64545">快速下降 · 身体横卧</text>
+              <text id="detail-reason-2" x="74" y="188" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="3.8" fill="#D64545">25 秒未起身</text>
+
+              <line x1="10" y1="196" x2="140" y2="196" stroke="rgba(26,21,18,.12)" stroke-width=".7"/>
+              <text x="10" y="207" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="4.8" font-weight="700" fill="#1A1512">处置事件</text>
+              <g id="detail-btn-ack" class="btn" role="button" tabindex="0" aria-label="确认风险">
+                <rect id="detail-btn-ack-r" x="10" y="212" width="130" height="18" rx="9" fill="#D64545"/>
+                <text id="detail-btn-ack-t" x="75" y="223.8" text-anchor="middle"
+                      font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="5" font-weight="700" fill="#fff">确认风险</text>
+              </g>
+              <g id="detail-btn-fp" class="btn" role="button" tabindex="0" aria-label="标记误报">
+                <rect id="detail-btn-fp-r" x="10" y="235" width="62" height="18" rx="9" fill="none"
+                      stroke="#C9C2B8" stroke-width=".8"/>
+                <text id="detail-btn-fp-t" x="41" y="246.8" text-anchor="middle"
+                      font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="4.7" fill="#5E5A54">误报</text>
+              </g>
+              <g id="detail-btn-later" class="btn" role="button" tabindex="0" aria-label="稍后处理">
+                <rect id="detail-btn-later-r" x="78" y="235" width="62" height="18" rx="9" fill="none"
+                      stroke="#C9C2B8" stroke-width=".8"/>
+                <text id="detail-btn-later-t" x="109" y="246.8" text-anchor="middle"
+                      font-family="PingFang SC,Microsoft YaHei,sans-serif" font-size="4.7" fill="#5E5A54">稍后</text>
+              </g>
+              <text id="detail-state" x="75" y="264" text-anchor="middle"
+                    font-family="JetBrains Mono,Consolas,monospace" font-size="4" fill="#D9930D"></text>
+              <text x="75" y="277" text-anchor="middle" font-family="PingFang SC,Microsoft YaHei,sans-serif"
+                    font-size="3.7" fill="#8D877E">直播反映现在 · 下方图片保留事发当刻</text>
+            </g>
+          </svg>
+        </div>
+        <div class="rail-right">
+          <h3>监护人手机（可点击）</h3>
+          <p style="font-size:12.5px;color:var(--ink-2)">
+            点击整张通知可打开事件详情，查看现在直播与事发画面。<br>
+            详情页及通知上的处置按钮沿用原有状态机：<br>
+            <b>我已接手</b> → ACKNOWLEDGED → RESOLVED<br>
+            <b>误报</b> → FALSE_POSITIVE<br>
+            <b>稍后</b> / 不操作 → 超时 ESCALATED，升级备用联系人
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>守望 AI 可操控模拟器 · <span class="mono">demo/visual/simulator.html</span> ·
+    动画驱动与 <span class="mono">services/api</span>、<span class="mono">edge/runtime</span>
+    中的真实规则一致：候选阈值、复核静止计时、L1/L2/L3 通知策略、超时升级。</p>
+  </footer>
+
+</div>
+
+<script src="sim.js"></script>
+</body>
+</html>

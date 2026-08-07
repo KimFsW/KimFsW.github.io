@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://watchcare.ai/schemas/risk-event-envelope.schema.json",
+  "title": "RiskEventEnvelope",
+  "description": "Standard risk event envelope shared by edge node, cloud API and iOS app. See design doc section 5.3.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "eventId",
+    "edgeId",
+    "cameraId",
+    "careSubjectId",
+    "type",
+    "severity",
+    "occurredAt",
+    "confidence",
+    "reasons",
+    "evidence",
+    "model",
+    "idempotencyKey"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0",
+      "description": "Envelope schema version for backward compatibility."
+    },
+    "eventId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Globally unique event id. Should be UUIDv7 (time-ordered) in production."
+    },
+    "edgeId": { "type": "string", "minLength": 1 },
+    "cameraId": { "type": "string", "minLength": 1 },
+    "careSubjectId": { "type": "string", "minLength": 1 },
+    "type": {
+      "type": "string",
+      "enum": [
+        "FALL_SUSPECTED",
+        "FALL_WITH_PROLONGED_INACTIVITY",
+        "DANGER_ZONE_ENTRY",
+        "CAMERA_OFFLINE",
+        "CAMERA_OCCLUDED",
+        "FRAME_FROZEN"
+      ]
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["L1", "L2", "L3"],
+      "description": "L1 notice / L2 high risk / L3 urgent. Maps to APNs interruption levels."
+    },
+    "occurredAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "RFC 3339 timestamp with explicit offset, e.g. 2026-08-03T02:15:31.182+08:00"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "reasons": {
+      "type": "array",
+      "description": "Machine-readable explanation codes, e.g. RAPID_VERTICAL_DROP. UI must render human-readable text, never only a score.",
+      "items": { "type": "string", "minLength": 1 },
+      "minItems": 1
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["privacyMode"],
+      "properties": {
+        "keyFrameId": { "type": ["string", "null"] },
+        "clipId": { "type": ["string", "null"] },
+        "privacyMode": {
+          "type": "string",
+          "enum": ["NONE", "KEYPOINTS_ONLY", "BLURRED_VIDEO", "FULL_VIDEO"]
+        }
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["detectorVersion", "poseVersion", "riskModelVersion", "ruleVersion"],
+      "properties": {
+        "detectorVersion": { "type": "string" },
+        "poseVersion": { "type": "string" },
+        "riskModelVersion": { "type": "string" },
+        "ruleVersion": { "type": "string" }
+      }
+    },
+    "idempotencyKey": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Format: {edgeId}:{cameraId}:{epochMillis}. Cloud ingest must be idempotent on this key."
+    }
+  }
+}
