@@ -316,7 +316,7 @@
   <section id="app">
     <div class="sec-head"><span class="sec-no">04</span><h2>iOS App 操作界面</h2></div>
     <p class="sec-sub">
-      四台手机串起监护人的完整操作流：推送到达 → 查看证据并处置 → 事件中心复盘 → 配置危险区域。
+      四个步骤串起监护人的完整操作流：推送到达 → 查看证据并处置 → 事件中心复盘 → 配置危险区域。
       界面为 SVG 绘制的高保真示意，对应 <span style="font-family:var(--mono);font-size:12px">apps/ios</span>
       中的 EventCenter 参考实现与待建模块；报警处置页的"关键帧证据"就是场景①的监控画面。
     </p>
@@ -327,8 +327,7 @@
   <section id="lifecycle">
     <div class="sec-head"><span class="sec-no">05</span><h2>事件生命周期与三种结局</h2></div>
     <p class="sec-sub">
-      所有状态变化都记录操作者、时间、原因与追踪编号（设计方案 4.3 节）。
-      命令行演示 <span class="mono" style="font-family:var(--mono);font-size:12px">demo/demo.py --auto</span> 会完整播放这三种结局。
+      所有状态变化都记录操作者、时间、原因与追踪编号。
     </p>
     <div class="lifecycle">
       <svg viewBox="0 0 760 200" width="100%" role="img" aria-label="事件状态机">
