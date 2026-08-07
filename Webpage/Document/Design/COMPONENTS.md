@@ -14,7 +14,7 @@
 
 - `.brand` + `.mark`：心电线 logo + 双色队名。
 - `.nav-links a`：桌面端页面跳转（≤768px 隐藏）。
-- `.nav-toggle` + `#nav-mobile`：移动端汉堡按钮（三横线，≤768px 出现，点击变 X）＋下拉菜单（`.open` 类控制展开页面链接，JS 联动 `aria-expanded`）；主页额外提供「项目演示」入口，跳转至 `Project_Document/WatchCareAI/demo/visual/index.html`。
+- `.nav-toggle` + `#nav-mobile`：移动端汉堡按钮（三横线，≤768px 出现，点击变 X）＋下拉菜单（`.open` 类控制展开页面链接，JS 联动 `aria-expanded`）；四个页面均提供「项目演示」入口，跳转至 `Project_Document/WatchCareAI/demo/visual/index.html`。
 - `.status-pill`：题目状态胶囊，呼吸红点；题目确定后改文案。
 
 ## 2. Hero（index.html）
@@ -87,7 +87,7 @@
 ## 6. 页脚 Footer
 
 - `.foot-brand` / `.foot-slogan` / `.foot-meta` / `.foot-line`。
-- `.foot-nav`：页脚页面跳转链接（主页含「项目演示」入口，当前页 `.active` 反白），墨色底上置中于品牌与元信息之间。
+- `.foot-nav`：页脚页面跳转链接（四个页面均含「项目演示」入口，当前页 `.active` 反白），墨色底上置中于品牌与元信息之间。
 - 墨色底反白文字，心电红点缀。
 
 ## 7. 响应式与无障碍
