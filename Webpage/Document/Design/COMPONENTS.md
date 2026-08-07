@@ -14,7 +14,7 @@
 
 - `.brand` + `.mark`：心电线 logo + 双色队名。
 - `.nav-links a`：桌面端页面跳转（≤768px 隐藏）。
-- `.nav-toggle` + `#nav-mobile`：移动端汉堡按钮（三横线，≤768px 出现，点击变 X）＋下拉菜单（`.open` 类控制展开 4 个页面链接，JS 联动 `aria-expanded`）。
+- `.nav-toggle` + `#nav-mobile`：移动端汉堡按钮（三横线，≤768px 出现，点击变 X）＋下拉菜单（`.open` 类控制展开页面链接，JS 联动 `aria-expanded`）；主页额外提供「项目演示」入口，跳转至 `Project_Document/WatchCareAI/demo/visual/index.html`。
 - `.status-pill`：题目状态胶囊，呼吸红点；题目确定后改文案。
 
 ## 2. Hero（index.html）
@@ -25,7 +25,7 @@
 | 主标题 | `.wordmark` | pulse + pilot 双色 + `.w-name`「守望 AI」同级大字（无括号、同字级字重、`.3em` 间距），96 / 72 / 52 / 40 四档 |
 | 口号 | `.slogan` | 脉搏所指，航向所至。 |
 | 定位句 | `.position` | 以产品名开头的一句话简介（目标群体后换行，「守护每一份牵挂」收尾） |
-| 跳转按钮 | `.hero-cta` + `.btn` | 三个差异化胶囊链接：团队成员＝墨色描边（`.btn-ink`）、项目介绍＝信号红实填（`.btn-solid`）、参赛目标＝浅红底（`.btn-tint`）；每个按钮文字后带 ↗ 跳转图标（`.btn-ico`，hover 向右上位移） |
+| 跳转按钮 | `.hero-cta` + `.btn` | 四个差异化胶囊链接：团队成员＝墨色描边（`.btn-ink`）、项目介绍＝信号红实填（`.btn-solid`）、参赛目标＝浅红底（`.btn-tint`）、项目演示＝墨色实填（`.btn-demo`，跳转可视化 Demo）；每个按钮文字后带 ↗ 跳转图标（`.btn-ico`，hover 向右上位移） |
 | Hero 背景 | `.hero` | `paper-2 → paper` 纵向渐变＋右上角信号红光晕（`radial-gradient`），与正文纯纸色底区分、增强首屏识别性 |
 
 ## 2B. 主页章节（index.html `#who` / `#value`）
@@ -87,7 +87,7 @@
 ## 6. 页脚 Footer
 
 - `.foot-brand` / `.foot-slogan` / `.foot-meta` / `.foot-line`。
-- `.foot-nav`：页脚页面跳转链接（4 项，当前页 `.active` 反白），墨色底上置中于品牌与元信息之间。
+- `.foot-nav`：页脚页面跳转链接（主页含「项目演示」入口，当前页 `.active` 反白），墨色底上置中于品牌与元信息之间。
 - 墨色底反白文字，心电红点缀。
 
 ## 7. 响应式与无障碍

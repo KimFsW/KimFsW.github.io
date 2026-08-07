@@ -7,6 +7,7 @@ on:
     paths:
       - "Webpage/Page/**"
       - "Webpage/Resource/Photos/**"
+      - "Project_Document/WatchCareAI/demo/visual/**"
       - ".github/workflows/deploy-page.yml"
   workflow_dispatch:
 
@@ -36,9 +37,10 @@ jobs:
 
       - name: Assemble website
         run: |
-          mkdir -p _site/Resource/Photos
+          mkdir -p _site/Resource/Photos _site/Project_Document/WatchCareAI/demo/visual
           cp -R Webpage/Page/. _site/
           cp -R Webpage/Resource/Photos/. _site/Resource/Photos/
+          cp -R Project_Document/WatchCareAI/demo/visual/. _site/Project_Document/WatchCareAI/demo/visual/
           touch _site/.nojekyll
 
       - name: Upload website
