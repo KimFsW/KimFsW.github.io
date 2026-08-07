@@ -177,8 +177,22 @@
   .tests td.mono{font-family:var(--mono);font-size:11.5px}
   .run{margin-top:16px}
 
-  footer{padding:26px 0 46px;color:var(--ink-2);font-size:12.5px}
-  footer .mono{font-family:var(--mono)}
+  .site-footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px;margin-top:34px}
+  .foot-grid{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap}
+  .foot-brand{font-size:32px;font-weight:900;letter-spacing:-1px}
+  .foot-brand em{font-style:normal;color:var(--l3)}
+  .foot-nav{display:flex;align-items:center;gap:24px;margin-left:0;font-size:14px;flex-wrap:wrap}
+  .foot-nav a{color:rgba(249,248,246,.7);text-decoration:none;transition:color .18s ease}
+  .foot-nav a:hover,.foot-nav a.active{color:#fff}
+  .foot-nav a.active{font-weight:600}
+  .foot-slogan{color:rgba(249,248,246,.7);font-size:14px;margin-top:8px;line-height:1.6}
+  .foot-meta{font-family:var(--mono);font-size:12px;color:rgba(249,248,246,.6);
+             text-align:right;line-height:2;letter-spacing:.3px}
+  .demo-note{border-top:1px solid rgba(249,248,246,.15);margin-top:36px;padding-top:22px;
+             color:rgba(249,248,246,.72);font-size:12.5px}
+  .foot-line{border-top:1px solid rgba(249,248,246,.15);margin-top:22px;padding-top:22px;
+             display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+             font-size:12.5px;color:rgba(249,248,246,.5)}
 
   @media (max-width:960px){
     .phone-grid{grid-template-columns:repeat(2,1fr)}
@@ -189,6 +203,8 @@
     .scenario{grid-template-columns:1fr}
     .principles,.endings{grid-template-columns:1fr}
     .hero h1{font-size:28px}
+    .site-footer{padding:56px 0 40px}
+    .foot-meta{text-align:left}
   }
 </style>
 </head>
@@ -198,6 +214,7 @@
   <div class="wrap">
     <div class="brand">守望<em>AI</em> · WatchCare</div>
     <nav>
+      <a data-site-page="index.html" href="../../../../Webpage/Page/index.html">← 网站主页</a>
       <a href="#idea">理念</a>
       <a href="#workflow">系统工作流</a>
       <a href="#scenes">场景演示</a>
@@ -403,16 +420,46 @@ cd edge/runtime    && python -m unittest discover -s tests
 cd demo            && python demo.py --auto</pre>
   </section>
 
-  <footer>
-    <p>守望 AI（WatchCare AI）· 项目代码框架演示页 ·
-    本页为单文件静态页面（<span class="mono">demo/visual/index.html</span>），双击即可在浏览器打开，无需服务器。
-    场景画面为示意图；系统逻辑来自 <span class="mono">services/api</span> 与 <span class="mono">edge/runtime</span> 中的真实代码。</p>
-  </footer>
-
 </div>
+
+<footer class="site-footer" role="contentinfo">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">pulse<em>pilot</em></div>
+        <div class="foot-slogan">脉搏所指，航向所至。</div>
+      </div>
+      <nav class="foot-nav" aria-label="页脚导航">
+        <a data-site-page="index.html" href="../../../../Webpage/Page/index.html">主页</a>
+        <a data-site-page="team.html" href="../../../../Webpage/Page/team.html">团队成员</a>
+        <a data-site-page="project.html" href="../../../../Webpage/Page/project.html">项目介绍</a>
+        <a data-site-page="goals.html" href="../../../../Webpage/Page/goals.html">参赛目标</a>
+        <a href="index.html" class="active" aria-current="page">项目演示</a>
+      </nav>
+      <div class="foot-meta">
+        北京理工大学 · 北京大学<br>
+        创造营 · 澳门 × 粤港澳大湾区
+      </div>
+    </div>
+    <p class="demo-note">守望 AI（WatchCare AI）· 项目代码框架演示页 · 场景画面为示意图；系统逻辑来自真实代码。</p>
+    <div class="foot-line">
+      <span>© 2026 pulsepilot 团队</span>
+      <span>守望 AI · 团队就绪。</span>
+    </div>
+  </div>
+</footer>
 
 <script src="scenes.js"></script>
 <script src="phones.js"></script>
 <script src="app.js"></script>
+<script>
+(function () {
+  if (window.location.protocol !== "file:") {
+    document.querySelectorAll("[data-site-page]").forEach(function (link) {
+      link.href = "../../../../" + link.getAttribute("data-site-page");
+    });
+  }
+})();
+</script>
 </body>
 </html>

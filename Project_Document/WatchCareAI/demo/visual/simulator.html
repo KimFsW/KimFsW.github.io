@@ -136,12 +136,28 @@
   .breach{animation:zp 1s ease infinite}
   @keyframes zp{50%{fill-opacity:.38}}
 
-  footer{padding:22px 0 40px;color:var(--ink-2);font-size:12.5px}
-  footer .mono{font-family:var(--mono)}
+  .site-footer{background:var(--ink);color:#F9F8F6;padding:72px 0 48px;margin-top:34px}
+  .foot-grid{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;flex-wrap:wrap}
+  .foot-brand{font-size:32px;font-weight:900;letter-spacing:-1px}
+  .foot-brand em{font-style:normal;color:var(--l3)}
+  .foot-nav{display:flex;align-items:center;gap:24px;margin-left:0;font-size:14px;flex-wrap:wrap}
+  .foot-nav a{color:rgba(249,248,246,.7);text-decoration:none;transition:color .18s ease}
+  .foot-nav a:hover,.foot-nav a.active{color:#fff}
+  .foot-nav a.active{font-weight:600}
+  .foot-slogan{color:rgba(249,248,246,.7);font-size:14px;margin-top:8px;line-height:1.6}
+  .foot-meta{font-family:var(--mono);font-size:12px;color:rgba(249,248,246,.6);
+             text-align:right;line-height:2;letter-spacing:.3px}
+  .demo-note{border-top:1px solid rgba(249,248,246,.15);margin-top:36px;padding-top:22px;
+             color:rgba(249,248,246,.72);font-size:12.5px}
+  .foot-line{border-top:1px solid rgba(249,248,246,.15);margin-top:22px;padding-top:22px;
+             display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+             font-size:12.5px;color:rgba(249,248,246,.5)}
 
   @media (max-width:980px){
     .sim-grid{grid-template-columns:1fr}
     .phone-svg{width:min(344px,82vw)}
+    .site-footer{padding:56px 0 40px}
+    .foot-meta{text-align:left}
   }
 </style>
 </head>
@@ -151,6 +167,7 @@
   <div class="wrap">
     <div class="brand">守望<em>AI</em> · 模拟器</div>
     <nav>
+      <a data-site-page="index.html" href="../../../../Webpage/Page/index.html">← 网站主页</a>
       <a href="index.html">返回演示主页</a>
       <a href="index.html#scenes">场景图鉴</a>
       <a href="index.html#tests">测试地图</a>
@@ -555,14 +572,44 @@
     </div>
   </div>
 
-  <footer>
-    <p>守望 AI 可操控模拟器 · <span class="mono">demo/visual/simulator.html</span> ·
-    动画驱动与 <span class="mono">services/api</span>、<span class="mono">edge/runtime</span>
-    中的真实规则一致：候选阈值、复核静止计时、L1/L2/L3 通知策略、超时升级。</p>
-  </footer>
-
 </div>
 
+<footer class="site-footer" role="contentinfo">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">pulse<em>pilot</em></div>
+        <div class="foot-slogan">脉搏所指，航向所至。</div>
+      </div>
+      <nav class="foot-nav" aria-label="页脚导航">
+        <a data-site-page="index.html" href="../../../../Webpage/Page/index.html">主页</a>
+        <a data-site-page="team.html" href="../../../../Webpage/Page/team.html">团队成员</a>
+        <a data-site-page="project.html" href="../../../../Webpage/Page/project.html">项目介绍</a>
+        <a data-site-page="goals.html" href="../../../../Webpage/Page/goals.html">参赛目标</a>
+        <a href="index.html" class="active">项目演示</a>
+      </nav>
+      <div class="foot-meta">
+        北京理工大学 · 北京大学<br>
+        创造营 · 澳门 × 粤港澳大湾区
+      </div>
+    </div>
+    <p class="demo-note">守望 AI 可操控模拟器 · 动画驱动与真实规则一致：候选阈值、复核静止计时、L1/L2/L3 通知策略、超时升级。</p>
+    <div class="foot-line">
+      <span>© 2026 pulsepilot 团队</span>
+      <span>守望 AI · 团队就绪。</span>
+    </div>
+  </div>
+</footer>
+
 <script src="sim.js"></script>
+<script>
+(function () {
+  if (window.location.protocol !== "file:") {
+    document.querySelectorAll("[data-site-page]").forEach(function (link) {
+      link.href = "../../../../" + link.getAttribute("data-site-page");
+    });
+  }
+})();
+</script>
 </body>
 </html>
