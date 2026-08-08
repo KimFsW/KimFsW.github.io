@@ -1,6 +1,6 @@
 # pulsepilot 介绍页 · 组件目录
 
-对应文件：`Page/` 下四个页面（`index.html` 主页、`team.html` 成员、`project.html` 项目、`goals.html` 目标），各页样式与脚本内联。设计数值（色彩 / 字级 / 间距 / 断点）以同目录 `DESIGN_SYSTEM.md` 为准。
+对应文件：`Page/` 下五个页面（`index.html` 主页、`team.html` 成员、`project.html` 项目、`goals.html` 目标、`roadshow.html` 路演），各页样式与脚本内联。设计数值（色彩 / 字级 / 间距 / 断点）以同目录 `DESIGN_SYSTEM.md` 为准。
 
 ## 0. 全局基础
 
@@ -14,7 +14,7 @@
 
 - `.brand` + `.mark`：心电线 logo + 双色队名。
 - `.nav-links a`：桌面端页面跳转（≤768px 隐藏）。
-- `.nav-toggle` + `#nav-mobile`：移动端汉堡按钮（三横线，≤768px 出现，点击变 X）＋下拉菜单（`.open` 类控制展开页面链接，JS 联动 `aria-expanded`）；四个页面均提供「项目演示」入口，跳转至 `Project_Document/WatchCareAI/demo/visual/index.html`。
+- `.nav-toggle` + `#nav-mobile`：移动端汉堡按钮（三横线，常规页面 ≤768px、路演页 ≤840px 出现，点击变 X）＋下拉菜单（`.open` 类控制展开页面链接，JS 联动 `aria-expanded`）；五个页面均提供「路演汇报」与「项目演示」入口，项目演示跳转至 `Project_Document/WatchCareAI/demo/visual/index.html`。
 - `.status-pill`：题目状态胶囊，呼吸红点；题目确定后改文案。
 
 ## 2. Hero（index.html）
@@ -84,19 +84,34 @@
 - `.goal-col` ×2：短期（赛事期间）/ 长期（赛事之后）。
 - `.goal-list li` + `.box`：复选框视觉；`li.hot` 为已勾选强调项。
 
-## 6. 页脚 Footer
+## 6. 路演汇报（roadshow.html）
+
+- `.pitch-hero` + `.hero-visual`：参考《守望AI_封面.pptx》的奶油白双栏首屏；左侧为繁体主标题、产品定位、`.hero-product-name` 中英产品名、成员与汇报人信息，右侧复用 `roadshow-cover.png` 居家照护插画；提供「開始匯報」和「體驗產品演示」双入口。
+- `#opportunity.market-section`：参考《守望AI_5分鐘商業路演_原風格市場版.pptx》的「强标题 + 关键数字 + 主图 + 来源」版式，替代旧四格数据带与三张痛点卡；以三个 `.data-story` 连续讲述市场现状，避免长段正文。
+- `.market-intro`：用两行 CSS Grid 区域让 `MARKET SIGNAL` 单独位于左上，主标题与右侧三行市场结论从同一高度开始；840px 以下改为单栏自然排列。
+- `.gap-logic`：参考《守望AI_5分鐘商業路演_PRO.pptx》第 4 页，置于三张详细图表之后；复用 `roadshow-care-gap.png` 作为背景，以「人口老化 + 跌倒负担 + 居家风险」三项等式收束照护缺口，840px 以下纵向排列。
+- `#chart-aging` 与 `#chart-falls`：由 `renderMarketCharts` 生成零依赖响应式 SVG，分别呈现中国 60+ 人口（2006–2025）及全球跌倒死亡年龄结构（2000–2021）；数据数组与坐标配置均位于页尾函数内。
+- `.child-bars`：七组 CSS 横向条形，呈现全国伤害监测中儿童跌倒／坠落占比（2006–2018）；不同年龄与统计期只用于说明「长期首位」，不得拼接为增长趋势。
+- `.story-source`：每张图表的资料来源与口径提示；修改图表数据时须同步核对主数字、`aria-label`、结论短句及来源说明。
+- `#solution`：左侧 `.flow` 展示四步事件链，第 02–04 步以 `.ai-mark` 高亮 `AI｜` 标识；右侧 `#phones.solution-phones` 直接复用 Demo 的 `scenes.js` 与 `phones.js`，只展示「锁屏 · Time Sensitive 推送」和「报警处置 · 事件详情」两台 iOS 手机，形成“机制 + 真实操作界面”双栏演示。
+- `#edge`：先呈现开放接入、隐私优先、解释与闭环三项差异化能力；其后 `.solution-gaps` 参考《守望AI_5分鐘商業路演_PRO.pptx》第 5 页，以 2×2 `.gap-route` 对比普通摄像头、穿戴设备、单阈值 AI 与纯云端视频分析，并用 `.gaps-answer` 收束守望 AI 补上的最后一公里。
+- `#business`：参考《守望AI_5分鐘商業路演_PRO.pptx》第 8 页，以三张 `.engine-card` 展示家庭订阅、机构 SaaS、摄像头品牌 SDK 三个收入引擎；家庭收入数字保留 `*情境假设` 标注。
+- `#ask`：编号调整为 `05 / THE ASK`，由合作邀请改为产品、技术与商业路径的总结性收束。
+- `#roadshow-team`：页面末尾团队介绍区，复用成员页的四人肖像、身份徽章、学历、职责与能力标签结构；采用 `.roadshow-team-grid` 响应式四／二／一列布局。
+
+## 7. 页脚 Footer
 
 - `.foot-brand` / `.foot-slogan` / `.foot-meta` / `.foot-line`。
-- `.foot-nav`：页脚页面跳转链接（四个页面均含「项目演示」入口，当前页 `.active` 反白），墨色底上置中于品牌与元信息之间。
+- `.foot-nav`：页脚页面跳转链接（五个页面均含「路演汇报」与「项目演示」入口，当前页 `.active` 反白），墨色底上置中于品牌与元信息之间。
 - 墨色底反白文字，心电红点缀。
 
-## 7. 响应式与无障碍
+## 8. 响应式与无障碍
 
 - 断点：1024px（卡片 2 列、统计 2×2、影响统计 2 列）、768px（导航 56px、隐藏桌面导航链接并切换为汉堡菜单、不足清单单栏、主页 who-grid 单列、value-loop 纵向）、640px（全单列、圆饼图与图例纵向排列）。
 - `prefers-reduced-motion`：全局动效降级。
 - 照片窗口支持键盘 Enter / Space 触发上传，`aria-label` 完备。
 
-## 8. 扩展指引
+## 9. 扩展指引
 
 - 新增板块：复用 `.section` + `.sec-head` 结构，`.sec-index` 递增（04 …）；同页内附加章节可用 `02·B` 式子编号。
 - 题目回填进度：`.ph-window` 与 `.feat-slot` 已填入正式内容；痛点表已整体移除，现状问题（`#problems`）、影响范围（`#impact`）、现有方案的不足（`#gaps`）三个分析章节均已回填。
