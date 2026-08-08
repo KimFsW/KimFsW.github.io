@@ -94,7 +94,7 @@
 - `.child-bars`：七组 CSS 横向条形，呈现全国伤害监测中儿童跌倒／坠落占比（2006–2018）；不同年龄与统计期只用于说明「长期首位」，不得拼接为增长趋势。
 - `.story-source`：每张图表的资料来源与口径提示；修改图表数据时须同步核对主数字、`aria-label`、结论短句及来源说明。
 - `#solution`：左侧 `.flow` 展示四步事件链，第 02–04 步以 `.ai-mark` 高亮 `AI｜` 标识；右侧 `#phones.solution-phones` 直接复用 Demo 的 `scenes.js` 与 `phones.js`，只展示「锁屏 · Time Sensitive 推送」和「报警处置 · 事件详情」两台 iOS 手机，形成“机制 + 真实操作界面”双栏演示。
-- `#edge`：先呈现开放接入、隐私优先、解释与闭环三项差异化能力；其后 `.solution-gaps` 参考《守望AI_5分鐘商業路演_PRO.pptx》第 5 页，以 2×2 `.gap-route` 对比普通摄像头、穿戴设备、单阈值 AI 与纯云端视频分析，并用 `.gaps-answer` 收束守望 AI 补上的最后一公里。
+- `#edge`：先由 `.solution-gaps` 参考《守望AI_5分鐘商業路演_PRO.pptx》第 5 页，以 2×2 `.gap-route` 对比普通摄像头、穿戴设备、单阈值 AI 与纯云端视频分析，并用 `.gaps-answer` 收束最后一公里；其后 `.why-us-block` 呈现 `03 / WHY US` 及开放接入、隐私优先、解释与闭环三项差异化能力。
 - `#business`：参考《守望AI_5分鐘商業路演_PRO.pptx》第 8 页，以三张 `.engine-card` 展示家庭订阅、机构 SaaS、摄像头品牌 SDK 三个收入引擎；家庭收入数字保留 `*情境假设` 标注。
 - `#ask`：编号调整为 `05 / THE ASK`，由合作邀请改为产品、技术与商业路径的总结性收束。
 - `#roadshow-team`：页面末尾团队介绍区，复用成员页的四人肖像、身份徽章、学历、职责与能力标签结构；采用 `.roadshow-team-grid` 响应式四／二／一列布局。

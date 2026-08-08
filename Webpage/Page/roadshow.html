@@ -216,7 +216,8 @@ ul{list-style:none}
 .edge-card h3{font-size:20px;margin-bottom:10px}
 .edge-card p{font-size:14px;color:var(--ink-2);line-height:1.75}
 .edge-note{font-family:var(--mono);font-size:11px;color:var(--accent-deep);margin-top:20px;display:block}
-.solution-gaps{margin-top:78px;padding-top:66px;border-top:1px solid var(--line)}
+.solution-gaps{margin:0;padding:0}
+.why-us-block{margin-top:78px;padding-top:66px;border-top:1px solid var(--line)}
 .gaps-head{max-width:950px;margin-bottom:32px}
 .gaps-label{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;font-weight:800;letter-spacing:.7px;color:var(--accent-deep);margin-bottom:13px}
 .gaps-label::before{content:"";width:42px;height:4px;border-radius:99px;background:var(--accent)}
@@ -326,7 +327,7 @@ footer{background:var(--ink);color:var(--paper);padding:72px 0 48px}
   .wrap{padding:0 16px}.hero-grid{padding:46px 16px 52px;gap:34px}.eyebrow{font-size:12px;margin-bottom:30px}.pitch-title{font-size:42px;letter-spacing:-1.7px}.pitch-lead{font-size:17px}.hero-product-name{font-size:15px;padding:8px 10px;margin-top:12px}.hero-meta{margin-top:36px;font-size:13px}.hero-visual{height:430px;border-radius:12px}.visual-caption{left:18px;bottom:18px}
   .market-section{padding:70px 0}.market-title{font-size:34px;letter-spacing:-1.2px}.market-summary{font-size:16px}.gap-logic{padding:24px 18px;background-position:42% center;border-radius:16px}.gap-kicker::before{width:26px}.gap-title{font-size:28px;letter-spacing:-.8px}.gap-intro{font-size:14px}.gap-card h4{font-size:24px}.gap-metric{font-size:39px}.data-stack{gap:18px}.data-story{padding:23px 18px;border-radius:16px}.story-top{align-items:flex-start;gap:10px}.story-signal::before{width:26px}.story-topic{font-size:10px;padding-left:10px}.story-title{font-size:28px;letter-spacing:-.8px;margin-bottom:24px}.story-stat{display:block}.story-number{font-size:44px}.child-story .story-number{font-size:38px}.story-punch{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);font-size:18px}.chart-panel{margin:0 -4px;padding:13px 8px 8px;border-radius:12px}.chart-head{padding-bottom:8px}.chart-name{font-size:12px}.market-chart{min-height:220px}.axis-t{font-size:11px}.callout-hot{font-size:15px}.callout-base{font-size:12px}.child-bar{grid-template-columns:104px minmax(70px,1fr) 52px;gap:8px}.child-label{font-size:10px}.child-value{font-size:10px}.story-source{display:block}.source-note{text-align:left;max-width:none;margin-top:7px}
   .section{padding:66px 0}.sec-head{margin-bottom:36px}.sec-title{font-size:31px}.sec-intro{font-size:15px}.quote-line{font-size:24px}
-  .edge-card{padding:23px}.solution-gaps{margin-top:56px;padding-top:50px}.gaps-label::before{width:26px}.gaps-title{font-size:29px;letter-spacing:-.8px}.gaps-subtitle{font-size:14px}.gap-route{min-height:auto;padding:25px 22px}.gap-route h4{font-size:23px}.route-points li{font-size:15px}.market-hole{font-size:16px}.gaps-answer{display:block;padding:17px 19px}.gaps-answer span{display:block;text-align:left;margin-top:6px;line-height:1.55}.flow-item{grid-template-columns:44px 1fr;gap:13px}.flow-arrow{display:none}.flow-no{width:36px;height:36px}
+  .edge-card{padding:23px}.why-us-block{margin-top:56px;padding-top:50px}.gaps-label::before{width:26px}.gaps-title{font-size:29px;letter-spacing:-.8px}.gaps-subtitle{font-size:14px}.gap-route{min-height:auto;padding:25px 22px}.gap-route h4{font-size:23px}.route-points li{font-size:15px}.market-hole{font-size:16px}.gaps-answer{display:block;padding:17px 19px}.gaps-answer span{display:block;text-align:left;margin-top:6px;line-height:1.55}.flow-item{grid-template-columns:44px 1fr;gap:13px}.flow-arrow{display:none}.flow-no{width:36px;height:36px}
   .solution-phones{padding:16px 12px 14px}.solution-phones .phone-grid{gap:10px}.solution-phones .phone figcaption b{font-size:10px}.roadshow-team-grid{grid-template-columns:1fr}
   .engine-card{min-height:340px;padding:24px 20px}.engine-price{font-size:34px}.ask{padding:68px 0}.ask h2{font-size:34px}.ask::after{font-size:68px}.foot-nav{gap:14px 18px}
 }
@@ -496,26 +497,6 @@ footer{background:var(--ink);color:var(--paper);padding:72px 0 48px}
 
   <section class="section alt" id="edge" aria-labelledby="edge-title">
     <div class="wrap">
-      <p class="sec-kicker rev">03 / WHY US</p>
-      <div class="sec-head">
-        <h2 class="sec-title rev" id="edge-title">不是再賣一個攝像頭，而是升級已有的照護能力。</h2>
-        <p class="sec-intro rev">我們的差異化不在「第一個做跌倒檢測」，而在於用更低的遷移成本、更克制的數據策略和更完整的處置閉環，讓方案真正適合家庭與機構。</p>
-      </div>
-      <div class="edge-grid">
-        <article class="edge-card rev">
-          <div class="edge-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor"><rect x="5" y="11" width="23" height="18" rx="3"/><path d="m28 17 7-4v14l-7-4M11 34h12"/></svg></div>
-          <h3>開放接入</h3><p>兼容已有攝像頭與家庭計算終端，減少更換全套硬體的門檻，也為不同品牌設備保留選擇權。</p><span class="edge-note">LOWER SWITCHING COST</span>
-        </article>
-        <article class="edge-card rev">
-          <div class="edge-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor"><path d="M20 4 7 9v9c0 8.4 5.3 14.4 13 18 7.7-3.6 13-9.6 13-18V9L20 4Z"/><path d="m14 20 4 4 8-9"/></svg></div>
-          <h3>隱私優先</h3><p>連續原始視頻優先在本地處理，雲端只接收最小必要的事件資訊；用戶可撤銷授權並控制證據保留。</p><span class="edge-note">EDGE FIRST / MINIMUM DATA</span>
-        </article>
-        <article class="edge-card rev">
-          <div class="edge-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor"><path d="M7 9h26v22H7z"/><path d="M12 15h16M12 20h10M12 25h7"/><circle cx="29" cy="27" r="5" fill="var(--paper-2)"/><path d="m27 27 1.5 1.5L31 25"/></svg></div>
-          <h3>解釋與閉環</h3><p>展示「為什麼告警」，並記錄查看、確認和升級結果。系統提供的是可行動事件，不只是一個黑箱置信分數。</p><span class="edge-note">EXPLAINABLE &amp; ACTIONABLE</span>
-        </article>
-      </div>
-
       <div class="solution-gaps" aria-labelledby="solution-gaps-title">
         <div class="gaps-head rev">
           <span class="gaps-label">EXISTING SOLUTIONS / THE LAST MILE</span>
@@ -561,6 +542,28 @@ footer{background:var(--ink);color:var(--paper);padding:72px 0 48px}
           </article>
         </div>
         <div class="gaps-answer rev"><strong>守望 AI 補上最後一公里</strong><span>開放接入｜本地優先｜多證據覆核｜分級通知閉環</span></div>
+      </div>
+
+      <div class="why-us-block">
+        <p class="sec-kicker rev">03 / WHY US</p>
+        <div class="sec-head">
+          <h2 class="sec-title rev" id="edge-title">不是再賣一個攝像頭，而是升級已有的照護能力。</h2>
+          <p class="sec-intro rev">我們的差異化不在「第一個做跌倒檢測」，而在於用更低的遷移成本、更克制的數據策略和更完整的處置閉環，讓方案真正適合家庭與機構。</p>
+        </div>
+        <div class="edge-grid">
+          <article class="edge-card rev">
+            <div class="edge-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor"><rect x="5" y="11" width="23" height="18" rx="3"/><path d="m28 17 7-4v14l-7-4M11 34h12"/></svg></div>
+            <h3>開放接入</h3><p>兼容已有攝像頭與家庭計算終端，減少更換全套硬體的門檻，也為不同品牌設備保留選擇權。</p><span class="edge-note">LOWER SWITCHING COST</span>
+          </article>
+          <article class="edge-card rev">
+            <div class="edge-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor"><path d="M20 4 7 9v9c0 8.4 5.3 14.4 13 18 7.7-3.6 13-9.6 13-18V9L20 4Z"/><path d="m14 20 4 4 8-9"/></svg></div>
+            <h3>隱私優先</h3><p>連續原始視頻優先在本地處理，雲端只接收最小必要的事件資訊；用戶可撤銷授權並控制證據保留。</p><span class="edge-note">EDGE FIRST / MINIMUM DATA</span>
+          </article>
+          <article class="edge-card rev">
+            <div class="edge-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor"><path d="M7 9h26v22H7z"/><path d="M12 15h16M12 20h10M12 25h7"/><circle cx="29" cy="27" r="5" fill="var(--paper-2)"/><path d="m27 27 1.5 1.5L31 25"/></svg></div>
+            <h3>解釋與閉環</h3><p>展示「為什麼告警」，並記錄查看、確認和升級結果。系統提供的是可行動事件，不只是一個黑箱置信分數。</p><span class="edge-note">EXPLAINABLE &amp; ACTIONABLE</span>
+          </article>
+        </div>
       </div>
     </div>
   </section>
